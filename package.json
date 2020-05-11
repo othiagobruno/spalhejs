@@ -8,7 +8,10 @@
 		"start": "node server.js",
 		"test": "node ace test"
 	},
-	"keywords": [ "adonisjs", "adonis-app" ],
+	"keywords": [
+		"adonisjs",
+		"adonis-app"
+	],
 	"author": "",
 	"license": "UNLICENSED",
 	"private": true,
