@@ -1,4 +1,4 @@
-# Eventos Nova Betel API Adonis
+# Spalhe API
 
 ## Setup
 
