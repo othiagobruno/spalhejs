@@ -3,7 +3,7 @@
 const Route = use('Route');
 
 Route.get('/', () => {
-	return { welcome: 'Welcome to Spalhe APIsss' };
+	return { welcome: 'Welcome to Spalhe API' };
 });
 
 // LOGIN E CADASTRO
