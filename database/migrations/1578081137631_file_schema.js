@@ -10,7 +10,7 @@ class FileSchema extends Schema {
 			table.string('name');
 			table.string('key');
 			table.string('url');
-			table.integer('post_id').unsigned().references('id').inTable('posts').notNullable();
+			table.integer('post_id');
 			table.string('type');
 			table.timestamps();
 		});
