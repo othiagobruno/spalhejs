@@ -12,17 +12,13 @@ class PostController {
 		const posts = await Post.query()
 			.whereIn('user_id', follows)
 			.withCount('likes')
+			.withCount('likes.user')
 			.withCount('comments')
 			.withCount('share')
 			.with('user')
 			.orderBy('id', 'desc')
 			.paginate(page, 10);
 
-			for(let i in posts.value()){
-				let post = tweets.value()[i]
-				post.liked = true
-			  }
-			posts = post.toJSON()
 
 		return posts;
 	}
