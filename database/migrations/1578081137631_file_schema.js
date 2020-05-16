@@ -1,19 +1,24 @@
-'use strict'
+'use strict';
 
 /** @type {import('@adonisjs/lucid/src/Schema')} */
-const Schema = use('Schema')
+const Schema = use('Schema');
 
 class FileSchema extends Schema {
-  up () {
-    this.create('files', (table) => {
-      table.increments()
-      table.timestamps()
-    })
-  }
+	up() {
+		this.create('files', (table) => {
+			table.increments();
+			table.string('name');
+			table.string('key');
+			table.string('url');
+			table.integer('post_id').unsigned().references('id').inTable('posts').notNullable();
+			table.string('type');
+			table.timestamps();
+		});
+	}
 
-  down () {
-    this.drop('files')
-  }
+	down() {
+		this.drop('files');
+	}
 }
 
-module.exports = FileSchema
+module.exports = FileSchema;

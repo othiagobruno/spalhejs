@@ -13,12 +13,15 @@ class UserController {
 	async show({ params, response, auth }) {
 		try {
 			const me = auth.current.user;
-			const followed = await me.following().ids();
+			//const followed = await me.following().ids();
 
 			const user = await User.query()
 				.where('id', params.id)
 				.withCount('following')
 				.withCount('followers')
+				.with('followed', (builder) => {
+					builder.where('followid', auth.user.id);
+				})
 				.withCount('posts')
 				.firstOrFail();
 

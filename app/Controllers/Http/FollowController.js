@@ -6,6 +6,13 @@ class FollowController {
 	// SEGUIR UM USUÁRIO
 	async follow({ params, auth, response }) {
 		const user = auth.current.user;
+
+		if (auth.user.id == params.id) {
+			return response.json({
+				error: 'dont follow yourself'
+			});
+		}
+
 		await user.following().attach(params.id);
 		return response.json({
 			status: 'success'
@@ -15,10 +22,16 @@ class FollowController {
 	// DEIXAR DE SEGUIR
 	async unFollow({ params, auth, response }) {
 		const user = auth.current.user;
+
+		if (auth.user.id == params.id) {
+			return response.json({
+				error: 'dont unfollow yourself'
+			});
+		}
+
 		await user.following().detach(params.id);
 		return response.json({
-			status: 'success',
-			data: null
+			status: 'success'
 		});
 	}
 
@@ -32,10 +45,7 @@ class FollowController {
 			.whereNotIn('id', usersAlreadyFollowing)
 			.pick(10);
 
-		return response.json({
-			status: 'success',
-			data: usersToFollow
-		});
+		return usersToFollow;
 	}
 }
 

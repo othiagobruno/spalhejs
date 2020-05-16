@@ -3,7 +3,7 @@
 const Route = use('Route');
 
 Route.get('/', () => {
-	return { welcome: 'Welcome to Spalhe API' };
+	return { welcome: 'Welcome to Spalhe APIsss' };
 });
 
 // LOGIN E CADASTRO
@@ -21,7 +21,7 @@ Route.post('files', 'FileController.store').middleware([ 'auth' ]);
 Route.resource('posts', 'PostController').middleware([ 'auth' ]);
 
 // LIKES POST
-Route.post('like', 'LikeController.likePost').middleware([ 'auth' ]);
+Route.post('like/:id', 'LikeController.likePost').middleware([ 'auth' ]);
 Route.delete('like/:id', 'LikeController.deslikePost').middleware([ 'auth' ]);
 
 // COMMENTS
@@ -35,3 +35,6 @@ Route.get('share/:id', 'ShareController.show').middleware([ 'auth' ]);
 Route.get('/unfollowusers', 'FollowController.usersToFollow').middleware([ 'auth' ]);
 Route.post('/follow/:id', 'FollowController.follow').middleware([ 'auth' ]);
 Route.post('/unfollow/:id', 'FollowController.unFollow').middleware([ 'auth' ]);
+
+// EXPLORE
+Route.get('explore', 'ExploreController.index').middleware([ 'auth' ]);

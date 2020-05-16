@@ -9,3 +9,4 @@
 
 # The development sqlite file
 database/*.sqlite
+node_modules

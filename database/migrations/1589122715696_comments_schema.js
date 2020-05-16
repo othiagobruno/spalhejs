@@ -8,7 +8,7 @@ class CommentsSchema extends Schema {
 		this.create('comments', (table) => {
 			table.increments();
 			table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
-			table.integer('postid').unsigned().references('id').inTable('posts').notNullable();
+			table.integer('post_id').unsigned().references('id').inTable('posts').notNullable();
 			table.string('text', 240).notNullable();
 			table.string('image', 240);
 			table.timestamps();

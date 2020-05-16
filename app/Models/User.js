@@ -44,11 +44,15 @@ class User extends Model {
 	}
 
 	followers() {
-		return this.belongsToMany('App/Models/User', 'userid', 'followid').pivotTable('follows');
+		return this.belongsToMany('App/Models/User', 'user_id', 'followid').pivotTable('follows');
 	}
 
 	following() {
-		return this.belongsToMany('App/Models/User', 'followid', 'userid').pivotTable('follows');
+		return this.belongsToMany('App/Models/User', 'followid', 'user_id').pivotTable('follows');
+	}
+
+	followed() {
+		return this.hasOne('App/Models/Follow');
 	}
 
 	comments() {

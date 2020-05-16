@@ -15,7 +15,7 @@ module.exports = {
   |
   */
 
-	name: Env.get('APP_NAME', 'enb'),
+	name: Env.get('APP_NAME', 'APP_NAME'),
 
 	/*
   |--------------------------------------------------------------------------

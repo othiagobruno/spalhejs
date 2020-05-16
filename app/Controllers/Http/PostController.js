@@ -9,24 +9,28 @@ class PostController {
 		const user = await User.find(auth.current.user.id);
 		const follows = await user.following().ids();
 		follows.push(user.id);
+
 		const posts = await Post.query()
 			.whereIn('user_id', follows)
 			.withCount('likes')
+			// VERIFICA SE EU CURTI A PUBLICAÇÃO
+			.with('liked', (builder) => builder.where('user_id', auth.user.id))
 			.withCount('comments')
 			.withCount('share')
 			.with('user')
 			.orderBy('id', 'desc')
 			.paginate(page, 10);
 
-		//const shares = await Share.query().with('user').with('post').with('post.user').fetch();
-
 		return posts;
 	}
 
-	async show({ params }) {
+	async show({ params, auth }) {
 		const post = await Post.query()
 			.where('id', params.id)
 			.withCount('likes')
+			.with('liked', (builder) => {
+				builder.where('user_id', auth.user.id);
+			})
 			.withCount('comments')
 			.withCount('share')
 			.with('user')

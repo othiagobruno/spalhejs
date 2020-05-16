@@ -4,18 +4,27 @@
 const Model = use('Model');
 
 class Post extends Model {
+	// get user
 	user() {
 		return this.belongsTo('App/Models/User');
 	}
 
+	// get all likes count
 	likes() {
-		return this.belongsToMany('App/Models/Post', 'user_id', 'postid').pivotTable('likes');
+		return this.belongsToMany('App/Models/Post').pivotTable('likes');
 	}
 
+	// get user liked post
+	liked() {
+		return this.hasOne('App/Models/Like');
+	}
+
+	// get all comments in post
 	comments() {
 		return this.belongsToMany('App/Models/Post', 'user_id', 'postid').pivotTable('comments');
 	}
 
+	// get all shares post
 	share() {
 		return this.hasMany('App/Models/Share');
 	}
