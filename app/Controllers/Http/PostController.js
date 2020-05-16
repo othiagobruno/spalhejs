@@ -18,7 +18,12 @@ class PostController {
 			.orderBy('id', 'desc')
 			.paginate(page, 10);
 
-		//const shares = await Share.query().with('user').with('post').with('post.user').fetch();
+			for(let i in posts.value()){
+				let post = tweets.value()[i]
+				post.liked = true
+
+			  }
+			posts = posts.toJSON()
 
 		return posts;
 	}
