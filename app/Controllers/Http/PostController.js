@@ -12,7 +12,6 @@ class PostController {
 		const posts = await Post.query()
 			.whereIn('user_id', follows)
 			.withCount('likes')
-			.withCount('likes.user')
 			.withCount('comments')
 			.withCount('share')
 			.with('user')
