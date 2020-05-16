@@ -21,9 +21,8 @@ class PostController {
 			for(let i in posts.value()){
 				let post = tweets.value()[i]
 				post.liked = true
-
 			  }
-			posts = posts.toJSON()
+			posts = post.toJSON()
 
 		return posts;
 	}
