@@ -18,7 +18,7 @@ class FileController {
 					throw new Error(error.message);
 				}
 				// UPLOAD FILE TO S3
-				const url = await Drive.put(`posts/${parmas.id + '-' + file.clientName}`, file.stream, {
+				const url = await Drive.put(`posts/${params.id + '-' + file.clientName}`, file.stream, {
 					ContentType: file.headers['content-type'],
 					ACL: 'public-read'
 				});
