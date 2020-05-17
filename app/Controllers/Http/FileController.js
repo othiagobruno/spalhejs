@@ -6,26 +6,31 @@ const File = use('App/Models/File');
 class FileController {
 	async store({ request, response }) {
 		try {
-			request.multipart
-				.file('image', {}, async (file) => {
-					const ContentType = file.headers['content-type'];
-					const ACL = 'public-read';
-					const Key = `${Math.random() * 100}-${file.clientName}`;
-					const url = await Drive.put(`posts/${Key}`, file.stream, {
-						ContentType,
-						ACL
-					});
-					await File.create({
-						name: file.clientName,
-						type: ContentType,
-						Key,
-						url
-					});
-					return response.json({
-						sucess: url
-					});
-				})
-				.process();
+			const validationOptions = {
+				types: [ 'jpeg', 'jpg', 'png' ],
+				size: '15mb'
+			};
+			request.multipart.file('image', validationOptions, async (file) => {
+				// set file size from stream byteCount, so adonis can validate file size
+				file.size = file.stream.byteCount;
+				// run validation rules
+				await file.runValidations();
+				// catches validation errors, if any and then throw exception
+				const error = file.error();
+				if (error.message) {
+					throw new Error(error.message);
+				}
+				// upload file to s3
+				await Drive.put(`teste/${file.clientName}`, file.stream, {
+					ContentType: file.headers['content-type'],
+					ACL: 'public-read'
+				});
+			});
+
+			// You must call this to start processing uploaded file
+			await request.multipart.process();
+
+			//final
 		} catch (err) {
 			return response.json({
 				error: 'não foi possivel'
