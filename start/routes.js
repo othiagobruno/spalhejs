@@ -21,7 +21,7 @@ Route.post('files/:id', 'FileController.store').middleware([ 'auth' ]);
 Route.resource('posts', 'PostController').middleware([ 'auth' ]);
 
 // LIKES POST
-Route.post('like', 'LikeController.likePost').middleware([ 'auth' ]);
+Route.post('like', 'LikeController.store').middleware([ 'auth' ]);
 Route.delete('like/:id', 'LikeController.deslikePost').middleware([ 'auth' ]);
 
 // COMMENTS
