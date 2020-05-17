@@ -7,7 +7,7 @@ class LikeController {
 		const user = auth.current.user;
 		const post_id = request.input('post_id');
 
-		const like = await Like.query().where('post_id', post_id).where('user_id', user.id).fetch();
+		const like = await Like.query().where('post_id', post_id).where('user_id', user.id).getCount();
 		if (like) {
 			await Like.query().where('user_id', user.id).where('post_id', post_id).delete();
 		} else {
