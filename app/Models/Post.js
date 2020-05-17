@@ -21,7 +21,7 @@ class Post extends Model {
 
 	// get all comments in post
 	comments() {
-		return this.belongsToMany('App/Models/Post', 'user_id', 'postid').pivotTable('comments');
+		return this.belongsToMany('App/Models/Post').pivotTable('comments');
 	}
 
 	// get all shares post
