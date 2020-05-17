@@ -9,7 +9,7 @@ class LikeController {
 
 		const like = await Like.query().where('post_id', post_id).where('user_id', user.id).fetch();
 		if (like) {
-			await Like.query().where('user_id', user.id).where('post_id', params.id).delete();
+			await Like.query().where('user_id', user.id).where('post_id', post_id).delete();
 		} else {
 			await Like.create({ user_id: user.id, post_id });
 		}
