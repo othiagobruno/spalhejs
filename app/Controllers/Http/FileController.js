@@ -4,13 +4,14 @@ const Drive = use('Drive');
 const File = use('App/Models/File');
 
 class FileController {
-	async store({ request, response, params }) {
+	async store({ request, response }) {
+		const reKey = request.input('key');
 		try {
 			request.multipart
 				.file('image', {}, async (file) => {
 					const ContentType = file.headers['content-type'];
 					const ACL = 'public-read';
-					const Key = `${params.id}-${file.clientName}`;
+					const Key = `${reKey}-${file.clientName}`;
 					const url = await Drive.put(`posts/${Key}`, file.stream, {
 						ContentType,
 						ACL

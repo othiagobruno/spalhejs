@@ -17,7 +17,7 @@ Route.get('users/:id', 'UserController.show').middleware([ 'auth' ]);
 Route.put('users/:id', 'UserController.update').middleware([ 'auth' ]);
 
 // POSTS
-Route.post('files/:id', 'FileController.store').middleware([ 'auth' ]);
+Route.post('files', 'FileController.store').middleware([ 'auth' ]);
 Route.resource('posts', 'PostController').middleware([ 'auth' ]);
 
 // LIKES POST
