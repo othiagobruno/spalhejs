@@ -7,10 +7,10 @@ class LikeController {
 		const user = auth.current.user;
 		const post_id = request.only([ 'post_id ' ]);
 
-		try {
-			const like = await Like.findByOrFail({ post_id: post_id, user_id: user.id });
+		const like = await Like.findByOrFail({ post_id: post_id, user_id: user.id });
+		if (like) {
 			like.delete();
-		} catch (err) {
+		} else {
 			await Like.create({ user_id: user.id, post_id });
 		}
 
