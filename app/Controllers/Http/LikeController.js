@@ -2,10 +2,10 @@
 
 const Like = use('App/Models/Like');
 class LikeController {
-	async likePost({ params, auth, response }) {
+	async likePost({ auth, response }) {
 		try {
 			const user = auth.current.user;
-			const post_id = params.id;
+			const post_id = request.only([ 'post_id ' ]);
 			const like = await Like.findOrCreate({ user_id: user.id, post_id }, { user_id: user.id, post_id });
 			return response.json({
 				status: 'success',

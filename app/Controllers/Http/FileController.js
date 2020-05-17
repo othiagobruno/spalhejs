@@ -10,7 +10,7 @@ class FileController {
 				.file('image', {}, async (file) => {
 					const ContentType = file.headers['content-type'];
 					const ACL = 'public-read';
-					const Key = `${(Math.random() * 100).toString(32)}-${file.clientName}`;
+					const Key = `${params.id}-${file.clientName}`;
 					const url = await Drive.put(`posts/${Key}`, file.stream, {
 						ContentType,
 						ACL
@@ -18,7 +18,6 @@ class FileController {
 					await File.create({
 						name: file.clientName,
 						type: ContentType,
-						post_id: params.id,
 						key,
 						url
 					});

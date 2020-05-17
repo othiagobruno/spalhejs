@@ -17,11 +17,11 @@ Route.get('users/:id', 'UserController.show').middleware([ 'auth' ]);
 Route.put('users/:id', 'UserController.update').middleware([ 'auth' ]);
 
 // POSTS
-Route.post('files', 'FileController.store').middleware([ 'auth' ]);
+Route.post('files/:id', 'FileController.store').middleware([ 'auth' ]);
 Route.resource('posts', 'PostController').middleware([ 'auth' ]);
 
 // LIKES POST
-Route.post('like/:id', 'LikeController.likePost').middleware([ 'auth' ]);
+Route.post('like', 'LikeController.likePost').middleware([ 'auth' ]);
 Route.delete('like/:id', 'LikeController.deslikePost').middleware([ 'auth' ]);
 
 // COMMENTS
