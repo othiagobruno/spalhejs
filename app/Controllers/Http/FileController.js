@@ -10,7 +10,7 @@ class FileController {
 				types: [ 'jpeg', 'jpg', 'png' ],
 				size: '15mb'
 			};
-			request.multipart.file('image', validationOptions, async (file) => {
+			request.multipart.file('image[]', validationOptions, async (file) => {
 				file.size = file.stream.byteCount;
 				await file.runValidations();
 				const error = file.error();
