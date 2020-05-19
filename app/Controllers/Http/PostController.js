@@ -13,6 +13,7 @@ class PostController {
 		const posts = await Post.query()
 			.whereIn('user_id', follows)
 			.withCount('likes')
+			.with('midias')
 			// VERIFICA SE EU CURTI A PUBLICAÇÃO
 			.with('liked', (builder) => builder.where('user_id', auth.user.id))
 			.withCount('comments')
@@ -42,7 +43,7 @@ class PostController {
 	}
 
 	async store({ request, auth }) {
-		const data = request.only([ 'text' ]);
+		const data = request.only([ 'text', 'key' ]);
 		const post = await auth.user.posts().create(data);
 		return post;
 	}

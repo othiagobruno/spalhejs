@@ -18,6 +18,7 @@ Route.put('users/:id', 'UserController.update').middleware([ 'auth' ]);
 
 // POSTS
 Route.post('files/:id', 'FileController.store').middleware([ 'auth' ]);
+Route.get('files', 'FileController.index').middleware([ 'auth' ]);
 Route.resource('posts', 'PostController').middleware([ 'auth' ]);
 
 // LIKES POST
@@ -32,9 +33,16 @@ Route.post('share/:id', 'ShareController.store').middleware([ 'auth' ]);
 Route.get('share/:id', 'ShareController.show').middleware([ 'auth' ]);
 
 // FOLLOWS
-Route.get('/unfollowusers', 'FollowController.usersToFollow').middleware([ 'auth' ]);
-Route.post('/follow/:id', 'FollowController.follow').middleware([ 'auth' ]);
-Route.post('/unfollow/:id', 'FollowController.unFollow').middleware([ 'auth' ]);
+Route.get('unfollowusers', 'FollowController.usersToFollow').middleware([ 'auth' ]);
+Route.post('follow/:id', 'FollowController.follow').middleware([ 'auth' ]);
+Route.post('unfollow/:id', 'FollowController.unFollow').middleware([ 'auth' ]);
 
 // EXPLORE
 Route.get('explore', 'ExploreController.index').middleware([ 'auth' ]);
+
+// SEARCH
+Route.get('search/:id', 'SearchController.index').middleware([ 'auth' ]);
+
+// NOTIFICATIONS:
+Route.get('notifications', 'NotificartionController.index').middleware([ 'auth' ]);
+Route.post('notifications/:id', 'NotificationController.store').middleware([ 'auth' ]);

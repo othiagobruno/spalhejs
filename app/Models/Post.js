@@ -19,6 +19,10 @@ class Post extends Model {
 		return this.hasOne('App/Models/Like');
 	}
 
+	midias() {
+		return this.hasMany('App/Models/File', 'key', 'key');
+	}
+
 	// get all comments in post
 	comments() {
 		return this.belongsToMany('App/Models/Post').pivotTable('comments');
