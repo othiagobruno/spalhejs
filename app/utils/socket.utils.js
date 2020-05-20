@@ -4,17 +4,14 @@ function broadcast(id, type, data) {
 	const channel = Ws.getChannel('notifications:*');
 	if (!channel) return;
 
-	const topic = channel.topic(`notifications:${id}`);
-	if (!topic) {
-		console.error('não ha notificações');
-		return;
-	}
+	const topic = channel.topic(`notifications:1`);
 
-	// emit, broadcast, broadcastToAll
-	topic.broadcastToAll(`message`, {
-		type,
-		data
-	});
+	if (topic) {
+		topic.broadcast(`message`, data);
+		console.log('foooooooi');
+	} else {
+		console.log(' não foooooooi');
+	}
 }
 
 module.exports = {

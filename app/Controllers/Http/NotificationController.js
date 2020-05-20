@@ -15,9 +15,9 @@ class NotificationController {
 		const user = auth.current.user;
 		const request_data = request.only([ 'type', 'post_id' ]);
 		const data = { ...request_data, my_userid: params.id, user_id: user.id, view: false };
-		const notifications = await Notification.create(data);
-		broadcast(1, 'notifications:new', notifications);
-		return notifications;
+		//const notifications = await Notification.create(data);
+		broadcast(params.id, 'notifications:1', data);
+		return { success: 'ok', data };
 	}
 
 	async setView({ response, request, params }) {

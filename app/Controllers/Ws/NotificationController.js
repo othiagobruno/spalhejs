@@ -1,12 +1,10 @@
 'use strict';
 
-const Notification = use('App/Models/Notification');
-const { broadcast } = require('../../utils/socket.utils');
-
 class NotificationController {
 	constructor({ socket, request }) {
 		this.socket = socket;
 		this.request = request;
+		console.log('A new subscription for room topic', socket.topic);
 	}
 
 	onMessage(message) {
