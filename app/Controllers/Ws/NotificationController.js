@@ -1,14 +1,13 @@
 'use strict';
 
 class NotificationController {
-	constructor({ socket, request }) {
+	constructor({ socket, request, auth }) {
 		this.socket = socket;
 		this.request = request;
-		console.log('A new subscription for room topic', socket.topic);
 	}
 
 	onMessage(message) {
-		console.log('n: ', message);
+		this.socket.broadcastToAll(message);
 	}
 
 	onClose() {

@@ -4,7 +4,7 @@ function broadcast(id, type, data) {
 	const channel = Ws.getChannel('notifications:*');
 	if (!channel) return;
 
-	const topic = channel.topic(`notifications:1`);
+	const topic = channel.topic(`notifications:${id}`);
 
 	if (topic) {
 		topic.broadcast(`message`, data);

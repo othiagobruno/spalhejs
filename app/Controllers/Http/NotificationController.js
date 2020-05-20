@@ -1,7 +1,6 @@
 'use strict';
 
 const Notification = use('App/Models/Notification');
-const { broadcast } = require('../../utils/socket.utils');
 
 class NotificationController {
 	async index({ auth }) {
@@ -15,9 +14,8 @@ class NotificationController {
 		const user = auth.current.user;
 		const request_data = request.only([ 'type', 'post_id' ]);
 		const data = { ...request_data, my_userid: params.id, user_id: user.id, view: false };
-		//const notifications = await Notification.create(data);
-		broadcast(params.id, 'notifications:1', data);
-		return { success: 'ok', data };
+		const notifications = await Notification.create(data);
+		return notifications;
 	}
 
 	async setView({ response, request, params }) {

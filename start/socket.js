@@ -2,4 +2,4 @@
 
 const Ws = use('Ws');
 
-Ws.channel('notifications:*', 'NotificationController');
+Ws.channel('notification:*', 'NotificationController');
