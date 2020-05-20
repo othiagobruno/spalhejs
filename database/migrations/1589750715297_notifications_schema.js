@@ -8,7 +8,7 @@ class NotificationsSchema extends Schema {
 		this.create('notifications', (table) => {
 			table.increments();
 			table.string('my_userid');
-			table.string('user_id');
+			table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
 			table.string('type');
 			table.string('post_id');
 			table.string('view');
