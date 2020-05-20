@@ -8,6 +8,10 @@ class Notification extends Model {
 		super.boot();
 		this.addHook('afterCreate', 'NotificationHook.sendWs');
 	}
+
+	user() {
+		return this.hasOne('App/Models/User', 'user_id', 'id');
+	}
 }
 
 module.exports = Notification;
