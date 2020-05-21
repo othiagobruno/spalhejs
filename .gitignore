@@ -5,8 +5,8 @@
 # tmp
 
 # # Environment variables, never commit this file
-.env .env.exemple
+#.env .env.exemple
 
 # The development sqlite file
 database/*.sqlite
-node_modules
+#node_modules
