@@ -65,7 +65,7 @@ class PostController {
 		return updatedPost;
 	}
 
-	async destroy({ response, params, auth }) {
+	async delete({ response, params, auth }) {
 		const post = await auth.user.posts().where('id', params.id).first();
 		if (!post) {
 			return response.status(404).send();
