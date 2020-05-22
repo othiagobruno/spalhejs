@@ -65,12 +65,20 @@ class PostController {
 		return updatedPost;
 	}
 
-	async delete({ response, params, auth }) {
+	async destroy({ response, params, auth }) {
 		const post = await auth.user.posts().where('id', params.id).first();
 		if (!post) {
 			return response.status(404).send();
 		}
 		await post.truncate();
+	}
+
+	async delete({ response, params, auth }) {
+		const post = await auth.user.posts().where('id', params.id).first();
+		if (!post) {
+			return response.status(404).send();
+		}
+		await post.delete();
 	}
 }
 
