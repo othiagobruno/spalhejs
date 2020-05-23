@@ -9,7 +9,11 @@ NotificationHook.method = async (modelInstance) => {};
 NotificationHook.sendWs = async (ntf) => {
 	const topic = Ws.getChannel('notification:*').topic(`notification:${ntf.my_userid}`);
 	if (topic) {
-		const n = await Notification.query().where('id', ntf.id).orderBy('id', 'desc').with('user').first();
+		const n = await Notification.query()
+			.where('mey_userid', ntf.my_userid)
+			.orderBy('id', 'desc')
+			.with('user')
+			.pick(12);
 
 		topic.broadcast('message', n);
 	} else {
