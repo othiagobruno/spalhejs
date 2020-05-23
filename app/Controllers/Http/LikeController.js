@@ -2,7 +2,6 @@
 
 const Like = use('App/Models/Like');
 const Notification = use('App/Models/Notification');
-const Post = use('App/Models/Post');
 
 class LikeController {
 	async store({ auth, request, response }) {
@@ -15,8 +14,7 @@ class LikeController {
 		} else {
 			await Like.create({ user_id: user.id, post_id });
 			// INSERE A NOTIFICAÇÃO
-			const post = await Post.query().where('id', post_id).fetch();
-			const data = { type: 'like', post_id, user_id: user.id, view: false, my_userid: post.user_id };
+			const data = { type: 'like', post_id, user_id: user.id, view: false, my_userid: 2 };
 			await Notification.create(data);
 		}
 
