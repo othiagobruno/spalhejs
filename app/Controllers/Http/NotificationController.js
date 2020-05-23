@@ -10,7 +10,7 @@ class NotificationController {
 			.where('my_userid', user.id)
 			.orderBy('id', 'desc')
 			.with('user')
-			.pick(4);
+			.pick(12);
 
 		return notifications;
 	}
