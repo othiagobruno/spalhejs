@@ -10,7 +10,7 @@ NotificationHook.sendWs = async (ntf) => {
 	const topic = Ws.getChannel('notification:*').topic(`notification:${ntf.my_userid}`);
 	if (topic) {
 		const n = await Notification.query()
-			.where('mey_userid', ntf.my_userid)
+			.where('my_userid', ntf.my_userid)
 			.orderBy('id', 'desc')
 			.with('user')
 			.pick(12);
