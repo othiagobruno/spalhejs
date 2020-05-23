@@ -7,6 +7,7 @@ class Notification extends Model {
 	static boot() {
 		super.boot();
 		this.addHook('afterCreate', 'NotificationHook.sendWs');
+		this.addHook('afterDelete', 'NotificationHook.sendWs');
 	}
 
 	user() {

@@ -44,5 +44,4 @@ Route.get('explore', 'ExploreController.index').middleware([ 'auth' ]);
 Route.get('search/:id', 'SearchController.index').middleware([ 'auth' ]);
 
 // NOTIFICATIONS:
-Route.get('notifications', 'NotificationController.index').middleware([ 'auth' ]);
-Route.post('notifications/:id', 'NotificationController.store').middleware([ 'auth' ]);
+Route.resource('notifications', 'NotificationController').middleware([ 'auth' ]);
