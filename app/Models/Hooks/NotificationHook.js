@@ -11,7 +11,7 @@ NotificationHook.sendWs = async (ntf) => {
 	if (topic) {
 		const n = await Notification.query().where('id', ntf.id).orderBy('id', 'desc').with('user').fetch();
 
-		topic.broadcast('message', n);
+		topic.broadcast('message', n[0]);
 	} else {
 		console.log('não consegui conectar ao cliente');
 	}
