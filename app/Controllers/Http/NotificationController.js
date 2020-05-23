@@ -23,7 +23,7 @@ class NotificationController {
 
 	async destroy({ auth }) {
 		const user = auth.current.user;
-		const notification = await Notification.where('my_userid', user.id).delete();
+		const notification = await Notification.query().where('my_userid', user.id).delete();
 		return notification;
 	}
 }
