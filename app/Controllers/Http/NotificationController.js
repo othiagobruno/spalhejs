@@ -14,11 +14,16 @@ class NotificationController {
 		return notifications;
 	}
 
-	async store({ request, params, auth }) {
+	async store({ params, auth }) {
 		const user = auth.current.user;
 		if (Number(user.id) === Number(params.id)) {
 			return { status: 'error', message: 'dont send notifications for yourserf' };
 		}
+	}
+
+	async update({ auth }) {
+		const user = auth.current.user;
+		Notification.query().where('my_userid', user.id).update({ view: true });
 	}
 
 	async destroy({ auth }) {
