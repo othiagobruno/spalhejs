@@ -2,6 +2,7 @@
 
 const Post = use('App/Models/Post');
 const User = use('App/Models/User');
+const { validate } = use('Validator');
 
 class PostController {
 	async index({ auth, request }) {
@@ -43,7 +44,15 @@ class PostController {
 	}
 
 	async store({ request, auth }) {
-		const data = request.only([ 'text', 'key' ]);
+		//const data = request.only([ 'text', 'key' ]);
+
+		const rules = {
+			text: 'require',
+			key: 'unique:midias'
+		};
+
+		const validation = await validate(request.all(), rules);
+
 		const post = await auth.user.posts().create(data);
 		return post;
 	}

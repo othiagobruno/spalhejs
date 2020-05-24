@@ -19,7 +19,6 @@ class CommentController {
 		const user = auth.current.user;
 		const dataReq = request.only([ 'post_id', 'text' ]);
 		const data = { ...dataReq, user_id: user.id };
-
 		const comment = await Comment.create(data);
 		return comment;
 	}
