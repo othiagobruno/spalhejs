@@ -1,7 +1,6 @@
 'use strict';
 
 const Notification = use('App/Models/Notification');
-const User = use('App/Models/User');
 
 class NotificationController {
 	async index({ auth }) {
