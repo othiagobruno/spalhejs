@@ -4,8 +4,6 @@ class NotificationController {
 	constructor({ socket, request, auth }) {
 		this.socket = socket;
 		this.request = request;
-
-		this.socket.topic.id === auth.current.user.id;
 	}
 
 	onMessage(message) {
