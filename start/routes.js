@@ -20,6 +20,7 @@ Route.put('users/:id', 'UserController.update').middleware([ 'auth' ]);
 Route.post('files/:id', 'FileController.store').middleware([ 'auth' ]);
 Route.get('files', 'FileController.index').middleware([ 'auth' ]);
 Route.resource('posts', 'PostController').middleware([ 'auth' ]);
+Route.get('users/:id/posts', 'PostController.me').middleware([ 'auth' ]);
 
 // LIKES POST
 Route.post('like', 'LikeController.store').middleware([ 'auth' ]);
@@ -45,3 +46,8 @@ Route.get('search/:id', 'SearchController.index').middleware([ 'auth' ]);
 
 // NOTIFICATIONS:
 Route.resource('notifications', 'NotificationController').middleware([ 'auth' ]);
+
+// MESSAGES
+Route.post('chat', 'ChatController.store').middleware([ 'auth' ]);
+Route.get('chat', 'ChatController.index').middleware([ 'auth' ]);
+Route.post('messages', 'MessageController.store').middleware([ 'auth' ]);

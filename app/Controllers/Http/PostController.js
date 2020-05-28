@@ -2,7 +2,6 @@
 
 const Post = use('App/Models/Post');
 const User = use('App/Models/User');
-const { validate } = use('Validator');
 
 class PostController {
 	async index({ auth, request }) {
@@ -10,49 +9,51 @@ class PostController {
 		const user = await User.find(auth.current.user.id);
 		const follows = await user.following().ids();
 		follows.push(user.id);
-
 		const posts = await Post.query()
 			.whereIn('user_id', follows)
 			.withCount('likes')
 			.with('midias')
-			// VERIFICA SE EU CURTI A PUBLICAÇÃO
 			.with('liked', (builder) => builder.where('user_id', auth.user.id))
 			.withCount('comments')
 			.withCount('share')
 			.with('user')
 			.orderBy('id', 'desc')
 			.paginate(page, 10);
-
 		return posts;
 	}
 
 	async show({ params, auth }) {
+		const user = auth.current.user;
 		const post = await Post.query()
 			.where('id', params.id)
 			.withCount('likes')
 			.with('liked', (builder) => {
-				builder.where('user_id', auth.user.id);
+				builder.where('user_id', user.id);
 			})
 			.withCount('comments')
 			.withCount('share')
 			.with('user')
 			.firstOrFail();
+		return post;
+	}
 
-		const data = post.load('share');
-
+	async me({ auth, response }) {
+		const user = auth.current.user;
+		const post = await Post.query()
+			.where('user_id', user.id)
+			.withCount('likes')
+			.with('liked', (builder) => {
+				builder.where('user_id', user.id);
+			})
+			.withCount('comments')
+			.withCount('share')
+			.with('user')
+			.firstOrFail();
 		return post;
 	}
 
 	async store({ request, auth }) {
-		//const data = request.only([ 'text', 'key' ]);
-
-		const rules = {
-			text: 'require',
-			key: 'unique:midias'
-		};
-
-		const validation = await validate(request.all(), rules);
-
+		const data = request.only([ 'text', 'key' ]);
 		const post = await auth.user.posts().create(data);
 		return post;
 	}

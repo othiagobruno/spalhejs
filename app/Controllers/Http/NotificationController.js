@@ -22,7 +22,8 @@ class NotificationController {
 
 	async update({ auth }) {
 		const user = auth.current.user;
-		const ntf = await Notification.query().where('my_userid', user.id).update({ view: true });
+		await Notification.query().where('my_userid', user.id).update({ view: true });
+		const ntf = await Notification.query().where('my_userid', user.id).fetch();
 		return ntf;
 	}
 
