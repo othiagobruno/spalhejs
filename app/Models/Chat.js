@@ -9,7 +9,7 @@ class Chat extends Model {
 	}
 
 	user() {
-		return this.hasOne('App/Models/User', 'id_received', 'id', 'id_send', 'id');
+		return this.hasOne('App/Models/User', 'id_received', 'id');
 	}
 }
 

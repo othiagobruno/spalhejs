@@ -4,4 +4,4 @@ const Ws = use('Ws');
 
 Ws.channel('notification:*', 'NotificationController');
 Ws.channel('message:*', 'MessageController');
-Ws.channel('messagelist:*', 'MessagelistController');
+Ws.channel('chat:*', 'MessagelistController');

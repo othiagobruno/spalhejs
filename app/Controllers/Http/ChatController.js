@@ -6,7 +6,16 @@ const md5 = require('md5');
 class ChatController {
 	async index({ auth }) {
 		const user = auth.current.user;
-		const msg = await Chat.query().where('id_received', user.id).orWhere('id_send', user.id).with('user').fetch();
+		const msg = await Chat.findBy('id_received', user.id).findBy('id_send', user.id);
+
+		for (var i; msg.length < i; i++) {
+			if (msg[i].id_received != user.id) {
+				await msg.load('user', msg[i].send_id);
+			} else {
+				await msg.load('user', msg[i].id_received);
+			}
+		}
+
 		return msg;
 	}
 
