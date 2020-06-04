@@ -13,6 +13,7 @@ class MessagesSchema extends Schema {
 			table.string('text');
 			table.string('audio');
 			table.string('midia');
+			table.string('view');
 			table.timestamps();
 		});
 	}
