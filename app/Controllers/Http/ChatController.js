@@ -21,7 +21,7 @@ class ChatController {
 					name: user.name,
 					avatar: user.avatar,
 					created_at: x.created_at,
-					last
+					last: last.rows[0]
 				});
 			} else {
 				const user = await User.find(x.id_send);
@@ -31,7 +31,7 @@ class ChatController {
 					name: user.name,
 					avatar: user.avatar,
 					created_at: x.created_at,
-					last
+					last: last.rows[0]
 				});
 			}
 		}
