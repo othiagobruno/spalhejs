@@ -14,10 +14,27 @@ class MessageController {
 		return msg;
 	}
 
-	async show({ params }) {
+	async show({ params, auth }) {
 		const id_msg = params.id;
 		const msg = await Message.query().where('id_msg', id_msg).fetch();
-		return msg;
+
+		let data = [];
+		for (let i in msg.rows) {
+			const x = msg.rows[i];
+
+			data.push({
+				_id: x.id,
+				idmsg: x.id_msg,
+				text: x.text,
+				createdAt: x.created_at,
+				user: {
+					_id: Number(x.id_send)
+				},
+				view: false
+			});
+		}
+
+		return data;
 	}
 
 	async update({ request }) {}
