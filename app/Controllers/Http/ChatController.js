@@ -15,7 +15,7 @@ class ChatController {
 				const user = await User.find(msg.rows[i].id_received);
 				data.push({ ...msg.rows[i], user });
 			} else {
-				const user = await User.find(msg.rows[i].id_received);
+				const user = await User.find(msg.rows[i].id_send);
 				data.push({ ...msg.rows[i], user });
 			}
 		}
