@@ -36,7 +36,14 @@ class MessageController {
 		return data;
 	}
 
-	async update({ request }) {}
+	async update({ auth, params }) {
+		const id_msg = params.id;
+		const user = auth.curren.user;
+		const msg = await Message.query().where('id_msg', id_msg).where('id_received', user.id).update({
+			view: true
+		});
+		return msg;
+	}
 
 	async destroy({ request }) {}
 }

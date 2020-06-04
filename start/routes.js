@@ -52,3 +52,4 @@ Route.post('chat', 'ChatController.store').middleware([ 'auth' ]);
 Route.get('chat', 'ChatController.index').middleware([ 'auth' ]);
 Route.post('messages', 'MessageController.store').middleware([ 'auth' ]);
 Route.get('messages/:id', 'MessageController.show').middleware([ 'auth' ]);
+Route.put('messages/:id', 'MessageController.update').middleware([ 'auth' ]);
