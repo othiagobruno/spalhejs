@@ -24,7 +24,7 @@ class ChatController {
 				});
 			} else {
 				const user = await User.find(x.id_send);
-				const last = await Message.findBy('idmsg', x.id);
+				const last = await Message.findBy('id_msg', x.id);
 				data.push({
 					idmsg: x.id,
 					name: user.name,
