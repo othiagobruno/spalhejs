@@ -1,7 +1,6 @@
 'use strict';
 
 const Message = use('App/Models/Message');
-var md5 = require('md5');
 
 class MessageController {
 	async index({ request }) {}

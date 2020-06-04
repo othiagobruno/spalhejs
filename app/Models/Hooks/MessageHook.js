@@ -29,16 +29,11 @@ MessageHook.send = async (msg) => {
 
 MessageHook.get = async (msg) => {
 	const topic = Ws.getChannel('chat:*').topic(`chat:${msg.id_received}`);
-	if (topic) {
-		const msgList = await Message.query()
-			.where('id_received', msg.id_received)
-			.with('user', (builder) => {
-				builder.where('id', msg.id_send);
-			})
-			.orderBy('id', 'desc')
-			.fetch();
+	const topic2 = Ws.getChannel('chat:*').topic(`chat:${msg.id_send}`);
 
-		topic.broadcast('message', msgList);
+	if (topic && topic2) {
+		topic.broadcast('message', new Date());
+		topic2.broadcast('message', new Date());
 	} else {
 		console.log('não consegui conectar ao cliente');
 	}
