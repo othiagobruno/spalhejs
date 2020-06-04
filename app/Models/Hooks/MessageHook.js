@@ -9,7 +9,19 @@ MessageHook.method = async (modelInstance) => {};
 MessageHook.send = async (msg) => {
 	const topic = Ws.getChannel('message:*').topic(`message:${msg.id_msg}`);
 	if (topic) {
-		topic.broadcast('message', msg);
+		var x = msg;
+		var data = {
+			_id: x.id,
+			idmsg: x.id_msg,
+			text: x.text,
+			createdAt: x.created_at,
+			user: {
+				_id: Number(x.id_send)
+			},
+			view: false
+		};
+
+		topic.broadcast('message', data);
 	} else {
 		console.log('não consegui conectar ao cliente');
 	}
