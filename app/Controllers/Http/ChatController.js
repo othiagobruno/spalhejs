@@ -2,7 +2,7 @@
 
 const Chat = use('App/Models/Chat');
 const User = use('App/Models/User');
-const md5 = require('md5');
+const Message = use('App/Models/Message');
 
 class ChatController {
 	async index({ auth }) {
@@ -14,19 +14,23 @@ class ChatController {
 			const x = msg.rows[i];
 			if (x.id_received != user.id) {
 				const user = await User.find(x.id_received);
+				const last = await Message.find(x.id).last();
 				data.push({
 					idmsg: x.id,
 					name: user.name,
 					avatar: user.avatar,
-					created_at: x.created_at
+					created_at: x.created_at,
+					last
 				});
 			} else {
 				const user = await User.find(x.id_send);
+				const last = await Message.find(x.id).last();
 				data.push({
 					idmsg: x.id,
 					name: user.name,
 					avatar: user.avatar,
-					created_at: x.created_at
+					created_at: x.created_at,
+					last
 				});
 			}
 		}
