@@ -31,7 +31,7 @@ MessageHook.get = async (msg) => {
 	const topic = Ws.getChannel('chat:*').topic(`chat:${msg.id_received}`);
 	const topic2 = Ws.getChannel('chat:*').topic(`chat:${msg.id_send}`);
 
-	if (topic && topic2) {
+	if (topic || topic2) {
 		topic.broadcast('message', new Date());
 		topic2.broadcast('message', new Date());
 	} else {
