@@ -8,9 +8,8 @@ class MessageController {
 
 	async store({ request, auth }) {
 		const user = auth.current.user;
-		const request_data = request.only([ 'text', 'id_received', 'image', 'audio' ]);
-		const idmsg = md5(user.id) + md5(request_data.id_received);
-		const data = { ...request_data, id_send: user.id, idmsg: idmsg };
+		const request_data = request.only([ 'text', 'id_received', 'image', 'audio', 'id_msg' ]);
+		const data = { ...request_data, id_send: user.id };
 		const msg = await Message.create(data);
 		return msg;
 	}
