@@ -14,6 +14,12 @@ class MessageController {
 		return msg;
 	}
 
+	async show({ params }) {
+		const id_msg = params.id;
+		const msg = await Message.findBy(id_msg);
+		return msg;
+	}
+
 	async update({ request }) {}
 
 	async destroy({ request }) {}
