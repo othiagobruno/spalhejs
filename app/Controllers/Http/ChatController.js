@@ -13,14 +13,14 @@ class ChatController {
 		for (let i in msg.rows) {
 			if (msg.rows[i].id_received != user.id) {
 				const user = await User.find(msg.rows[i].id_received);
-				data.push({ ...msg.rows[i], user });
+				data.push({ user });
 			} else {
 				const user = await User.find(msg.rows[i].id_send);
-				data.push({ ...msg.rows[i], user });
+				data.push({ user });
 			}
 		}
 
-		return data.toJSON();
+		return data;
 	}
 
 	async show({ auth }) {}
