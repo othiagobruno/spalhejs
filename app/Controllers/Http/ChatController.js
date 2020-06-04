@@ -11,12 +11,12 @@ class ChatController {
 
 		var data = [];
 		for (let i in msg.rows) {
-			if (msg[i].id_received != user.id) {
-				const user = await User.find(msg[i].id_received);
-				data.push({ ...msg[i], user });
+			if (msg.rows[i].id_received != user.id) {
+				const user = await User.find(msg.rows[i].id_received);
+				data.push({ ...msg.rows[i], user });
 			} else {
-				const user = await User.find(msg[i].id_received);
-				data.push({ ...msg[i], user });
+				const user = await User.find(msg.rows[i].id_received);
+				data.push({ ...msg.rows[i], user });
 			}
 		}
 
