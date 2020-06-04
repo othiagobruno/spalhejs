@@ -16,7 +16,7 @@ class MessageController {
 
 	async show({ params }) {
 		const id_msg = params.id;
-		const msg = await Message.findBy(id_msg);
+		const msg = await Message.query().where('id_msg', id_msg).fetch();
 		return msg;
 	}
 
