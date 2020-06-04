@@ -20,7 +20,7 @@ class ChatController {
 			}
 		}
 
-		return data;
+		return data.toJSON();
 	}
 
 	async show({ auth }) {}
