@@ -16,7 +16,7 @@ MessageHook.send = async (msg) => {
 };
 
 MessageHook.get = async (msg) => {
-	const topic = Ws.getChannel('messagelist:*').topic(`messagelist:${msg.id_received}`);
+	const topic = Ws.getChannel('chat:*').topic(`chat:${msg.id_received}`);
 	if (topic) {
 		const msgList = await Message.query()
 			.where('id_received', msg.id_received)
