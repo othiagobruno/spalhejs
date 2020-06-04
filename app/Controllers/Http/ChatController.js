@@ -1,22 +1,27 @@
 'use strict';
 
 const Chat = use('App/Models/Chat');
+const User = use('App/Models/User');
 const md5 = require('md5');
 
 class ChatController {
 	async index({ auth }) {
 		const user = auth.current.user;
-		const msg = await Chat.findBy('id_received', user.id).findBy('id_send', user.id);
+		const msg = await Chat.query().where('id_received', user.id).orWhere('id_send', user.id).fetch();
 
+		var data = [];
 		for (var i; msg.length < i; i++) {
 			if (msg[i].id_received != user.id) {
-				await msg.load('user', msg[i].send_id);
+				//
+				const user = await User.find(msg[i].id_received);
+				data.push({ ...msg[i], user });
 			} else {
-				await msg.load('user', msg[i].id_received);
+				const user = await User.find(msg[i].id_received);
+				data.push({ ...msg[i], user });
 			}
 		}
 
-		return msg;
+		return data;
 	}
 
 	async show({ auth }) {}
