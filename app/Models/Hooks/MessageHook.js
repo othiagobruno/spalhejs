@@ -7,7 +7,7 @@ const MessageHook = (exports = module.exports = {});
 MessageHook.method = async (modelInstance) => {};
 
 MessageHook.send = async (msg) => {
-	const topic = Ws.getChannel('message:*').topic(`message:${msg.idmsg}`);
+	const topic = Ws.getChannel('message:*').topic(`message:${msg.id_msg}`);
 	if (topic) {
 		topic.broadcast('message', msg);
 	} else {
