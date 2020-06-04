@@ -10,9 +10,8 @@ class ChatController {
 		const msg = await Chat.query().where('id_received', user.id).orWhere('id_send', user.id).fetch();
 
 		var data = [];
-		for (var i; msg.length < i; i++) {
+		for (let i in msg.rows) {
 			if (msg[i].id_received != user.id) {
-				//
 				const user = await User.find(msg[i].id_received);
 				data.push({ ...msg[i], user });
 			} else {
