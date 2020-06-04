@@ -38,7 +38,7 @@ class MessageController {
 
 	async update({ auth, params }) {
 		const id_msg = params.id;
-		const user = auth.curren.user;
+		const user = auth.current.user;
 		const msg = await Message.query().where('id_msg', id_msg).where('id_received', user.id).update({
 			view: true
 		});
