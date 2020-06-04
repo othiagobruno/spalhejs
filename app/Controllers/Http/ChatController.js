@@ -14,10 +14,20 @@ class ChatController {
 			const x = msg.rows[i];
 			if (x.id_received != user.id) {
 				const user = await User.find(x.id_received);
-				data.push({ user });
+				data.push({
+					idmsg: x.id,
+					name: user.name,
+					avatar: user.avatar,
+					created_at: x.created_at
+				});
 			} else {
 				const user = await User.find(x.id_send);
-				data.push({ user });
+				data.push({
+					idmsg: x.id,
+					name: user.name,
+					avatar: user.avatar,
+					created_at: x.created_at
+				});
 			}
 		}
 
