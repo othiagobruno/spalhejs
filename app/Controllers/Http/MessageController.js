@@ -8,7 +8,7 @@ class MessageController {
 	async store({ request, auth }) {
 		const user = auth.current.user;
 		const request_data = request.only([ 'text', 'id_received', 'image', 'audio', 'id_msg' ]);
-		const data = { ...request_data, id_send: user.id };
+		const data = { ...request_data, id_send: user.id, view: false };
 		const msg = await Message.create(data);
 		return msg;
 	}
@@ -29,7 +29,7 @@ class MessageController {
 				user: {
 					_id: Number(x.id_send)
 				},
-				view: false
+				view: x.view
 			});
 		}
 
