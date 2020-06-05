@@ -1,12 +1,11 @@
 'use strict';
 
 const Post = use('App/Models/Post');
-const User = use('App/Models/User');
 
 class PostController {
 	async index({ auth, request }) {
 		const { page } = request.all();
-		const user = await User.find(auth.current.user.id);
+		const user = auth.current.user;
 		const follows = await user.following().ids();
 		follows.push(user.id);
 		const posts = await Post.query()
@@ -37,19 +36,24 @@ class PostController {
 		return post;
 	}
 
-	async me({ auth, response }) {
+	async me({ auth, params }) {
 		const user = auth.current.user;
-		const post = await Post.query()
-			.where('user_id', user.id)
-			.withCount('likes')
-			.with('liked', (builder) => {
-				builder.where('user_id', user.id);
-			})
-			.withCount('comments')
-			.withCount('share')
-			.with('user')
-			.firstOrFail();
-		return post;
+		const id = params.id;
+		try {
+			return await Post.query()
+				.where('user_id', id)
+				.withCount('likes')
+				.with('liked', (builder) => {
+					builder.where('user_id', user.id);
+				})
+				.withCount('comments')
+				.withCount('share')
+				.with('user')
+				.orderBy('id', 'desc')
+				.fetch();
+		} catch (error) {
+			return { error: 'desculpes-nos' };
+		}
 	}
 
 	async store({ request, auth }) {

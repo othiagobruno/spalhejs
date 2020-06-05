@@ -10,7 +10,6 @@ Route.get('/', () => {
 Route.post('login', 'SessionController.store');
 Route.post('register', 'UserController.store');
 
-// ROTAS PRIVADAS
 // USERS
 Route.get('users', 'UserController.index').middleware([ 'auth' ]);
 Route.get('users/:id', 'UserController.show').middleware([ 'auth' ]);
@@ -19,7 +18,7 @@ Route.put('users/:id', 'UserController.update').middleware([ 'auth' ]);
 // POSTS
 Route.post('files/:id', 'FileController.store').middleware([ 'auth' ]);
 Route.get('files', 'FileController.index').middleware([ 'auth' ]);
-Route.resource('posts', 'PostController').middleware([ 'auth' ]);
+Route.resource('posts', 'PostController').apiOnly().middleware([ 'auth' ]);
 Route.get('users/:id/posts', 'PostController.me').middleware([ 'auth' ]);
 
 // LIKES POST
@@ -27,7 +26,7 @@ Route.post('like', 'LikeController.store').middleware([ 'auth' ]);
 Route.delete('like/:id', 'LikeController.deslikePost').middleware([ 'auth' ]);
 
 // COMMENTS
-Route.resource('comments', 'CommentController').middleware([ 'auth' ]);
+Route.resource('comments', 'CommentController').apiOnly().middleware([ 'auth' ]);
 
 // SHARE POST
 Route.post('share/:id', 'ShareController.store').middleware([ 'auth' ]);
@@ -45,11 +44,14 @@ Route.get('explore', 'ExploreController.index').middleware([ 'auth' ]);
 Route.get('search/:id', 'SearchController.index').middleware([ 'auth' ]);
 
 // NOTIFICATIONS:
-Route.resource('notifications', 'NotificationController').middleware([ 'auth' ]);
+Route.resource('notifications', 'NotificationController').apiOnly().middleware([ 'auth' ]);
 
-// MESSAGES
-Route.post('chat', 'ChatController.store').middleware([ 'auth' ]);
-Route.get('chat', 'ChatController.index').middleware([ 'auth' ]);
-Route.post('messages', 'MessageController.store').middleware([ 'auth' ]);
-Route.get('messages/:id', 'MessageController.show').middleware([ 'auth' ]);
-Route.put('messages/:id', 'MessageController.update').middleware([ 'auth' ]);
+// MOMENTS
+Route.resource('moments', 'MomentController').middleware([ 'auth' ]).apiOnly();
+
+// MESSAGES ( vamos implementar o mongodb )
+// Route.post('chat', 'ChatController.store').middleware([ 'auth' ]);
+// Route.get('chat', 'ChatController.index').middleware([ 'auth' ]);
+// Route.post('messages', 'MessageController.store').middleware([ 'auth' ]);
+// Route.get('messages/:id', 'MessageController.show').middleware([ 'auth' ]);
+// Route.put('messages/:id', 'MessageController.update').middleware([ 'auth' ]);

@@ -43,6 +43,10 @@ class User extends Model {
 		return this.hasMany('App/Models/Post');
 	}
 
+	moments() {
+		return this.hasMany('App/Models/Moment');
+	}
+
 	followers() {
 		return this.belongsToMany('App/Models/User', 'user_id', 'followid').pivotTable('follows');
 	}
