@@ -14,7 +14,7 @@ class Post extends Model {
 	}
 
 	share_post() {
-		return this.hasOne('App/Models/Post', 'post_id', 'id');
+		return this.hasOne('App/Models/Share', 'post_id', 'post_id', 'share_id', 'user_id');
 	}
 
 	// get all likes count

@@ -16,7 +16,7 @@ class PostController {
 			.with('liked', (builder) => builder.where('user_id', auth.user.id))
 			.withCount('comments')
 			.withCount('share')
-			.with('share_post')
+			.with('share_post.post')
 			.with('share_user')
 			.with('user')
 			.orderBy('id', 'desc')

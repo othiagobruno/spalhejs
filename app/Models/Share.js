@@ -8,12 +8,8 @@ class Share extends Model {
 		return this.belongsTo('App/Models/User');
 	}
 
-	users() {
-		return this.belongsTo('App/Models/User', 'share_id', 'id');
-	}
-
 	post() {
-		return this.belongsTo('App/Models/Post', 'share_id', 'user_id');
+		return this.belongsTo('App/Models/Post', 'post_id', 'id');
 	}
 }
 
