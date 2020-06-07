@@ -50,6 +50,9 @@ Route.resource('notifications', 'NotificationController').apiOnly().middleware([
 // MOMENTS
 Route.resource('moments', 'MomentController').middleware([ 'auth' ]).apiOnly();
 
+Route.post('reply/:id', 'ReplyController.store').middleware([ 'auth' ]);
+Route.get('reply/:id', 'ReplyController.show').middleware([ 'auth' ]);
+
 // MESSAGES ( vamos implementar o mongodb )
 // Route.post('chat', 'ChatController.store').middleware([ 'auth' ]);
 // Route.get('chat', 'ChatController.index').middleware([ 'auth' ]);
