@@ -8,8 +8,9 @@ class PostSchema extends Schema {
 		this.create('posts', (table) => {
 			table.increments();
 			table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
-			table.string('text');
-			table.string('share_id');
+			table.string('text', 500);
+			table.integer('share_id');
+			table.integer('post_id');
 			table.string('key').notNullable().unique();
 			table.timestamps();
 		});

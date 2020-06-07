@@ -50,8 +50,12 @@ Route.resource('notifications', 'NotificationController').apiOnly().middleware([
 // MOMENTS
 Route.resource('moments', 'MomentController').middleware([ 'auth' ]).apiOnly();
 
+// REPLY COMMENTS
 Route.post('reply/:id', 'ReplyController.store').middleware([ 'auth' ]);
 Route.get('reply/:id', 'ReplyController.show').middleware([ 'auth' ]);
+
+/// TOKEN GOOGLE MESSAGE NOTIFICATIONS
+Route.put('gtoken', 'GtokenController.create').middleware([ 'auth' ]);
 
 // MESSAGES ( vamos implementar o mongodb )
 // Route.post('chat', 'ChatController.store').middleware([ 'auth' ]);

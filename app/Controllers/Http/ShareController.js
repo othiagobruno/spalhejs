@@ -19,7 +19,12 @@ class ShareController {
 			post_id: post.id
 		});
 
-		const data = await user.posts().create({ share_id: post.user_id, key: new Date().getTime() });
+		const data = await user.posts().create({
+			share_id: post.user_id,
+			post_id: post.id,
+			key: new Date().getTime()
+		});
+
 		return response.json({
 			status: 'success',
 			message: data

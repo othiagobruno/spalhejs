@@ -10,11 +10,11 @@ class Post extends Model {
 	}
 
 	share_user() {
-		return this.belongsTo('App/Models/User', 'share_id');
+		return this.belongsTo('App/Models/User');
 	}
 
 	share_post() {
-		return this.belongsTo('App/Models/Post', 'share_id', 'user_id');
+		return this.hasOne('App/Models/Post', 'post_id', 'id');
 	}
 
 	// get all likes count
@@ -42,7 +42,7 @@ class Post extends Model {
 	}
 
 	static get visible() {
-		return [ 'id', 'user_id', 'text', 'created_at', 'share_id' ];
+		return [ 'id', 'user_id', 'text', 'created_at', 'share_id', 'post_id' ];
 	}
 }
 
