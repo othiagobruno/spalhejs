@@ -9,7 +9,7 @@ class CommentController {
 
 	async show({ auth, params, response }) {
 		try {
-			const post = await Comment.query().where('post_id', params.id).with('user').fetch();
+			const post = await Comment.query().where('post_id', params.id).with('user').withCount('reply').fetch();
 			return post;
 		} catch (error) {}
 		return response.send({ error: 'cant find post comments' });

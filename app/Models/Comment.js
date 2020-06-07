@@ -11,6 +11,10 @@ class Comment extends Model {
 	user() {
 		return this.belongsTo('App/Models/User');
 	}
+
+	reply() {
+		return this.hasMany('App/Models/Reply');
+	}
 }
 
 module.exports = Comment;
