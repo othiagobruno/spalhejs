@@ -1,6 +1,7 @@
 'use strict';
 
 const Post = use('App/Models/Post');
+const User = use('App/Models/User');
 
 class PostController {
 	async index({ auth, request }) {
@@ -15,6 +16,8 @@ class PostController {
 			.with('liked', (builder) => builder.where('user_id', auth.user.id))
 			.withCount('comments')
 			.withCount('share')
+			.with('share_post')
+			.with('share_user')
 			.with('user')
 			.orderBy('id', 'desc')
 			.paginate(page, 10);
@@ -30,9 +33,11 @@ class PostController {
 				builder.where('user_id', user.id);
 			})
 			.withCount('comments')
+			.with('share.user')
 			.withCount('share')
 			.with('user')
 			.firstOrFail();
+
 		return post;
 	}
 

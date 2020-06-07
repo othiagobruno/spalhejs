@@ -1,13 +1,21 @@
 'use strict';
 
 const Moment = use('App/Models/Moment');
+var subDays = require('date-fns/subDays');
 
 class MomentController {
 	async index({ auth }) {
 		const user = auth.current.user;
 		const follows = await user.following().ids();
 		follows.push(user.id);
-		const moments = await Moment.query().whereIn('user_id', follows).with('user').orderBy('id', 'desc').fetch();
+		var date = new Date();
+
+		const moments = await Moment.query()
+			.whereIn('user_id', follows)
+			.with('user')
+			.where('created_at', '>', subDays(new Date(), 1))
+			.orderBy('id', 'desc')
+			.fetch();
 		return moments;
 	}
 

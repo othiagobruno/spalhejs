@@ -3,21 +3,19 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class PostSchema extends Schema {
+class MviewsSchema extends Schema {
 	up() {
-		this.create('posts', (table) => {
+		this.create('mviews', (table) => {
 			table.increments();
 			table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
-			table.string('text');
-			table.string('share_id');
-			table.string('key').notNullable().unique();
+			table.integer('moment_id').unsigned().references('id').inTable('moments').notNullable();
 			table.timestamps();
 		});
 	}
 
 	down() {
-		this.drop('posts');
+		this.drop('mviews');
 	}
 }
 
-module.exports = PostSchema;
+module.exports = MviewsSchema;
