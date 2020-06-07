@@ -23,6 +23,7 @@ Route.get('users/:id/posts', 'PostController.me').middleware([ 'auth' ]);
 
 // LIKES POST
 Route.post('like', 'LikeController.store').middleware([ 'auth' ]);
+Route.get('likes/:id', 'LikeController.show').middleware([ 'auth' ]);
 Route.delete('like/:id', 'LikeController.deslikePost').middleware([ 'auth' ]);
 
 // COMMENTS

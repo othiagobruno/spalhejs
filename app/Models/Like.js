@@ -7,6 +7,10 @@ class Like extends Model {
 	static get visible() {
 		return [ 'user_id' ];
 	}
+
+	user() {
+		return this.belongsTo('App/Models/User');
+	}
 }
 
 module.exports = Like;
