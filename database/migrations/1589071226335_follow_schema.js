@@ -7,8 +7,8 @@ class FollowSchema extends Schema {
 	up() {
 		this.create('follows', (table) => {
 			table.increments();
-			table.integer('followid').unsigned().references('id').inTable('users').notNullable();
-			table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
+			table.integer('followid').unsigned().references('id').inTable('users').notNullable().onDelete('CASCADE');
+			table.integer('user_id').unsigned().references('id').inTable('users').notNullable().onDelete('CASCADE');
 			table.timestamps();
 		});
 	}

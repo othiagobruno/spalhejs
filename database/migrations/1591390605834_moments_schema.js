@@ -7,7 +7,7 @@ class MomentsSchema extends Schema {
 	up() {
 		this.create('moments', (table) => {
 			table.increments();
-			table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
+			table.integer('user_id').unsigned().references('id').inTable('users').notNullable().onDelete('CASCADE');
 			table.string('midia');
 			table.string('text');
 			table.string('type');

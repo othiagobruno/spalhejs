@@ -7,8 +7,8 @@ class MviewsSchema extends Schema {
 	up() {
 		this.create('mviews', (table) => {
 			table.increments();
-			table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
-			table.integer('moment_id').unsigned().references('id').inTable('moments').notNullable();
+			table.integer('user_id').unsigned().references('id').inTable('users').notNullable().onDelete('CASCADE');
+			table.integer('moment_id').unsigned().references('id').inTable('moments').notNullable().onDelete('CASCADE');
 			table.timestamps();
 		});
 	}

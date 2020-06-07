@@ -9,7 +9,7 @@ class MessagesSchema extends Schema {
 			table.increments();
 			table.string('id_send').notNullable();
 			table.string('id_received').notNullable();
-			table.integer('id_msg').unsigned().references('id').inTable('chats').notNullable();
+			table.integer('id_msg').unsigned().references('id').inTable('chats').notNullable().onDelete('CASCADE');
 			table.string('text');
 			table.string('audio');
 			table.string('midia');
