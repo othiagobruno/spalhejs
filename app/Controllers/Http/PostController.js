@@ -49,12 +49,14 @@ class PostController {
 		try {
 			return await Post.query()
 				.where('user_id', id)
-				.withCount('likes')
 				.with('liked', (builder) => {
 					builder.where('user_id', user.id);
 				})
+				.withCount('likes')
 				.withCount('comments')
 				.withCount('share')
+				.with('share_post.post')
+				.with('share_user')
 				.with('user')
 				.orderBy('id', 'desc')
 				.fetch();
