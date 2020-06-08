@@ -10,7 +10,7 @@ class Post extends Model {
 	}
 
 	share_user() {
-		return this.belongsTo('App/Models/User');
+		return this.belongsTo('App/Models/User', 'share_id', 'id');
 	}
 
 	share_post() {
