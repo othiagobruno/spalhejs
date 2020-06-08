@@ -8,11 +8,15 @@ class CommentController {
 	}
 
 	async show({ auth, params, response }) {
+		const user = auth.current.user;
 		try {
 			const post = await Comment.query()
 				.where('post_id', params.id)
 				.with('user')
 				.withCount('reply')
+				.with('liked', (builder) => {
+					builder.where('user_id', user.id);
+				})
 				.withCount('likes')
 				.fetch();
 			return post;

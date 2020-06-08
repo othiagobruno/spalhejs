@@ -33,8 +33,9 @@ class PostController {
 				builder.where('user_id', user.id);
 			})
 			.withCount('comments')
-			.with('share.user')
 			.withCount('share')
+			.with('share_post.post')
+			.with('share_user')
 			.with('user')
 			.firstOrFail();
 

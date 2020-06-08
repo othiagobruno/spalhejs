@@ -19,6 +19,10 @@ class Comment extends Model {
 	likes() {
 		return this.hasMany('App/Models/CommentLike');
 	}
+
+	liked() {
+		return this.hasOne('App/Models/CommentLike');
+	}
 }
 
 module.exports = Comment;

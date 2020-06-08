@@ -28,6 +28,7 @@ Route.delete('like/:id', 'LikeController.deslikePost').middleware([ 'auth' ]);
 
 // COMMENTS
 Route.resource('comments', 'CommentController').apiOnly().middleware([ 'auth' ]);
+Route.post('comments/:id/like', 'CommentLikeController.store').middleware([ 'auth' ]);
 
 // SHARE POST
 Route.post('share/:id', 'ShareController.store').middleware([ 'auth' ]);
