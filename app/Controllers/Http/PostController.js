@@ -49,6 +49,7 @@ class PostController {
 		try {
 			return await Post.query()
 				.where('user_id', id)
+				.with('midias')
 				.with('liked', (builder) => {
 					builder.where('user_id', user.id);
 				})
