@@ -31,6 +31,8 @@ class CommentController {
 		const comment = await Comment.create(data);
 		return comment;
 	}
+
+	async destroy({ auth, params }) {}
 }
 
 module.exports = CommentController;

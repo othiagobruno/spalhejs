@@ -11,9 +11,9 @@ class PostController {
 		follows.push(user.id);
 		const posts = await Post.query()
 			.whereIn('user_id', follows)
-			.withCount('likes')
 			.with('midias')
 			.with('liked', (builder) => builder.where('user_id', auth.user.id))
+			.withCount('likes')
 			.withCount('comments')
 			.withCount('share')
 			.with('share_post.post')
@@ -28,10 +28,11 @@ class PostController {
 		const user = auth.current.user;
 		const post = await Post.query()
 			.where('id', params.id)
-			.withCount('likes')
+			.with('midias')
 			.with('liked', (builder) => {
 				builder.where('user_id', user.id);
 			})
+			.withCount('likes')
 			.withCount('comments')
 			.withCount('share')
 			.with('share_post.post')
