@@ -1,6 +1,7 @@
 'use strict';
 
 const Comment = use('App/Models/Comment');
+const Post = use('App/Models/Post');
 const Notification = use('App/Models/Notification');
 
 class CommentController {
