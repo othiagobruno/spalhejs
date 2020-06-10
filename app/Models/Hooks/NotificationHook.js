@@ -8,7 +8,7 @@ const User = use('App/Models/User');
 const NotificationHook = (exports = module.exports = {});
 NotificationHook.method = async (modelInstance) => {};
 
-NotificationHook.senPush = async (notification) => {
+NotificationHook.sendPush = async (notification) => {
 	const user = await User.find(notification.my_userid);
 	const me = await User.find(notification.user_id);
 
