@@ -17,6 +17,7 @@ class PostController {
 			.withCount('comments')
 			.withCount('share')
 			.with('share_post.post')
+			.with('share_post.post.midias')
 			.with('share_user')
 			.with('user')
 			.orderBy('id', 'desc')
@@ -36,10 +37,10 @@ class PostController {
 			.withCount('comments')
 			.withCount('share')
 			.with('share_post.post')
+			.with('share_post.post.midias')
 			.with('share_user')
 			.with('user')
 			.firstOrFail();
-
 		return post;
 	}
 
@@ -57,6 +58,7 @@ class PostController {
 				.withCount('comments')
 				.withCount('share')
 				.with('share_post.post')
+				.with('share_post.post.midias')
 				.with('share_user')
 				.with('user')
 				.orderBy('id', 'desc')

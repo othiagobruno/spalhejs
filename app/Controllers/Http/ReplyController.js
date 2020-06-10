@@ -1,6 +1,7 @@
 'use strict';
 
 const Reply = use('App/Models/Reply');
+const Comment = use('App/Models/Comment');
 
 class ReplyController {
 	async index({ response }) {}
@@ -10,6 +11,13 @@ class ReplyController {
 		const user = auth.current.user;
 		const { text } = request.only([ 'text' ]);
 		const data = await Reply.create({ text, user_id: user.id, comment_id: Number(id) });
+
+		if (data) {
+			const cm = await Comment.find(id);
+			const data = { type: 'reply', post_id: id, user_id: user.id, view: false, my_userid: cm.user_id };
+			await Notification.create(data);
+		}
+
 		return data;
 	}
 

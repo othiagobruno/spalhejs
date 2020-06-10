@@ -28,18 +28,8 @@ class LikeController {
 
 	async show({ params, auth }) {
 		const id = params.id;
-		const user = auth.current.user;
-		const likes = await Like.query().where('user_id', user.id).where('post_id', id).with('user').fetch();
+		const likes = await Like.query().where('post_id', id).with('user').fetch();
 		return likes;
-	}
-
-	async deslikePost({ params, auth, response }) {
-		const user = auth.current.user;
-		await Like.query().where('user_id', user.id).where('post_id', params.id).delete();
-		return response.json({
-			status: 'success',
-			data: 'deleted success'
-		});
 	}
 }
 

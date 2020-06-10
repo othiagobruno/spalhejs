@@ -31,6 +31,10 @@ class Post extends Model {
 		return this.hasMany('App/Models/File', 'key', 'key');
 	}
 
+	midias_share() {
+		return this.hasMany('App/Models/File', 'share_post.key', 'key');
+	}
+
 	// get all comments in post
 	comments() {
 		return this.belongsToMany('App/Models/Post').pivotTable('comments');
