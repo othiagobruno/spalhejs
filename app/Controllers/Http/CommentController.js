@@ -33,7 +33,13 @@ class CommentController {
 
 		if (comment) {
 			const post = await Post.find(dataReq.post_id);
-			const data = { type: 'comment', post_id, user_id: user.id, view: false, my_userid: post.user_id };
+			const data = {
+				type: 'comment',
+				post_id: post.id,
+				user_id: user.id,
+				view: false,
+				my_userid: post.user_id
+			};
 			await Notification.create(data);
 		}
 
