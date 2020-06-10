@@ -25,6 +25,11 @@ class ShareController {
 			key: new Date().getTime()
 		});
 
+		if (data) {
+			const data = { type: 'share', post_id: post.id, user_id: user.id, view: false, my_userid: post.user_id };
+			await Notification.create(data);
+		}
+
 		return response.json({
 			status: 'success',
 			message: data
