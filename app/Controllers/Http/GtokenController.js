@@ -1,10 +1,13 @@
 'use strict';
 
+const User = use('App/Models/User');
+
 class GtokenController {
 	async create({ auth, request }) {
+		const user = auth.current.user;
 		const { token } = request.only([ 'token' ]);
-		const user = await auth.current.user.user().update({ token });
-		return user;
+		const u = await User.query().where('id', user.id).update({ token });
+		return u;
 	}
 }
 

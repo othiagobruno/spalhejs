@@ -14,6 +14,8 @@ Route.post('register', 'UserController.store');
 Route.get('users', 'UserController.index').middleware([ 'auth' ]);
 Route.get('users/:id', 'UserController.show').middleware([ 'auth' ]);
 Route.put('users/:id', 'UserController.update').middleware([ 'auth' ]);
+/// TOKEN GOOGLE MESSAGE NOTIFICATIONS
+Route.put('gtoken', 'GtokenController.create').middleware([ 'auth' ]);
 
 // POSTS
 Route.post('files/:id', 'FileController.store').middleware([ 'auth' ]);
@@ -53,9 +55,6 @@ Route.resource('moments', 'MomentController').middleware([ 'auth' ]).apiOnly();
 // REPLY COMMENTS
 Route.post('reply/:id', 'ReplyController.store').middleware([ 'auth' ]);
 Route.get('reply/:id', 'ReplyController.show').middleware([ 'auth' ]);
-
-/// TOKEN GOOGLE MESSAGE NOTIFICATIONS
-Route.put('gtoken', 'GtokenController.create').middleware([ 'auth' ]);
 
 // MESSAGES ( vamos implementar o mongodb )
 // Route.post('chat', 'ChatController.store').middleware([ 'auth' ]);
