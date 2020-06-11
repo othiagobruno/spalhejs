@@ -13,23 +13,31 @@ NotificationHook.sendPush = async (notification) => {
 	const me = await User.find(notification.user_id);
 	const key =
 		'AAAAaxQ7E_Q:APA91bE5bpGMzEdfc2TgaUl96cu9T0rZK0rzdTHaAPztYhHVpdpvky8ZQgcfPmnz-jTebwX_xRoNgEM2GGvznFa9XztdzvAxDkZGRYGqPnBIRBv-6fskONSJF2exJF0F7g0hPfD-SzaL';
-	const title =
-		notification.type === 'like'
-			? 'curtiu'
-			: notification.type === 'comment'
-				? 'comentou'
-				: notification.type === 'reply'
-					? 'respondeu'
-					: notification.type === 'comment_like'
-						? 'curtiu seu comentário'
-						: notification.type === 'share' ? 'spalhou' : false;
+
+	var title;
+	if (notification.type === 'like') {
+		title = 'curtiu sua publicação';
+	}
+	if (notification.type === 'comment') {
+		title = 'comentou sua publicação';
+	}
+	if (notification.type === 'reply') {
+		title = 'respondeu seu comentário';
+	}
+	if (notification.type === 'share') {
+		title = 'spalhou sua publicação';
+	}
+	if (notification.type === 'comment_like') {
+		title = 'curtiu seu comentário';
+	}
+	if (notification.type === 'follow') {
+		title = 'seguiu você';
+	}
 
 	var notification = {
 		notification: {
 			title: me.name,
-			body: `${notification.type === 'reply'
-				? title + ' o seu comentário'
-				: notification.type === 'comment_like' ? title : title + ' sua publicação'}`
+			body: title
 		},
 		to: user.token
 	};
