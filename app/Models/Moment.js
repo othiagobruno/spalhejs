@@ -7,6 +7,10 @@ class Moment extends Model {
 	user() {
 		return this.belongsTo('App/Models/User');
 	}
+
+	views() {
+		return this.hasOne('App/Models/Mview', 'id', 'moment_id', 'user_id', 'user_id');
+	}
 }
 
 module.exports = Moment;

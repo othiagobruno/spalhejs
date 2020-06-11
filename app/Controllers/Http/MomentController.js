@@ -8,11 +8,10 @@ class MomentController {
 		const user = auth.current.user;
 		const follows = await user.following().ids();
 		follows.push(user.id);
-		var date = new Date();
-
 		const moments = await Moment.query()
 			.whereIn('user_id', follows)
 			.with('user')
+			.withCount('views')
 			.where('created_at', '>', subDays(new Date(), 1))
 			.orderBy('id', 'desc')
 			.fetch();
