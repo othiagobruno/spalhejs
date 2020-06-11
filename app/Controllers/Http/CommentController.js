@@ -31,9 +31,9 @@ class CommentController {
 		const dataReq = request.only([ 'post_id', 'text' ]);
 		const data = { ...dataReq, user_id: user.id };
 		const comment = await Comment.create(data);
+		const post = await Post.find(dataReq.post_id);
 
-		if (comment) {
-			const post = await Post.find(dataReq.post_id);
+		if (comment && post.user_id !== user.id) {
 			const data = {
 				type: 'comment',
 				post_id: post.id,

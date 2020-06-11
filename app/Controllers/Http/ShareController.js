@@ -28,7 +28,7 @@ class ShareController {
 			key: new Date().getTime()
 		});
 
-		if (data) {
+		if (data && postagem.user_id !== user.id) {
 			const data = {
 				type: 'share',
 				post_id: postagem.id,

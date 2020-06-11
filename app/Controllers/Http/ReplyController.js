@@ -10,15 +10,13 @@ class ReplyController {
 	async store({ params, auth, request }) {
 		const id = params.id;
 		const user = auth.current.user;
+		const cm = await Comment.find(id);
 		const { text } = request.only([ 'text' ]);
 		const data = await Reply.create({ text, user_id: user.id, comment_id: Number(id) });
-
-		if (data) {
-			const cm = await Comment.find(id);
+		if (data && cm.user_id !== user.id) {
 			const data = { type: 'reply', post_id: id, user_id: user.id, view: false, my_userid: cm.user_id };
 			await Notification.create(data);
 		}
-
 		return data;
 	}
 
