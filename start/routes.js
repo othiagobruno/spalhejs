@@ -29,6 +29,7 @@ Route.get('likes/:id', 'LikeController.show').middleware([ 'auth' ]);
 
 // COMMENTS
 Route.resource('comments', 'CommentController').apiOnly().middleware([ 'auth' ]);
+Route.get('comment/:id', 'CommentController.index').middleware([ 'auth' ]);
 Route.post('comments/:id/like', 'CommentLikeController.store').middleware([ 'auth' ]);
 
 // SHARE POST

@@ -5,8 +5,21 @@ const Post = use('App/Models/Post');
 const Notification = use('App/Models/Notification');
 
 class CommentController {
-	async index({ auth, responde }) {
-		//
+	async index({ auth, params }) {
+		const user = auth.current.user;
+		try {
+			const post = await Comment.query()
+				.where('id', params.id)
+				.with('user')
+				.withCount('reply')
+				.with('liked', (builder) => {
+					builder.where('user_id', user.id);
+				})
+				.withCount('likes')
+				.fetch();
+			return post;
+		} catch (error) {}
+		return response.send({ error: 'cant find post comments' });
 	}
 
 	async show({ auth, params, response }) {
