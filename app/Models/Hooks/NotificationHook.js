@@ -13,13 +13,23 @@ NotificationHook.sendPush = async (notification) => {
 	const me = await User.find(notification.user_id);
 	const key =
 		'AAAAaxQ7E_Q:APA91bE5bpGMzEdfc2TgaUl96cu9T0rZK0rzdTHaAPztYhHVpdpvky8ZQgcfPmnz-jTebwX_xRoNgEM2GGvznFa9XztdzvAxDkZGRYGqPnBIRBv-6fskONSJF2exJF0F7g0hPfD-SzaL';
-	const title = `${notification.type === 'like'
-		? 'curtiu'
-		: notification.type === 'comment' ? 'comentou' : notification.type === 'reply' ? 'respondeu' : 'compartilhou'}`;
+	const title =
+		notification.type === 'like'
+			? 'curtiu'
+			: notification.type === 'comment'
+				? 'comentou'
+				: notification.type === 'reply'
+					? 'respondeu'
+					: notification.type === 'comment_like'
+						? 'curtiu seu comentário'
+						: notification.type === 'share' ? 'spalhou' : false;
+
 	var notification = {
 		notification: {
 			title: me.name,
-			body: `${notification.type === 'reply' ? title + ' no seu comentário' : title + ' sua publicação'}`
+			body: `${notification.type === 'reply'
+				? title + ' o seu comentário'
+				: notification.type === 'comment_like' ? title : title + ' sua publicação'}`
 		},
 		to: user.token
 	};
