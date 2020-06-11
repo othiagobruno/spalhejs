@@ -16,7 +16,7 @@ class CommentLikeController {
 		} else {
 			const data = await CommentLike.create({ user_id, comment_id });
 			if (data && cm.user_id !== user_id) {
-				const data = { type: 'reply_like', post_id: cm.id, user_id, view: false, my_userid: cm.user_id };
+				const data = { type: 'comment_like', post_id: cm.id, user_id, view: false, my_userid: cm.user_id };
 				await Notification.create(data);
 			}
 		}
