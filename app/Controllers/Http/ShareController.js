@@ -15,7 +15,7 @@ class ShareController {
 		const user = auth.current.user;
 		const post = await Post.find(params.id);
 
-		const postagem = post.share_id ? await Post.find(post.post_id) : post;
+		const postagem = post.post_id ? await Post.find(post.post_id) : post;
 
 		await Share.create({
 			user_id: user.id,
