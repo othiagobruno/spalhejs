@@ -11,11 +11,23 @@ class MviewController {
 
 	async store({ params, auth }) {
 		const id = params.id;
-		const data = await Mview.findOrCreate({
-			moment_id: id,
-			user_id: auth.current.user.id
-		});
-		return data;
+		const user = auth.current.user;
+		const mview = await Mview.query().where('moment_id', id).where('user_id', user.id).first();
+
+		if (!mview) {
+			const data = await Mview.create({
+				moment_id: id,
+				user_id: auth.current.user.id
+			});
+			return data;
+		} else {
+			return mview;
+		}
+		// if (mview) {
+		// 	return mview;
+		// } else {
+		//
+		// }
 	}
 }
 
