@@ -2,6 +2,7 @@
 
 const Reply = use('App/Models/Reply');
 const Comment = use('App/Models/Comment');
+const Notification = use('App/Models/Notification');
 
 class ReplyController {
 	async index({ response }) {}

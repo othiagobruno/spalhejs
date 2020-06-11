@@ -2,6 +2,7 @@
 
 const Post = use('App/Models/Post');
 const Share = use('App/Models/Share');
+const Notification = use('App/Models/Notification');
 
 class ShareController {
 	async show({ params }) {
