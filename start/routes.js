@@ -51,6 +51,8 @@ Route.resource('notifications', 'NotificationController').apiOnly().middleware([
 
 // MOMENTS
 Route.resource('moments', 'MomentController').middleware([ 'auth' ]).apiOnly();
+Route.post('moment/view/:id', 'MviewController.store').middleware([ 'auth' ]);
+Route.get('moment/view/:id', 'MviewController.show').middleware([ 'auth' ]);
 
 // REPLY COMMENTS
 Route.post('reply/:id', 'ReplyController.store').middleware([ 'auth' ]);
