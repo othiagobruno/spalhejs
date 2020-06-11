@@ -15,19 +15,31 @@ class ShareController {
 		const user = auth.current.user;
 		const post = await Post.find(params.id);
 
+		if (post.share_id) {
+			const postagem = await Post.find(post.post_id);
+		} else {
+			const postagem = post;
+		}
+
 		await Share.create({
 			user_id: user.id,
-			post_id: post.id
+			post_id: postagem.id
 		});
 
 		const data = await user.posts().create({
-			share_id: post.user_id,
-			post_id: post.id,
+			share_id: postagem.user_id,
+			post_id: postagem.id,
 			key: new Date().getTime()
 		});
 
 		if (data) {
-			const data = { type: 'share', post_id: post.id, user_id: user.id, view: false, my_userid: post.user_id };
+			const data = {
+				type: 'share',
+				post_id: postagem.id,
+				user_id: user.id,
+				view: false,
+				my_userid: postagem.user_id
+			};
 			await Notification.create(data);
 		}
 
