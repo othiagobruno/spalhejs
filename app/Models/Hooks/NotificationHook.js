@@ -11,14 +11,11 @@ NotificationHook.method = async (modelInstance) => {};
 NotificationHook.sendPush = async (notification) => {
 	const user = await User.find(notification.my_userid);
 	const me = await User.find(notification.user_id);
-
 	const key =
 		'AAAAaxQ7E_Q:APA91bE5bpGMzEdfc2TgaUl96cu9T0rZK0rzdTHaAPztYhHVpdpvky8ZQgcfPmnz-jTebwX_xRoNgEM2GGvznFa9XztdzvAxDkZGRYGqPnBIRBv-6fskONSJF2exJF0F7g0hPfD-SzaL';
-
 	const title = `${notification.type === 'like'
 		? 'curtiu'
 		: notification.type === 'comment' ? 'comentou' : notification.type === 'reply' ? 'respondeu' : 'compartilhou'}`;
-
 	var notification = {
 		notification: {
 			title: me.name,
@@ -26,7 +23,7 @@ NotificationHook.sendPush = async (notification) => {
 		},
 		to: user.token
 	};
-
+	// SEND MESSAGIING
 	axios.post('https://fcm.googleapis.com/fcm/send', notification, {
 		headers: {
 			Authorization: 'key=' + key,
@@ -42,7 +39,7 @@ NotificationHook.sendWs = async (ntf) => {
 			.where('my_userid', ntf.my_userid)
 			.orderBy('id', 'desc')
 			.with('user')
-			.pick(10);
+			.pick(15);
 		topic.broadcast('message', n);
 	} else {
 		console.log('não consegui conectar ao cliente');
