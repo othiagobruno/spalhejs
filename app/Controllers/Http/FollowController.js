@@ -2,6 +2,7 @@
 
 const User = use('App/Models/User');
 const Notification = use('App/Models/Notification');
+const Follow = use('App/Models/Follow');
 
 class FollowController {
 	// SEGUIR UM USUÁRIO
@@ -39,6 +40,19 @@ class FollowController {
 		return response.json({
 			status: 'success'
 		});
+	}
+
+	async showFollowing({ auth, params }) {
+		const id = params.id;
+		const data = await Follow.query().where('followid', id).with('user').fetch();
+
+		return data;
+	}
+
+	async showFollowers({ auth, params }) {
+		const id = params.id;
+		const data = await Follow.query().where('user_id', id).with('user_followers').fetch();
+		return data;
 	}
 
 	// USUARIOS QUE EU NÃO SIGO

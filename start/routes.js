@@ -41,6 +41,10 @@ Route.get('unfollowusers', 'FollowController.usersToFollow').middleware([ 'auth'
 Route.post('follow/:id', 'FollowController.follow').middleware([ 'auth' ]);
 Route.post('unfollow/:id', 'FollowController.unFollow').middleware([ 'auth' ]);
 
+// GET USERS FOLLOWS
+Route.get('users/:id/followers', 'FollowController.showFollowers').middleware([ 'auth' ]);
+Route.get('users/:id/following', 'FollowController.showFollowing').middleware([ 'auth' ]);
+
 // EXPLORE
 Route.get('explore', 'ExploreController.index').middleware([ 'auth' ]);
 
