@@ -14,8 +14,8 @@ class FileController {
 	async store({ request, response, params }) {
 		try {
 			const validationOptions = {
-				types: [ 'jpeg', 'jpg', 'png', 'mp4', 'mov', '3gp', 'gif' ],
-				size: '25mb'
+				types: [ 'jpeg', 'jpg', 'png', 'mp4', 'mov', 'gif' ],
+				size: '15mb'
 			};
 			for (let i = 0; i < 7; i++) {
 				const name = (Math.random() * 100).toString(32);
@@ -33,12 +33,12 @@ class FileController {
 					});
 
 					// GARAVA NO BANCO DE DADOS
-					File.create({ url, name: name + file.clientName, type: file.type, key: params.id });
+					await File.create({ url, name: name + file.clientName, type: file.type, key: params.id });
 				});
 			}
 			// PROCESSA O ENVIO
 			await request.multipart.process();
-			return response.status(200).send('success');
+			return response.status(200).send({ status: 'success' });
 			//final
 		} catch (err) {
 			return response.status(400).send({
