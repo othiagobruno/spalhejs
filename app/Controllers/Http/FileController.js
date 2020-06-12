@@ -41,7 +41,7 @@ class FileController {
 
 			//final
 		} catch (err) {
-			return response.json({
+			return response.status(400).send({
 				error: 'não foi possivel'
 			});
 		}
