@@ -14,8 +14,8 @@ class FileController {
 	async store({ request, response, params }) {
 		try {
 			const validationOptions = {
-				types: [ 'jpeg', 'jpg', 'png' ],
-				size: '15mb'
+				types: [ 'jpeg', 'jpg', 'png', 'mp4' ],
+				size: '25mb'
 			};
 			for (let i = 0; i < 7; i++) {
 				const name = (Math.random() * 100).toString(32);
