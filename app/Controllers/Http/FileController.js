@@ -38,7 +38,7 @@ class FileController {
 			}
 			// PROCESSA O ENVIO
 			await request.multipart.process();
-
+			return response.status(200).send('success');
 			//final
 		} catch (err) {
 			return response.status(400).send({
