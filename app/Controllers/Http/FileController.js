@@ -14,7 +14,7 @@ class FileController {
 	async store({ request, response, params }) {
 		try {
 			const validationOptions = {
-				types: [ 'jpeg', 'jpg', 'png', 'mp4', 'mov', '3gp' ],
+				types: [ 'jpeg', 'jpg', 'png', 'mp4', 'mov', '3gp', 'gif' ],
 				size: '25mb'
 			};
 			for (let i = 0; i < 7; i++) {
