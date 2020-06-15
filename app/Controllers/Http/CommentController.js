@@ -10,10 +10,12 @@ class CommentController {
 		try {
 			const post = await Comment.query()
 				.where('id', params.id)
-				.with('user')
+				.with('user', (builder) => {
+					builder.setVisible([ 'id', 'name', 'username', 'avatar' ]);
+				})
 				.withCount('reply')
 				.with('liked', (builder) => {
-					builder.where('user_id', user.id);
+					builder.where('user_id', user.id).setVisible([ 'id' ]);
 				})
 				.withCount('likes')
 				.fetch();
@@ -27,10 +29,12 @@ class CommentController {
 		try {
 			const post = await Comment.query()
 				.where('post_id', params.id)
-				.with('user')
+				.with('user', (builder) => {
+					builder.setVisible([ 'id', 'name', 'username', 'avatar' ]);
+				})
 				.withCount('reply')
 				.with('liked', (builder) => {
-					builder.where('user_id', user.id);
+					builder.where('user_id', user.id).setVisible([ 'id' ]);
 				})
 				.withCount('likes')
 				.fetch();

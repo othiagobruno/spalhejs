@@ -12,8 +12,6 @@ class UserController {
 	// SHOW USER BY ID
 	async show({ params, response, auth }) {
 		try {
-			const me = auth.current.user;
-			//const followed = await me.following().ids();
 			const user = await User.query()
 				.where('id', params.id)
 				.withCount('following')
@@ -34,7 +32,7 @@ class UserController {
 	}
 
 	// CREATE USER
-	async store({ request, response }) {
+	async store({ request, response, auth }) {
 		const data = request.only([ 'name', 'username', 'email', 'password' ]);
 		const dados = {
 			...data,
@@ -42,7 +40,16 @@ class UserController {
 				'https://firebasestorage.googleapis.com/v0/b/spalhe-app.appspot.com/o/usericon.png?alt=media&token=2c333530-8c82-4d6f-a1ba-dca6410c2036'
 		};
 		const user = await User.create(dados);
-		return response.status(201).send(user);
+		if (user) {
+			const { token } = await auth.attempt(email, password);
+			const user = await User.findBy('email', email);
+			return {
+				token,
+				user
+			};
+		} else {
+			return response.status(400).send({ status: 'não foi possivel criar sua conta' });
+		}
 	}
 
 	// UPDATE USER

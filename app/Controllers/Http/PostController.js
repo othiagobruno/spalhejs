@@ -60,6 +60,7 @@ class PostController {
 				.with('share_user')
 				.with('user')
 				.orderBy('id', 'desc')
+				.limit(20)
 				.fetch();
 		} catch (error) {
 			return { error: 'desculpes-nos' };
