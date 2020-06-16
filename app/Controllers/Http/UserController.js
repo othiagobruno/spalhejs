@@ -39,10 +39,10 @@ class UserController {
 			avatar:
 				'https://firebasestorage.googleapis.com/v0/b/spalhe-app.appspot.com/o/usericon.png?alt=media&token=2c333530-8c82-4d6f-a1ba-dca6410c2036'
 		};
-		const user = await User.create(dados);
+		const user = await User.findOrCreate({ email: data.email, password: data.password }, dados);
 		if (user) {
-			const { token } = await auth.attempt(email, password);
-			const user = await User.findBy('email', email);
+			const { token } = await auth.attempt(data.email, data.password);
+			const user = await User.findBy('email', data.email);
 			return {
 				token,
 				user
