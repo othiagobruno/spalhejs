@@ -3,6 +3,7 @@
 const User = use('App/Models/User');
 const Notification = use('App/Models/Notification');
 const Follow = use('App/Models/Follow');
+const Database = use('Database');
 
 class FollowController {
 	// SEGUIR UM USUÁRIO
@@ -62,7 +63,8 @@ class FollowController {
 		const usersToFollow = await User.query()
 			.whereNot('id', user.id)
 			.whereNotIn('id', usersAlreadyFollowing)
-			.pick(10);
+			.orderBy(Database.raw('RAND()'))
+			.pick(20);
 		return usersToFollow;
 	}
 }
