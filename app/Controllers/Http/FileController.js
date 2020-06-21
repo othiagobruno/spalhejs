@@ -4,17 +4,12 @@ const Drive = use('Drive');
 const File = use('App/Models/File');
 
 class FileController {
-	// BUSCA AS IMAGENS NO BANCO DE DADOS
-	async index({ request, response }) {
-		const files = await File.query().with('posts').with('posts.user').fetch();
-		return files.toJSON();
-	}
 
 	// ARMAZAENA AS IMAGENS NO S3
 	async store({ request, response, params }) {
 		try {
 			const validationOptions = {
-				types: [ 'jpeg', 'jpg', 'png', 'mp4', 'mov', 'gif' ],
+				types: ['jpeg', 'jpg', 'png', 'mp4', 'mov', 'gif'],
 				size: '15mb'
 			};
 			for (let i = 0; i < 7; i++) {

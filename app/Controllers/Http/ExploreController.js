@@ -7,16 +7,15 @@ class ExploreController {
 	async index({ auth, response }) {
 		const midias = await File.query()
 			.with('posts.user', (builder) => {
-				builder.setVisible([ 'name', 'id', 'username', 'avatar' ]).whereNotNull('id');
+				builder.setVisible(['name', 'id', 'username', 'avatar']).whereNotNull('id');
 			})
 			.has('posts')
 			.orderBy('id', 'desc')
 			.limit(12)
 			.fetch();
 
-		const data = midias;
 
-		return midias;
+		return [];
 	}
 }
 
