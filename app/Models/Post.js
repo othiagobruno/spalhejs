@@ -31,6 +31,10 @@ class Post extends Model {
 		return this.hasMany('App/Models/File', 'key', 'key');
 	}
 
+	file() {
+		return this.hasOne('App/Models/File', 'key', 'key');
+	}
+
 	midias_share() {
 		return this.hasMany('App/Models/File', 'share_post.key', 'key');
 	}
@@ -46,7 +50,7 @@ class Post extends Model {
 	}
 
 	static get visible() {
-		return [ 'id', 'user_id', 'text', 'created_at', 'share_id', 'post_id' ];
+		return ['id', 'user_id', 'text', 'created_at', 'share_id', 'post_id'];
 	}
 }
 
