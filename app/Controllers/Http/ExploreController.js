@@ -1,7 +1,6 @@
 'use strict';
 
 const _ = require('lodash');
-const { forEach } = require('lodash');
 const Post = use('App/Models/Post');
 const Database = use('Database');
 
@@ -11,6 +10,9 @@ class ExploreController {
 			.has('file')
 			.orderBy(Database.raw('RAND()'))
 			.limit(50)
+			.with('user', (builder) => {
+				builder.setVisible(['id', 'name', 'username', 'avatar']);
+			})
 			.has('likes')
 			.withCount('likes')
 			.fetch();
