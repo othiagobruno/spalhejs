@@ -15,6 +15,7 @@ class ExploreController {
 			})
 			.has('likes')
 			.withCount('likes')
+			.withCount('comments')
 			.fetch();
 
 		const posts = json.toJSON();
