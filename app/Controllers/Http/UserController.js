@@ -58,7 +58,8 @@ class UserController {
   }
 
   // UPDATE USER
-  async update({ request, params }) {
+  async update({ request, params, auth }) {
+    const id = auth.current.user.id;
     const { ...data } = request.only([
       "name",
       "username",
@@ -68,20 +69,17 @@ class UserController {
       "private",
       "biography",
     ]);
-    const user = await User.findOrFail(params.id);
+    const user = await User.findOrFail(id);
     user.merge(data);
-    const success = await user.save();
+    await user.save();
 
-    if (success) {
-      const user = await User.query()
-        .where("id", params.id)
-        .withCount("following")
-        .withCount("followers")
-        .withCount("posts")
-        .firstOrFail();
-      return user;
-    }
-
+    // exibe os dados do usuário
+    const user = await User.query()
+      .where("id", id)
+      .withCount("following")
+      .withCount("followers")
+      .withCount("posts")
+      .firstOrFail();
     return user;
   }
 }
