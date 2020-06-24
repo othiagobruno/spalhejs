@@ -74,13 +74,13 @@ class UserController {
     await user.save();
 
     // exibe os dados do usuário
-    const user = await User.query()
+    const userdata = await User.query()
       .where("id", id)
       .withCount("following")
       .withCount("followers")
       .withCount("posts")
       .firstOrFail();
-    return user;
+    return userdata;
   }
 }
 
