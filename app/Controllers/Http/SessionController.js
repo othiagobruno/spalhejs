@@ -7,7 +7,7 @@ class SessionController {
     const { email, password } = request.all();
     const { token } = await auth.attempt(email, password);
     const user = await User.query()
-      .where("id", params.id)
+      .where("email", email)
       .withCount("following")
       .withCount("followers")
       .withCount("posts")
