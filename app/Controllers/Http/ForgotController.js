@@ -24,7 +24,7 @@ class ForgotController {
           message
             .to(user.email)
             .from("suporte@spalhe.com.br", "Suporte | Spalhe")
-            .subject("Recuperacao de senha");
+            .subject("Recuperação de senha");
         }
       );
     } catch (err) {
