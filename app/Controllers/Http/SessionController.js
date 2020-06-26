@@ -8,7 +8,7 @@ class SessionController {
     const { token } = await auth.attempt(email, password);
 
     // exibe os dados do usuário
-    const userdata = await User.query()
+    const user = await User.query()
       .where("email", email)
       .withCount("following")
       .withCount("followers")
@@ -17,7 +17,7 @@ class SessionController {
 
     return {
       token,
-      userdata,
+      user,
     };
   }
 }
