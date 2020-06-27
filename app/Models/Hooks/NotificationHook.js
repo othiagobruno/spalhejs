@@ -22,6 +22,7 @@ NotificationHook.sendPush = async (notification) => {
     comment_like: 'curtiu seu comentário',
     follow: 'seguiu você',
     comment_moment: 'comentou seu moment',
+    like_moment: 'curtiu seu moment',
   };
 
   const title = typeNotification[notification.type];

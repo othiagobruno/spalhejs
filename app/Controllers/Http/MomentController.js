@@ -13,6 +13,7 @@ class MomentController {
       .with('user')
       .withCount('views')
       .withCount('comments')
+      .withCount('likes')
       .where('created_at', '>', subDays(new Date(), 1))
       .orderBy('id', 'desc')
       .fetch();
