@@ -69,16 +69,29 @@ Route.resource('moments', 'MomentController').middleware(['auth']).apiOnly();
 Route.post('moment/view/:id', 'MviewController.store').middleware(['auth']);
 Route.get('moment/view/:id', 'MviewController.show').middleware(['auth']);
 Route.get('moment/count/:id', 'MviewController.count').middleware(['auth']);
+
 Route.post('moment/comment/:id', 'MomentCommentController.store')
   .middleware(['auth'])
   .validator('MomentCommentStore');
+
 Route.get('moment/comment/:id', 'MomentCommentController.index').middleware([
   'auth',
 ]);
+
 Route.delete(
   '/moment/comment/:id',
   'MomentCommentController.delete'
 ).middleware(['auth']);
+
+Route.resource('moment/like/:id', 'MomentLikeController')
+  .middleware(['auth'])
+  .validator(
+    new Map([
+      [['moment/like/:id.store'], ['MomentLike']],
+      [['moment/like/:id.index'], ['MomentLike']],
+    ])
+  )
+  .apiOnly();
 
 // REPLY COMMENTS
 Route.post('reply/:id', 'ReplyController.store').middleware(['auth']);

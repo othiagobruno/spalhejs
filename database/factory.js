@@ -42,3 +42,11 @@ Factory.blueprint('App/Models/MomentComment', (faker, i, data) => {
     ...data,
   };
 });
+
+Factory.blueprint('App/Models/MomentLike', (faker, i, data) => {
+  return {
+    moment_id: faker.integer({ min: 1, max: 300 }),
+    user_id: faker.integer({ min: 1, max: 300 }),
+    ...data,
+  };
+});
