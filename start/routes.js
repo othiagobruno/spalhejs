@@ -3,7 +3,7 @@
 const Route = use('Route');
 
 Route.get('/', () => {
-	return { welcome: 'Welcome to Spalhe API' };
+  return { welcome: 'Welcome to Spalhe API' };
 });
 
 // LOGIN E CADASTRO
@@ -30,20 +30,28 @@ Route.get('likes/:id', 'LikeController.show').middleware(['auth']);
 // COMMENTS
 Route.resource('comments', 'CommentController').apiOnly().middleware(['auth']);
 Route.get('comment/:id', 'CommentController.index').middleware(['auth']);
-Route.post('comments/:id/like', 'CommentLikeController.store').middleware(['auth']);
+Route.post('comments/:id/like', 'CommentLikeController.store').middleware([
+  'auth',
+]);
 
 // SHARE POST
 Route.post('share/:id', 'ShareController.store').middleware(['auth']);
 Route.get('share/:id', 'ShareController.show').middleware(['auth']);
 
 // FOLLOWS
-Route.get('unfollowusers', 'FollowController.usersToFollow').middleware(['auth']);
+Route.get('unfollowusers', 'FollowController.usersToFollow').middleware([
+  'auth',
+]);
 Route.post('follow/:id', 'FollowController.follow').middleware(['auth']);
 Route.post('unfollow/:id', 'FollowController.unFollow').middleware(['auth']);
 
 // GET USERS FOLLOWS
-Route.get('users/:id/followers', 'FollowController.showFollowers').middleware(['auth']);
-Route.get('users/:id/following', 'FollowController.showFollowing').middleware(['auth']);
+Route.get('users/:id/followers', 'FollowController.showFollowers').middleware([
+  'auth',
+]);
+Route.get('users/:id/following', 'FollowController.showFollowing').middleware([
+  'auth',
+]);
 
 // EXPLORE
 Route.get('explore/images', 'ExploreController.index').middleware(['auth']);
@@ -52,13 +60,25 @@ Route.get('explore/images', 'ExploreController.index').middleware(['auth']);
 Route.get('search/:id', 'SearchController.index').middleware(['auth']);
 
 // NOTIFICATIONS:
-Route.resource('notifications', 'NotificationController').apiOnly().middleware(['auth']);
+Route.resource('notifications', 'NotificationController')
+  .apiOnly()
+  .middleware(['auth']);
 
 // MOMENTS
 Route.resource('moments', 'MomentController').middleware(['auth']).apiOnly();
 Route.post('moment/view/:id', 'MviewController.store').middleware(['auth']);
 Route.get('moment/view/:id', 'MviewController.show').middleware(['auth']);
 Route.get('moment/count/:id', 'MviewController.count').middleware(['auth']);
+Route.post('moment/comment/:id', 'MomentCommentController.store')
+  .middleware(['auth'])
+  .validator('MomentCommentStore');
+Route.get('moment/comment/:id', 'MomentCommentController.index').middleware([
+  'auth',
+]);
+Route.delete(
+  '/moment/comment/:id',
+  'MomentCommentController.delete'
+).middleware(['auth']);
 
 // REPLY COMMENTS
 Route.post('reply/:id', 'ReplyController.store').middleware(['auth']);

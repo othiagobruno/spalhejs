@@ -7,25 +7,25 @@ const Model = use('Model');
 const Hash = use('Hash');
 
 class User extends Model {
-	static boot() {
-		super.boot();
+  static boot() {
+    super.boot();
 
-		/**
+    /**
      * A hook to hash the user password before saving
      * it to the database.
      */
-		this.addHook('beforeSave', async (userInstance) => {
-			if (userInstance.dirty.password) {
-				userInstance.password = await Hash.make(userInstance.password);
-			}
-		});
-	}
+    this.addHook('beforeSave', async (userInstance) => {
+      if (userInstance.dirty.password) {
+        userInstance.password = await Hash.make(userInstance.password);
+      }
+    });
+  }
 
-	static get hidden() {
-		return [ 'password', 'created_at', 'updated_at' ];
-	}
+  static get hidden() {
+    return ['password', 'created_at', 'updated_at'];
+  }
 
-	/**
+  /**
    * A relationship on tokens is required for auth to
    * work. Since features like `refreshTokens` or
    * `rememberToken` will be saved inside the
@@ -35,37 +35,45 @@ class User extends Model {
    *
    * @return {Object}
    */
-	tokens() {
-		return this.hasMany('App/Models/Token');
-	}
+  tokens() {
+    return this.hasMany('App/Models/Token');
+  }
 
-	posts() {
-		return this.hasMany('App/Models/Post');
-	}
+  posts() {
+    return this.hasMany('App/Models/Post');
+  }
 
-	moments() {
-		return this.hasMany('App/Models/Moment');
-	}
+  moments() {
+    return this.hasMany('App/Models/Moment');
+  }
 
-	followers() {
-		return this.belongsToMany('App/Models/User', 'user_id', 'followid').pivotTable('follows');
-	}
+  followers() {
+    return this.belongsToMany(
+      'App/Models/User',
+      'user_id',
+      'followid'
+    ).pivotTable('follows');
+  }
 
-	following() {
-		return this.belongsToMany('App/Models/User', 'followid', 'user_id').pivotTable('follows');
-	}
+  following() {
+    return this.belongsToMany(
+      'App/Models/User',
+      'followid',
+      'user_id'
+    ).pivotTable('follows');
+  }
 
-	followed() {
-		return this.hasOne('App/Models/Follow');
-	}
+  followed() {
+    return this.hasOne('App/Models/Follow');
+  }
 
-	comments() {
-		return this.hasMany('App/Models/Comment');
-	}
+  comments() {
+    return this.hasMany('App/Models/Comment');
+  }
 
-	shares() {
-		return this.hasMany('App/Models/Share');
-	}
+  shares() {
+    return this.hasMany('App/Models/Share');
+  }
 }
 
 module.exports = User;
