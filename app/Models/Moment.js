@@ -21,6 +21,10 @@ class Moment extends Model {
   comments() {
     return this.hasMany('App/Models/MomentComment');
   }
+
+  likes() {
+    return this.hasMany('App/Models/MomentLike');
+  }
 }
 
 module.exports = Moment;
