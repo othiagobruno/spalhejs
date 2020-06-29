@@ -10,6 +10,17 @@ Route.get('/', () => {
 Route.post('login', 'SessionController.store');
 Route.post('register', 'UserController.store');
 
+// FORGOT PASSWORD
+Route.post('/forgot-password', 'ForgotController.store').validator(
+  'ForgotStore'
+);
+Route.post('/verify-forgot-token', 'ResetPasswordController.verify').validator(
+  'ResetPasswordVerify'
+);
+Route.put('/reset-password', 'ResetPasswordController.update').validator(
+  'ResetPasswordUpdate'
+);
+
 // USERS
 Route.get('users', 'UserController.index').middleware(['auth']);
 Route.get('users/:id', 'UserController.show').middleware(['auth']);

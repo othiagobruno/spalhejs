@@ -50,3 +50,12 @@ Factory.blueprint('App/Models/MomentLike', (faker, i, data) => {
     ...data,
   };
 });
+
+Factory.blueprint('App/Models/Token', (faker, i, data) => {
+  return {
+    user_id: data.user_id,
+    type: data.type,
+    token: faker.integer({ min: 100000, max: 999999 }),
+    ...data,
+  };
+});
