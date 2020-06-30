@@ -1,86 +1,72 @@
-"use strict";
+'use strict';
 
-const User = use("App/Models/User");
+const User = use('App/Models/User');
 
 class UserController {
-  // SHOW ALL USERS
+  async store({ request, response, auth }) {
+    try {
+      const data = request.only(['name', 'username', 'email', 'password']);
+      const user = await User.create({
+        ...data,
+        avatar:
+          'https://firebasestorage.googleapis.com/v0/b/spalhe-app.appspot.com/o/usericon.png?alt=media&token=2c333530-8c82-4d6f-a1ba-dca6410c2036',
+      });
+
+      const { token } = await auth.attempt(data.email, data.password);
+      return response.status(201).json({ token, user });
+    } catch (error) {
+      return response
+        .status(500)
+        .json({ error: 'error when creating new user' });
+    }
+  }
+
   async index() {
     const users = await User.all();
     return users;
   }
 
-  // SHOW USER BY ID
   async show({ params, response, auth }) {
     try {
       const user = await User.query()
-        .where("id", params.id)
-        .withCount("following")
-        .withCount("followers")
-        .with("followed", (builder) => {
-          builder.where("followid", auth.user.id);
+        .where('id', params.id)
+        .withCount('following')
+        .withCount('followers')
+        .with('followed', (builder) => {
+          builder.where('followid', auth.user.id);
         })
-        .withCount("posts")
+        .withCount('posts')
         .firstOrFail();
 
       return user;
     } catch (err) {
-      return response.status(404).json({
-        status: "error",
-        message: "user not found",
-      });
+      return response.status(404).json({ error: 'user not found' });
     }
   }
 
-  // CREATE USER
-  async store({ request, response, auth }) {
-    const data = request.only(["name", "username", "email", "password"]);
-    const dados = {
-      ...data,
-      avatar:
-        "https://firebasestorage.googleapis.com/v0/b/spalhe-app.appspot.com/o/usericon.png?alt=media&token=2c333530-8c82-4d6f-a1ba-dca6410c2036",
-    };
-    const user = await User.findOrCreate(
-      { email: data.email, password: data.password },
-      dados
-    );
-    if (user) {
-      const { token } = await auth.attempt(data.email, data.password);
-      const user = await User.findBy("email", data.email);
-      return {
-        token,
-        user,
-      };
-    } else {
+  async update({ request, response, auth }) {
+    try {
+      const data = request.only(['name', 'username', 'biography', 'website']);
+      const id = auth.user.id;
+
+      const user = await User.findOrFail(id);
+      const verifyUsername = await User.findBy({ username: data.username });
+
+      if (verifyUsername && verifyUsername.id !== id) {
+        return response.status(409).json({
+          error: 'this username is already being used on another account',
+        });
+      }
+
+      user.merge(data);
+      await user.save();
+
+      return user;
+    } catch (error) {
       return response
-        .status(400)
-        .send({ status: "não foi possivel criar sua conta" });
+        .status(500)
+        .json({ error: 'error when updating user data' });
     }
-  }
-
-  // UPDATE USER
-  async update({ request, params, auth }) {
-    const id = auth.current.user.id;
-    const { ...data } = request.only([
-      "name",
-      "username",
-      "email",
-      "password",
-      "avatar",
-      "private",
-      "biography",
-    ]);
-    const user = await User.findOrFail(id);
-    user.merge(data);
-    await user.save();
-
-    // exibe os dados do usuário
-    const userdata = await User.query()
-      .where("id", id)
-      .withCount("following")
-      .withCount("followers")
-      .withCount("posts")
-      .firstOrFail();
-    return userdata;
   }
 }
 
