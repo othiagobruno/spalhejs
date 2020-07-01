@@ -12,7 +12,7 @@ class ExploreController {
       .has('file')
       .orderBy(Database.raw('RAND()'))
       .where('created_at', '>', subDays(new Date(), 3))
-      .limit(50)
+      .limit(16)
       .with('user', (builder) => {
         builder.select('id', 'name', 'username', 'avatar');
       })
@@ -22,12 +22,8 @@ class ExploreController {
       .fetch();
 
     const posts = json.toJSON();
-    var totalByBrand = _.orderBy(posts, '__meta__.likes_count', 'desc').slice(
-      0,
-      12
-    );
-
-    return totalByBrand;
+    var totalExplores = _.orderBy(posts, '__meta__.likes_count', 'desc');
+    return totalExplores;
   }
 }
 
