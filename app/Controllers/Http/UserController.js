@@ -61,14 +61,14 @@ class UserController {
       user.merge(data);
       await user.save();
 
-      const data = await User.query()
+      const userdata = await User.query()
         .where('id', id)
         .withCount('following')
         .withCount('followers')
         .withCount('posts')
         .firstOrFail();
 
-      return { user: data };
+      return { user: userdata };
     } catch (error) {
       return response
         .status(500)
