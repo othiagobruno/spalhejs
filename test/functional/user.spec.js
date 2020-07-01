@@ -86,6 +86,30 @@ test('should return validation error when trying to create the user with an exis
   });
 });
 
+test('should return validation error when trying to create a user with invalid name', async ({
+  assert,
+  client,
+}) => {
+  const userData = {
+    name: 'Wesley23_',
+    username: 'wesleyoliveira612',
+    email: 'assiswesley549@gmail.com',
+    password: 'MyPassword2',
+  };
+
+  const response = await client
+    .post('/register')
+    .accept('application/json')
+    .send(userData)
+    .end();
+
+  response.assertStatus(400);
+  assert.include(response.body[0], {
+    field: 'name',
+    validation: 'regex',
+  });
+});
+
 test('should return validation error when trying to create a user with invalid email', async ({
   assert,
   client,
@@ -222,6 +246,32 @@ test('should return updated user data when sent valid data', async ({
 
   response.assertStatus(200);
   assert.equal(response.body.username, userData.username);
+});
+
+test('should return error when trying to update data with an invalid name', async ({
+  assert,
+  client,
+}) => {
+  const userData = {
+    name: 'Wesley Oliveira',
+    username: 'wesleyoliveira612',
+  };
+  const user = await Factory.model('App/Models/User').create(userData);
+
+  userData.name = 'Wesley23_';
+
+  const response = await client
+    .put('users')
+    .accept('application/json')
+    .loginVia(user)
+    .send(userData)
+    .end();
+
+  response.assertStatus(400);
+  assert.include(response.body[0], {
+    field: 'name',
+    validation: 'regex',
+  });
 });
 
 test('should return error when trying to update existing username on another account', async ({

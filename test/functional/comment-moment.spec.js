@@ -14,12 +14,12 @@ test('should return status 201 when creating a new comment', async ({
   const user = await Factory.model('App/Models/User').create();
 
   const moment = await Factory.model('App/Models/Moment').create({
-    user_id: user.$attributes.id,
+    user_id: user.id,
     type: 'image',
   });
 
   const response = await client
-    .post(`/moment/comment/${moment.$attributes.id}`)
+    .post(`/moment/comment/${moment.id}`)
     .loginVia(user)
     .send({
       text: 'Lorem ipsum is simple dummy text',
@@ -27,19 +27,6 @@ test('should return status 201 when creating a new comment', async ({
     .end();
 
   response.assertStatus(201);
-});
-
-test('should return status 401 when trying to create comment without being authenticated', async ({
-  client,
-}) => {
-  const response = await client
-    .post(`/moment/comment/1`)
-    .send({
-      text: 'Lorem ipsum is simple dummy text',
-    })
-    .end();
-
-  response.assertStatus(401);
 });
 
 test('should return a status of 400 when creating a comment without moment', async ({
@@ -68,12 +55,12 @@ test('should return validation error when sending comment without text', async (
   const user = await Factory.model('App/Models/User').create();
 
   const moment = await Factory.model('App/Models/Moment').create({
-    user_id: user.$attributes.id,
+    user_id: user.id,
     type: 'image',
   });
 
   const response = await client
-    .post(`/moment/comment/${moment.$attributes.id}`)
+    .post(`/moment/comment/${moment.id}`)
     .loginVia(user)
     .accept('application/json')
     .send({
@@ -86,21 +73,21 @@ test('should return validation error when sending comment without text', async (
 });
 
 //TEST INDEX METHOD
-test('test should return comment listing', async ({ assert, client }) => {
+test('should return comment listing', async ({ assert, client }) => {
   const user = await Factory.model('App/Models/User').create();
 
   const moment = await Factory.model('App/Models/Moment').create({
-    user_id: user.$attributes.id,
+    user_id: user.id,
     type: 'image',
   });
 
   Factory.model('App/Models/MomentComment').createMany(5, {
-    user_id: user.$attributes.id,
-    moment_id: moment.$attributes.id,
+    user_id: user.id,
+    moment_id: moment.id,
   });
 
   const response = await client
-    .get(`/moment/comment/${moment.$attributes.id}`)
+    .get(`/moment/comment/${moment.id}`)
     .loginVia(user)
     .end();
 
@@ -110,29 +97,22 @@ test('test should return comment listing', async ({ assert, client }) => {
   assert.property(response.body[0], 'user');
 });
 
-test('should return authentication error when requesting without being authenticated', async ({
-  client,
-}) => {
-  const response = await client.get(`/moment/comment/1`).end();
-  response.assertStatus(401);
-});
-
 //TEST DELETE METHOD
 test('should return comment count in a moment', async ({ assert, client }) => {
   const user = await Factory.model('App/Models/User').create();
 
   const moment = await Factory.model('App/Models/Moment').create({
-    user_id: user.$attributes.id,
+    user_id: user.id,
     type: 'image',
   });
 
   const comment = await Factory.model('App/Models/MomentComment').create({
-    user_id: user.$attributes.id,
-    moment_id: moment.$attributes.id,
+    user_id: user.id,
+    moment_id: moment.id,
   });
 
   const response = await client
-    .delete(`/moment/comment/${comment.$attributes.id}`)
+    .delete(`/moment/comment/${comment.id}`)
     .loginVia(user)
     .send()
     .end();
@@ -147,27 +127,20 @@ test('should return error when trying to delete a comment that does not belong t
   const userTwo = await Factory.model('App/Models/User').create();
 
   const moment = await Factory.model('App/Models/Moment').create({
-    user_id: user.$attributes.id,
+    user_id: user.id,
     type: 'image',
   });
 
   const comment = await Factory.model('App/Models/MomentComment').create({
-    user_id: user.$attributes.id,
-    moment_id: moment.$attributes.id,
+    user_id: user.id,
+    moment_id: moment.id,
   });
 
   const response = await client
-    .delete(`/moment/comment/${comment.$attributes.id}`)
+    .delete(`/moment/comment/${comment.id}`)
     .loginVia(userTwo)
     .send()
     .end();
 
   response.assertStatus(403);
-});
-
-test('should return error when trying to delete a comment without being authenticated', async ({
-  client,
-}) => {
-  const response = await client.delete(`/moment/comment/1`).send().end();
-  response.assertStatus(401);
 });

@@ -1,175 +1,288 @@
+<p align="center">
+  <img src="./.github/illustration2.svg" width="220" height="220"/>
+</p>
+
 # Spalhe
 
-## SESSION & USERS
+### Backend of a social network in adonis.js
 
-### create user
+# Technologies
 
-> POST - http://165.227.187.193/users
+- [Node.Js](https://nodejs.org/en/)
+- [Adonis.Js](https://adonisjs.com/)
+- [MySQL](https://www.mysql.com/)
 
-### init session
+# Prerequisites
 
-> POST - http://165.227.187.193/sessions
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en/)
+- [Yarn](https://yarnpkg.com/)
+- [MySQL](https://www.mysql.com/)
+- Adonis.Js CLI
 
-### get only user
+# Installing
 
-> GET - http://165.227.187.193/users/{id}
+I'll start with the assumption that you already have the programs installed, but if you don't, just follow the guides on the official websites of [Git](https://git-scm.com/), [Node.js](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/) and [MySQL](https://www.mysql.com/)
 
-### get unfollowed users
+To install the Adonis CLI, run the following command on your terminal
 
-> GET - http://165.227.187.193/users/unfollowed (obs: todos os usuários que eu não sigo)
+```
+yarn global install @adonisjs/cli
+```
 
-### upload profile photo
+# Cloning the repository
 
-> POST - http://165.227.187.193/users/{uid}/upload
+To continue cloning this repository on your machine by copying the repository link and running commands below on your terminal
 
-### checks if the username exists
+```cmd
+git clone https://github.com/{your username}/spalhejs.git
+cd spalhejs
+adonis install --yarn
+```
 
-> POST - http://165.227.187.193/users/username (obs: verifica pra saber se o username já existe)
+# Development
 
-### Modelo de tabela para users
+With everything installed, we will now go to development, below is the features with their repective methods, answers and errors
 
-- id => primary key
-- name => string
-- avatar => string
-- username => string
-- biography => string
-- website => string
-- email => string
-- senha => string md5
-- private => boolean
-- color => string (cores para o perfil definida pelo usuário)
-- token => string (usado para notificação por push)
-- status => data (caso o usuário desative a conta ou passe mais de 3 meses sem entrar)
+## Users
 
-### MODELO DE ESTRUTURA DE RESPOSTA JSON - USERS
+### Store method
+
+Method used to create a new user in the application
+
+URL:
+
+> POST - http://localhost:3000/register
+
+Example request body:
 
 ```json
 {
+  "name": "Jhon Doe",
+  "username": "jhon_doe",
+  "email": "jhondoe@email.com",
+  "password": "Mypassword2"
+}
+```
+
+Example response:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjgsImlhdCI6MTU5MzQ4NTY0MH0.U55K3AzUjHD9PhdO9Pn6jSkCRbSxfgegaR7JxpW_CnE",
   "user": {
     "id": 1,
-    "name": "User Test",
-    "avatar": "http://url",
-    "username": "usertest",
-    "biography": "hello world guys",
-    "private": true,
-    "website": "googl.cl",
-    "color": "red",
-    "follows": {
-      "following": 3,
-      "followers": 17
-    },
-    "posts_count": 2,
-    "following_user": true
+    "name": "Jhon Doe",
+    "username": "jhon_doe",
+    "email": "jhondoe@email.com",
+    "avatar": "https://url"
   }
 }
 ```
 
-> #### following_user => TRUE or FALSE caso eu estaja seguindo ou não o usuario requisitado. se for o meu perfil ele retorna nulo
+### Index method
 
----
+Must return all registered users
 
-## FOLLOWS
+URL:
 
-### follow user
+> GET - http://localhost:3000/users
 
-> POST - http://165.227.187.193/users/{uid}/follow
-
-### unfollow user
-
-> DELETE - http://165.227.187.193/users/{uid}/follow
-
-### get list of following
-
-> GET - http://165.227.187.193/users/{uid}/following (obtem lista de quem eu sigo)
-
-### get list of followers
-
-> GET - http://165.227.187.193/users/{uid}/followers (obtem lista de quem me segue)
-
----
-
-## POSTS
-
-### get all posts from user id
-
-> GET - http://165.227.187.193/users/{id}/posts (verifica se a conta é privada ou não)
-
-### get all posts
-
-> GET - http://165.227.187.193/posts (obs: dos usuários que eu sigo)
-
-### get post by id
-
-> GET - http://165.227.187.193/posts/{id} (verifica se a conta é privada ou não)
-
-### create posting
-
-> POST - http://165.227.187.193/posts
-
-### update posting by id
-
-> PUT - http://165.227.187.193/posts/{id}
-
-### delete posting by id
-
-> DELETE - http://165.227.187.193/posts/{id}
-
-## MODELO DE ESTRUTURA DE RESPOSTA JSON
+Example response:
 
 ```json
 [
   {
-    "user": {
-      "id": 1,
-      "name": "User Test",
-      "avatar": "http://url",
-      "username": "usertest"
-    },
-    "description": "hello world",
-    "id": 21,
-    "created_at": "2020/02/02",
-    "updated_at": null,
-    "count_likes": 20,
-    "count_comments": 12,
-    "count_shares": 2,
-    "files": [
-      { "url": "file1", "type": "image" },
-      { "url": "file2", "type": "video" }
-    ]
-  }
+    "id": 1,
+    "name": "Jhon Doe",
+    "username": "jhon_doe",
+    "email": "assiswesley549@gmail.com",
+    "avatar": "https://url",
+    "biography": null,
+    "private": null,
+    "website": null,
+    "token": null
+  },
+  ...
 ]
+```
+
+### Show method
+
+Returns all data for a specific user by passing an id through the url
+
+URL:
+
+> GET - http://localhost:3000/users/{id}
+
+Example response:
+
+```json
+{
+  "id": 1,
+  "name": "Jhon Doe",
+  "username": "jhon_doe",
+  "email": "jhondoe@email.com",
+  "avatar": "https://url",
+  "biography": null,
+  "private": null,
+  "website": null,
+  "token": null,
+  "followed": null,
+  "__meta__": {
+    "following_count": "0",
+    "followers_count": "0",
+    "posts_count": "0"
+  }
+}
+```
+
+### Update method - (Authenticated user)
+
+Responsible for updating authenticated user data
+
+URL:
+
+> PUT - http://localhost:3000/users
+
+Example request body:
+
+```json
+{
+  "name": "Jhon Doe",
+  "username": "jhon_doe",
+  "avatar": "https://url",
+  "biography": "Lorem ipusm is a simple dummy text",
+  "private": null,
+  "website": null,
+  "token": null
+}
+```
+
+Example response:
+
+```json
+{
+  "id": 2,
+  "name": "Jhon Doe",
+  "username": "jhon_doe",
+  "email": "jhondoe@email.com",
+  "avatar": "https://url",
+  "biography": "Lorem ipusm is a simple dummy text",
+  "private": null,
+  "website": null,
+  "token": null
+}
 ```
 
 ---
 
-## COMMENTS
+## Users session
 
-### create comments in posts
+### Store method
 
-> POST - http://165.227.187.193/posts/{id}/comments
+Creates a new access token to consume private routes
 
-### get all comments in post
+URL:
 
-> GET - http://165.227.187.193/posts/{id}/comments
+> POST - http://localhost:3000/session
 
-### delete a comment post
+Example response:
 
-> DELETE - http://165.227.187.193/posts/{id}/comment/{id}
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU5MzM5NjQ2NX0.Fmf9OrvqIavUwBg6bvQ1DBRJJFdjs1ow65hO0Zw0Z3Q",
+  "user": {
+    "id": 1,
+    "name": "Jhon Doe",
+    "username": "jhon_doe",
+    "email": "jhondoe@email.com",
+    "avatar": "https://url",
+    "biography": null,
+    "private": null,
+    "website": null,
+    "token": null,
+    "__meta__": {
+      "following_count": "0",
+      "followers_count": "0",
+      "posts_count": "0"
+    }
+  }
+}
+```
 
 ---
 
-## LIKES
+## Forgot Password
 
-### create/insert likes in post
+Sends a token email to reset password
 
-> POST - http://165.227.187.193/posts/{id}/likes
+URL:
 
-### get likes in post
+### Store Method
 
-> GET - http://165.227.187.193/posts/{id}/likes (obs: busca os dados do usuário também)
+> POST - http://localhost:3000/forgot-password
+
+Example request body:
+
+```json
+{
+  "email": "jhondoe@email.com"
+}
+```
+
+#### This method returns only a 200 status as a response
 
 ---
 
-[Spalhe 2020](https://www.spalhe.com.br)
+## Verify token forgot password
 
-#### Em breve novidades.
+### Verify method
+
+Checks whether a password reset token is valid or not
+
+URL:
+
+Example request body
+
+```json
+{
+  "email": "jhondoe@email.com",
+  "token": "178629"
+}
+```
+
+Example response:
+
+```json
+{
+  "token_is_valid": true
+}
+```
+
+#### If the token form invalid the property token_is_valid will have the value false
+
+---
+
+## Reset Password
+
+Resets the user's password as long as the data sent is valid
+
+URL:
+
+### Store method
+
+> POST - http://localhost:3000/reset-password
+
+Example request body:
+
+```json
+{
+  "email": "jhondoe@email.com",
+  "password": "Mynewpassword3",
+  "token": "178629"
+}
+```
+
+#### This method returns only a 200 status as a response
+

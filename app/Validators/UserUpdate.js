@@ -5,7 +5,11 @@ const { rule } = use('Validator');
 class UserUpdate {
   get rules() {
     return {
-      name: 'required|string|min:3',
+      name: [
+        rule('required'),
+        rule('string'),
+        rule('regex', /^[a-zA-Z ]{3,}$/i),
+      ],
       username: [
         rule('required'),
         rule('string'),
