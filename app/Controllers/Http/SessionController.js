@@ -1,23 +1,22 @@
-"use strict";
+'use strict';
 
-const User = use("App/Models/User");
+const User = use('App/Models/User');
 
 class SessionController {
   async store({ request, auth }) {
     const { email, password } = request.all();
     const { token } = await auth.attempt(email, password);
 
-    // exibe os dados do usuário
-    const userdata = await User.query()
-      .where("email", email)
-      .withCount("following")
-      .withCount("followers")
-      .withCount("posts")
+    const user = await User.query()
+      .where('email', email)
+      .withCount('following')
+      .withCount('followers')
+      .withCount('posts')
       .firstOrFail();
 
     return {
       token,
-      userdata,
+      user,
     };
   }
 }
