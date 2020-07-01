@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const Post = use('App/Models/Post');
 const Database = use('Database');
+var subDays = require('date-fns/subDays');
 
 class ExploreController {
   async index({ auth, response }) {
