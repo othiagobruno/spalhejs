@@ -59,19 +59,16 @@ class UserController {
       }
 
       user.merge(data);
-      const success = await user.save();
+      await user.save();
 
-      if (success) {
-        const user = await User.query()
-          .where('id', id)
-          .withCount('following')
-          .withCount('followers')
-          .withCount('posts')
-          .firstOrFail();
-        return user;
-      } else {
-        return user;
-      }
+      const data = await User.query()
+        .where('id', id)
+        .withCount('following')
+        .withCount('followers')
+        .withCount('posts')
+        .firstOrFail();
+
+      return { user: data };
     } catch (error) {
       return response
         .status(500)
