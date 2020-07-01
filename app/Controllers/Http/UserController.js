@@ -63,18 +63,15 @@ class UserController {
 
       if (success) {
         const user = await User.query()
-          .where('id', params.id)
+          .where('id', id)
           .withCount('following')
           .withCount('followers')
-          .with('followed', (builder) => {
-            builder.where('followid', auth.user.id);
-          })
           .withCount('posts')
           .firstOrFail();
         return user;
+      } else {
+        return user;
       }
-
-      return user;
     } catch (error) {
       return response
         .status(500)
