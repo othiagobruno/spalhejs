@@ -5,7 +5,11 @@ const { rule } = use('Validator');
 class UserStore {
   get rules() {
     return {
-      name: 'required|string|min:3',
+      name: [
+        rule('required'),
+        rule('string'),
+        rule('regex', /^[a-zA-Z ]{3,}$/i),
+      ],
       username: [
         rule('required'),
         rule('string'),
@@ -16,7 +20,7 @@ class UserStore {
       password: [
         rule('required'),
         rule('string'),
-        rule('regex', /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+        rule('regex', /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i),
       ],
     };
   }
