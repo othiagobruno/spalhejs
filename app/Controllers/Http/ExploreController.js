@@ -10,6 +10,7 @@ class ExploreController {
       .with('file')
       .has('file')
       .orderBy(Database.raw('RAND()'))
+      .where('created_at', '>', subDays(new Date(), 3))
       .limit(50)
       .with('user', (builder) => {
         builder.select('id', 'name', 'username', 'avatar');
