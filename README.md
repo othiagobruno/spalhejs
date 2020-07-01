@@ -294,4 +294,3 @@ Example request body:
 
 #### This method returns only a 200 status as a response
 
----
