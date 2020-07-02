@@ -102,8 +102,7 @@ Example response:
     "private": null,
     "website": null,
     "token": null
-  },
-  ...
+  }
 ]
 ```
 
@@ -186,6 +185,15 @@ Creates a new access token to consume private routes
 URL:
 
 > POST - http://localhost:3000/session
+
+Example request body:
+
+```json
+{
+  "email": "jhondoe@email.com",
+  "password": "Mypassword"
+}
+```
 
 Example response:
 
