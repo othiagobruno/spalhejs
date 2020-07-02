@@ -12,7 +12,7 @@ NotificationHook.method = async (modelInstance) => {};
 NotificationHook.sendPush = async (notification) => {
   const user = await User.find(notification.my_userid);
   const me = await User.find(notification.user_id);
-  const key = Env.use('GOOGLE_APIKEY');
+  const key = Env.get('GOOGLE_APIKEY');
 
   const typeNotification = {
     like: 'curtiu sua publicação',

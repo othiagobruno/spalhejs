@@ -29,15 +29,15 @@ Factory.blueprint('App/Models/Moment', (faker, i, data) => {
   return {
     midia: faker.url(),
     text: faker.sentence(),
-    user_id: faker.integer({ min: 1, max: 300 }),
+    user_id: data.user_id,
     ...data,
   };
 });
 
 Factory.blueprint('App/Models/MomentComment', (faker, i, data) => {
   return {
-    moment_id: faker.integer({ min: 1, max: 300 }),
-    user_id: faker.integer({ min: 1, max: 300 }),
+    moment_id: data.moment_id,
+    user_id: data.user_id,
     text: faker.sentence(),
     ...data,
   };
@@ -45,9 +45,8 @@ Factory.blueprint('App/Models/MomentComment', (faker, i, data) => {
 
 Factory.blueprint('App/Models/MomentLike', (faker, i, data) => {
   return {
-    moment_id: faker.integer({ min: 1, max: 300 }),
-    user_id: faker.integer({ min: 1, max: 300 }),
-    ...data,
+    moment_id: data.moment_id,
+    user_id: data.user_id,
   };
 });
 
@@ -57,5 +56,12 @@ Factory.blueprint('App/Models/Token', (faker, i, data) => {
     type: data.type,
     token: faker.integer({ min: 100000, max: 999999 }),
     ...data,
+  };
+});
+
+Factory.blueprint('App/Models/Follow', (faker, i, data) => {
+  return {
+    followid: data.followid,
+    user_id: data.user_id,
   };
 });
