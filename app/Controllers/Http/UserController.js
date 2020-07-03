@@ -46,7 +46,13 @@ class UserController {
 
   async update({ request, response, auth }) {
     try {
-      const data = request.only(['name', 'username', 'biography', 'website']);
+      const data = request.only([
+        'name',
+        'username',
+        'biography',
+        'website',
+        'avatar',
+      ]);
       const id = auth.user.id;
 
       const user = await User.findOrFail(id);
