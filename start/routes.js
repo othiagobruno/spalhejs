@@ -28,7 +28,11 @@ Route.put('users', 'UserController.update')
   .middleware(['auth'])
   .validator('UserUpdate');
 
-///TOKEN GOOGLE MESSAGE NOTIFICATIONS
+Route.put('users/1', 'UserController.update')
+  .middleware(['auth'])
+  .validator('UserUpdate');
+
+///TOKEN GOOGLE MESSAGE NOTIFICATIONSSS
 Route.put('gtoken', 'GtokenController.create').middleware(['auth']);
 
 //POSTS
