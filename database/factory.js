@@ -50,6 +50,17 @@ Factory.blueprint('App/Models/MomentLike', (faker, i, data) => {
   };
 });
 
+Factory.blueprint('App/Models/MomentFile', (faker, i, data) => {
+  return {
+    name: faker.string(),
+    key: faker.natural({ min: 1000 }),
+    url: faker.url(),
+    type: data.type,
+    moment_id: data.moment_id,
+    ...data,
+  };
+});
+
 Factory.blueprint('App/Models/Token', (faker, i, data) => {
   return {
     user_id: data.user_id,

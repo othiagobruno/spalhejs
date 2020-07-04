@@ -10,7 +10,7 @@ class MomentComment {
 
   get rules() {
     return {
-      moment_id: 'required|integer|exists:moments,id',
+      moment_id: 'required|integer|notExists:moments,id',
       text: 'required|string',
     };
   }

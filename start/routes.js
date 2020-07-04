@@ -31,9 +31,11 @@ Route.put('users', 'UserController.update')
 ///TOKEN GOOGLE MESSAGE NOTIFICATIONS
 Route.put('gtoken', 'GtokenController.create').middleware(['auth']);
 
+// Route.post('files/:id', 'FileController.store').middleware(['auth']);
+Route.get('files/:dir/:path', 'FileController.show');
+// Route.get('files', 'FileController.index').middleware(['auth']);
+
 //POSTS
-Route.post('files/:id', 'FileController.store').middleware(['auth']);
-Route.get('files', 'FileController.index').middleware(['auth']);
 Route.resource('posts', 'PostController').apiOnly().middleware(['auth']);
 Route.get('users/:id/posts', 'PostController.me').middleware(['auth']);
 
@@ -79,7 +81,11 @@ Route.resource('notifications', 'NotificationController')
   .middleware(['auth']);
 
 //MOMENTS
-Route.resource('moments', 'MomentController').middleware(['auth']).apiOnly();
+Route.resource('moments', 'MomentController')
+  .middleware(['auth'])
+  .validator(new Map([[['moments.store'], ['MomentStore']]]))
+  .apiOnly();
+
 Route.post('moment/view/:id', 'MviewController.store').middleware(['auth']);
 Route.get('moment/view/:id', 'MviewController.show').middleware(['auth']);
 Route.get('moment/count/:id', 'MviewController.count').middleware(['auth']);
@@ -106,6 +112,11 @@ Route.resource('moment/like/:id', 'MomentLikeController')
     ])
   )
   .apiOnly();
+
+Route.post('moment/:id/file', 'MomentFileController.store')
+  .middleware(['auth'])
+  .validator('MomentFile')
+  .middleware(['upload:moments']);
 
 //REPLY COMMENTS
 Route.post('reply/:id', 'ReplyController.store').middleware(['auth']);

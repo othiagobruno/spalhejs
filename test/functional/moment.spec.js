@@ -18,13 +18,14 @@ test('should create a new moment and rettest should create a new moment and retu
     .post('/moments')
     .loginVia(user)
     .send({
-      type: 'text',
+      type: 'image',
       text: 'Lorem ipsum is a simple dummy text',
       user_id: user.id,
     })
     .end();
 
   response.assertStatus(201);
+  assert.exists(response.body.id);
 });
 
 //TEST INDEX METHOD

@@ -7,8 +7,8 @@ const subDays = require('date-fns/subDays');
 class MomentController {
   async store({ request, response, auth }) {
     try {
-      const data = request.only(['midia', 'type', 'text']);
-      const moment = auth.user.moments().create(data);
+      const data = request.only(['type', 'text']);
+      const moment = await auth.user.moments().create(data);
       return response.status(201).json(moment);
     } catch (error) {
       return response
@@ -39,6 +39,7 @@ class MomentController {
         .with('moments', (builder) => {
           builder
             .where('created_at', '>', subDay)
+            .with('file')
             .withCount('likes')
             .withCount('comments')
             .withCount('views');
@@ -52,12 +53,6 @@ class MomentController {
         .status(500)
         .json({ error: 'error when fetching moments' });
     }
-  }
-
-  async show({ params }) {
-    const id = params.id;
-    const moments = await Moment.query().where('id', id).with('user').fetch();
-    return moments;
   }
 }
 

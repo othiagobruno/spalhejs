@@ -4,8 +4,8 @@ const { rule } = use('Validator');
 class ForgotPasswordUpdate {
   get rules() {
     return {
-      token: 'required|exists:tokens,token',
-      email: 'required|email|exists:users,email',
+      token: 'required|notExists:tokens,token',
+      email: 'required|email|notExists:users,email',
       password: [
         rule('required'),
         rule('string'),

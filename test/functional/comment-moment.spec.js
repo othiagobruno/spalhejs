@@ -45,7 +45,7 @@ test('should return a status of 400 when creating a comment without moment', asy
     .end();
 
   response.assertStatus(400);
-  assert.equal(response.body[0].validation, 'exists');
+  assert.equal(response.body[0].validation, 'notExists');
 });
 
 test('should return validation error when sending comment without text', async ({

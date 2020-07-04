@@ -39,7 +39,7 @@ test('should return validation error when trying to enjoy a non-existent moment'
     .end();
 
   response.assertStatus(400);
-  assert.equal(response.body[0].validation, 'exists');
+  assert.equal(response.body[0].validation, 'notExists');
 });
 
 test('should return status of 200 when giving dislike in a moment', async ({
@@ -102,5 +102,5 @@ test('should return validation error when trying to list non-existent moment lik
     .end();
 
   response.assertStatus(400);
-  assert.equal(response.body[0].validation, 'exists');
+  assert.equal(response.body[0].validation, 'notExists');
 });

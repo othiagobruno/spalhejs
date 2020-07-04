@@ -1,5 +1,5 @@
-"use strict";
-const Post = use("App/Models/Post");
+'use strict';
+const Post = use('App/Models/Post');
 
 class PostController {
   async index({ auth, request }) {
@@ -8,17 +8,17 @@ class PostController {
     const follows = await user.following().ids();
     follows.push(user.id);
     const posts = await Post.query()
-      .whereIn("user_id", follows)
-      .with("midias")
-      .with("liked", (builder) => builder.where("user_id", auth.user.id))
-      .withCount("likes")
-      .withCount("comments")
-      .withCount("share")
-      .with("share_post.post")
-      .with("share_post.post.midias")
-      .with("share_user")
-      .with("user")
-      .orderBy("id", "desc")
+      .whereIn('user_id', follows)
+      .with('midias')
+      .with('liked', (builder) => builder.where('user_id', auth.user.id))
+      .withCount('likes')
+      .withCount('comments')
+      .withCount('share')
+      .with('share_post.post')
+      .with('share_post.post.midias')
+      .with('share_user')
+      .with('user')
+      .orderBy('id', 'desc')
       .paginate(page, 10);
     return posts;
   }
@@ -26,18 +26,18 @@ class PostController {
   async show({ params, auth }) {
     const user = auth.current.user;
     const post = await Post.query()
-      .where("id", params.id)
-      .with("midias")
-      .with("liked", (builder) => {
-        builder.where("user_id", user.id);
+      .where('id', params.id)
+      .with('midias')
+      .with('liked', (builder) => {
+        builder.where('user_id', user.id);
       })
-      .withCount("likes")
-      .withCount("comments")
-      .withCount("share")
-      .with("share_post.post")
-      .with("share_post.post.midias")
-      .with("share_user")
-      .with("user")
+      .withCount('likes')
+      .withCount('comments')
+      .withCount('share')
+      .with('share_post.post')
+      .with('share_post.post.midias')
+      .with('share_user')
+      .with('user')
       .firstOrFail();
     return post;
   }
@@ -47,28 +47,28 @@ class PostController {
     const id = params.id;
     try {
       return await Post.query()
-        .where("user_id", id)
-        .with("midias")
-        .with("liked", (builder) => {
-          builder.where("user_id", user.id);
+        .where('user_id', id)
+        .with('midias')
+        .with('liked', (builder) => {
+          builder.where('user_id', user.id);
         })
-        .withCount("likes")
-        .withCount("comments")
-        .withCount("share")
-        .with("share_post.post")
-        .with("share_post.post.midias")
-        .with("share_user")
-        .with("user")
-        .orderBy("id", "desc")
+        .withCount('likes')
+        .withCount('comments')
+        .withCount('share')
+        .with('share_post.post')
+        .with('share_post.post.midias')
+        .with('share_user')
+        .with('user')
+        .orderBy('id', 'desc')
         .limit(8)
         .fetch();
     } catch (error) {
-      return { error: "desculpes-nos" };
+      return { error: 'desculpes-nos' };
     }
   }
 
   async store({ request, auth }) {
-    const data = request.only(["text", "key"]);
+    const data = request.only(['text', 'key']);
     const post = await auth.user.posts().create(data);
     return post;
   }
@@ -76,28 +76,26 @@ class PostController {
   async update({ request, response, auth, params }) {
     const oldPost = await Post.findOrFail(params.id);
     if (auth.user.id !== oldPost.user_id) {
-      return response
-        .status(403)
-        .send({
-          error: {
-            message: "Você não tem parmissão para alterar essa postagem",
-          },
-        });
+      return response.status(403).send({
+        error: {
+          message: 'Você não tem parmissão para alterar essa postagem',
+        },
+      });
     }
     //
-    const data = request.only(["text"]);
-    const post = await auth.user.posts().where("id", params.id).update(data);
+    const data = request.only(['text']);
+    const post = await auth.user.posts().where('id', params.id).update(data);
     if (!post) {
       return response
         .status(400)
-        .send({ error: { message: "Erro ao atualizar a postagem." } });
+        .send({ error: { message: 'Erro ao atualizar a postagem.' } });
     }
     const updatedPost = await Post.find(params.id);
     return updatedPost;
   }
 
   async destroy({ response, params, auth }) {
-    const post = await auth.user.posts().where("id", params.id).first();
+    const post = await auth.user.posts().where('id', params.id).first();
     if (!post) {
       return response.status(404).send();
     }

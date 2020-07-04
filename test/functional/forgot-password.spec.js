@@ -44,7 +44,7 @@ test('should return validation error when attempting to send a non-existent emai
 
   response.assertStatus(400);
   assert.equal(response.body[0].field, 'email');
-  assert.equal(response.body[0].validation, 'exists');
+  assert.equal(response.body[0].validation, 'notExists');
 });
 
 //TEST VERIFY METHOD
@@ -120,7 +120,7 @@ test('should return validation error when sending fake token', async ({
 
   response.assertStatus(400);
   assert.equal(response.body[0].field, 'token');
-  assert.equal(response.body[0].validation, 'exists');
+  assert.equal(response.body[0].validation, 'notExists');
 });
 
 test('should return validation error when sending a non-existent email', async ({
@@ -146,7 +146,7 @@ test('should return validation error when sending a non-existent email', async (
 
   response.assertStatus(400);
   assert.equal(response.body[0].field, 'email');
-  assert.equal(response.body[0].validation, 'exists');
+  assert.equal(response.body[0].validation, 'notExists');
 });
 
 //TEST UPDATE METHOD
@@ -232,7 +232,7 @@ test('should return status 400 when trying to exchange password with fake token'
 
   response.assertStatus(400);
   assert.equal(response.body[0].field, 'token');
-  assert.equal(response.body[0].validation, 'exists');
+  assert.equal(response.body[0].validation, 'notExists');
 });
 
 test('should return validation error when sending an invalid password', async ({
