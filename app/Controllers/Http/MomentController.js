@@ -39,7 +39,6 @@ class MomentController {
         .with('moments', (builder) => {
           builder
             .where('created_at', '>', subDay)
-            .with('file')
             .withCount('likes')
             .withCount('comments')
             .withCount('views');
