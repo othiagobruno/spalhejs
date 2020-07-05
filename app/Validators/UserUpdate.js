@@ -16,7 +16,6 @@ class UserUpdate {
         rule('regex', /^(?=[a-z_\d]*[a-z])[a-z._\d]{5,}$/gim),
       ],
       biography: 'string|max:150',
-      avatar: 'string|max:650',
       website: 'string|url|max:40',
     };
   }
