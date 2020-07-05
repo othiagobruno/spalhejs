@@ -28,7 +28,7 @@ Route.put('users', 'UserController.update')
   .middleware(['auth'])
   .validator('UserUpdate');
 
-Route.put('users/1', 'UserController.update')
+Route.put('users/:id', 'UserController.update')
   .middleware(['auth'])
   .validator('UserUpdate');
 
