@@ -60,7 +60,8 @@ class UserController {
 
       if (verifyUsername && verifyUsername.id !== id) {
         return response.status(409).json({
-          error: 'this username is already being used on another account',
+          error:
+            'Este nome de usuário já existe e está sendo usado por outra conta',
         });
       }
 
