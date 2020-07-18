@@ -17,11 +17,7 @@ class UserStore {
         rule('unique', 'users'),
       ],
       email: 'required|email|unique:users',
-      password: [
-        rule('required'),
-        rule('string'),
-        rule('regex', /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i),
-      ],
+      password: [rule('required'), rule('string')],
     };
   }
 }
