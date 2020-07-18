@@ -52,18 +52,24 @@ class MomentController {
     return moments;
   }
 
-  async destroy({ params, auth }) {
+  async destroy({ params, auth, response }) {
     const user = auth.current.user;
     const { id } = params;
-    const moment = await Moment.find(id);
 
-    if (moment.user_id === user.id) {
-      await moment.delete();
-      return responde.status(200).json({ status: 'deleted' });
-    } else {
-      return responde
-        .status(401)
-        .json({ status: 'you are not allowed to delete' });
+    try {
+      const moment = await Moment.find(id);
+      if (moment.user_id === user.id) {
+        await moment.delete();
+        return response.status(200).json({ status: 'deleted' });
+      } else {
+        return response
+          .status(401)
+          .json({ status: 'you are not allowed to delete' });
+      }
+    } catch (error) {
+      return response
+        .status(500)
+        .json({ status: 'internal server error or moment does not exist' });
     }
   }
 }
