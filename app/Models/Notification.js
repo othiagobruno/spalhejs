@@ -4,15 +4,19 @@
 const Model = use('Model');
 
 class Notification extends Model {
-	static boot() {
-		super.boot();
-		this.addHook('afterCreate', 'NotificationHook.sendWs');
-		this.addHook('afterCreate', 'NotificationHook.sendPush');
-	}
+  static boot() {
+    super.boot();
+    this.addHook('afterCreate', 'NotificationHook.sendWs');
+    this.addHook('afterCreate', 'NotificationHook.sendPush');
+  }
 
-	user() {
-		return this.hasOne('App/Models/User', 'user_id', 'id');
-	}
+  followed() {
+    return this.hasOne('App/Models/Follow', 'user_id', 'user_id');
+  }
+
+  user() {
+    return this.hasOne('App/Models/User', 'user_id', 'id');
+  }
 }
 
 module.exports = Notification;

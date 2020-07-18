@@ -54,6 +54,9 @@ NotificationHook.sendWs = async (ntf) => {
       .where('my_userid', ntf.my_userid)
       .orderBy('id', 'desc')
       .with('user')
+      .with('followed', (builder) => {
+        builder.where('followid', ntf.user_id);
+      })
       .pick(15);
     topic.broadcast('message', n);
   } else {

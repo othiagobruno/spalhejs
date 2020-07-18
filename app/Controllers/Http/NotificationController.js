@@ -1,14 +1,17 @@
-"use strict";
+'use strict';
 
-const Notification = use("App/Models/Notification");
+const Notification = use('App/Models/Notification');
 
 class NotificationController {
   async index({ auth }) {
     const user = auth.current.user;
     const notifications = await Notification.query()
-      .where("my_userid", user.id)
-      .orderBy("id", "desc")
-      .with("user")
+      .where('my_userid', user.id)
+      .orderBy('id', 'desc')
+      .with('user')
+      .with('followed', (builder) => {
+        builder.where('followid', auth.user.id);
+      })
       .pick(15);
     return notifications;
   }
@@ -16,16 +19,16 @@ class NotificationController {
   async update({ auth }) {
     const user = auth.current.user;
     await Notification.query()
-      .where("my_userid", user.id)
+      .where('my_userid', user.id)
       .update({ view: true });
-    const ntf = await Notification.query().where("my_userid", user.id).fetch();
+    const ntf = await Notification.query().where('my_userid', user.id).fetch();
     return ntf;
   }
 
   async destroy({ auth }) {
     const user = auth.current.user;
     const notification = await Notification.query()
-      .where("my_userid", user.id)
+      .where('my_userid', user.id)
       .delete();
     return notification;
   }
