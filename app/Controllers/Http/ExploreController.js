@@ -9,7 +9,9 @@ class ExploreController {
   async index({ auth, response }) {
     const json = await Post.query()
       .with('file')
-      .has('file')
+      .whereHas('file', (builder) => {
+        builder.where('type', 'image');
+      })
       .orderBy(Database.raw('RAND()'))
       .where('created_at', '>', subDays(new Date(), 3))
       .limit(16)

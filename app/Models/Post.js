@@ -4,54 +4,64 @@
 const Model = use('Model');
 
 class Post extends Model {
-	// get user
-	user() {
-		return this.belongsTo('App/Models/User');
-	}
+  // get user
+  user() {
+    return this.belongsTo('App/Models/User');
+  }
 
-	share_user() {
-		return this.belongsTo('App/Models/User', 'share_id', 'id');
-	}
+  share_user() {
+    return this.belongsTo('App/Models/User', 'share_id', 'id');
+  }
 
-	share_post() {
-		return this.hasOne('App/Models/Share', 'post_id', 'post_id', 'share_id', 'user_id');
-	}
+  share_post() {
+    return this.hasOne(
+      'App/Models/Share',
+      'post_id',
+      'post_id',
+      'share_id',
+      'user_id'
+    );
+  }
 
-	// get all likes count
-	likes() {
-		return this.belongsToMany('App/Models/Post').pivotTable('likes');
-	}
+  // get all likes count
+  likes() {
+    return this.belongsToMany('App/Models/Post').pivotTable('likes');
+  }
 
-	// get user liked post
-	liked() {
-		return this.hasOne('App/Models/Like');
-	}
+  // get user liked post
+  liked() {
+    return this.hasOne('App/Models/Like');
+  }
 
-	midias() {
-		return this.hasMany('App/Models/File', 'key', 'key');
-	}
+  midias() {
+    return this.hasMany('App/Models/File', 'key', 'key');
+  }
 
-	file() {
-		return this.hasOne('App/Models/File', 'key', 'key');
-	}
+  file() {
+    return this.hasOne('App/Models/File', 'key', 'key');
+  }
 
-	midias_share() {
-		return this.hasMany('App/Models/File', 'share_post.key', 'key');
-	}
+  file() {
+    return this.hasOne('App/Models/File', 'key', 'key');
+  }
 
-	// get all comments in post
-	comments() {
-		return this.belongsToMany('App/Models/Post').pivotTable('comments');
-	}
+  midias_share() {
+    return this.hasMany('App/Models/File', 'share_post.key', 'key');
+  }
 
-	// get all shares post
-	share() {
-		return this.hasMany('App/Models/Share');
-	}
+  // get all comments in post
+  comments() {
+    return this.belongsToMany('App/Models/Post').pivotTable('comments');
+  }
 
-	static get visible() {
-		return ['id', 'user_id', 'text', 'created_at', 'share_id', 'post_id'];
-	}
+  // get all shares post
+  share() {
+    return this.hasMany('App/Models/Share');
+  }
+
+  static get visible() {
+    return ['id', 'user_id', 'text', 'created_at', 'share_id', 'post_id'];
+  }
 }
 
 module.exports = Post;

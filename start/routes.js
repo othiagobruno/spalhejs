@@ -40,6 +40,7 @@ Route.post('files/:id', 'FileController.store').middleware(['auth']);
 Route.get('files', 'FileController.index').middleware(['auth']);
 Route.resource('posts', 'PostController').apiOnly().middleware(['auth']);
 Route.get('users/:id/posts', 'PostController.me').middleware(['auth']);
+Route.get('users/:id/photos', 'PostController.meMedias').middleware(['auth']);
 
 //LIKES POST
 Route.post('like', 'LikeController.store').middleware(['auth']);
