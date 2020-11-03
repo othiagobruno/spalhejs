@@ -4,7 +4,6 @@ const Helpers = use('Helpers')
 const File = use('App/Models/File');
 
 class FileController {
-
   async show({ params, response }) {
     const file = await File.findOrFail(params.id)
     return response.download(Helpers.tmpPath('uploads/' + file.file))
@@ -13,7 +12,6 @@ class FileController {
   async store({ request, response, params }) {
     try {
       const images = request.file('file', {
-        types: ['image', 'video'],
         size: '50mb'
       })
       await images.moveAll(Helpers.tmpPath('uploads'), (file) => {
@@ -22,18 +20,24 @@ class FileController {
         }
       })
       if (!images.movedAll()) {
-        return images.errors()
+        throw images.errors()
       }
       const movedFiles = images.movedList()
       movedFiles.map(async (file) => {
-        await File.create({ name: file.clientName, type: file.type, key: params.id })
+        await File.create({
+          file: file.clientName,
+          name: file.clientName,
+          type: file.type,
+          subtype: file.subtype,
+          post_id: params.id
+        })
       })
 
-      return response.status(200).send(movedFiles);
+      return response.status(200).send(movedFiles)
     } catch (err) {
       return response.status(400).send({
         error: 'não foi possivel enviar imagens'
-      });
+      })
     }
   }
 }

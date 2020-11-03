@@ -12,3 +12,4 @@ node_modules
 
 # The development sqlite file
 database/*.sqlite
+tmp/
