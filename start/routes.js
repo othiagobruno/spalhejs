@@ -38,6 +38,7 @@ Route.put('gtoken', 'GtokenController.create').middleware(['auth']);
 //POSTS
 Route.post('files/:id', 'FileController.store').middleware(['auth']);
 Route.get('files', 'FileController.index').middleware(['auth']);
+Route.get('files/:id', 'FileController.show')
 Route.resource('posts', 'PostController').apiOnly().middleware(['auth']);
 Route.get('users/:id/posts', 'PostController.me').middleware(['auth']);
 Route.get('users/:id/photos', 'PostController.meMedias').middleware(['auth']);

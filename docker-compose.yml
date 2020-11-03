@@ -9,6 +9,8 @@ services:
     depends_on:
       - db
       - redis
+    volumes:
+      - .:/usr/spalhejs
 
   db:
     image: mysql:5.6
