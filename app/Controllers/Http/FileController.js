@@ -3,7 +3,16 @@
 const Helpers = use('Helpers')
 const File = use('App/Models/File');
 
+const Env = use('Env');
+
+
 class FileController {
+  async index({ response }) {
+    const file = await File.all()
+    return file
+  }
+
+
   async show({ params, response }) {
     const file = await File.findOrFail(params.id)
     return response.download(Helpers.tmpPath('uploads/' + file.file))
@@ -16,7 +25,7 @@ class FileController {
       })
       await images.moveAll(Helpers.tmpPath('uploads'), (file) => {
         return {
-          name: `${new Date().getTime()}.${file.subtype}`
+          name: `${Date.now()}.${file.subtype}`
         }
       })
       if (!images.movedAll()) {
@@ -25,7 +34,7 @@ class FileController {
       const movedFiles = images.movedList()
       movedFiles.map(async (file) => {
         await File.create({
-          file: file.clientName,
+          file: file.fileName,
           name: file.clientName,
           type: file.type,
           subtype: file.subtype,

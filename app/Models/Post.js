@@ -4,7 +4,7 @@
 const Model = use('Model');
 
 class Post extends Model {
-  // get user
+
   user() {
     return this.belongsTo('App/Models/User');
   }
@@ -23,38 +23,28 @@ class Post extends Model {
     );
   }
 
-  // get all likes count
+
   likes() {
     return this.belongsToMany('App/Models/Post').pivotTable('likes');
   }
 
-  // get user liked post
   liked() {
     return this.hasOne('App/Models/Like');
   }
 
-  midias() {
-    return this.hasMany('App/Models/File', 'key', 'key');
-  }
 
-  file() {
-    return this.hasOne('App/Models/File', 'key', 'key');
-  }
-
-  file() {
-    return this.hasOne('App/Models/File', 'key', 'key');
+  files() {
+    return this.hasMany('App/Models/File');
   }
 
   midias_share() {
-    return this.hasMany('App/Models/File', 'share_post.key', 'key');
+    return this.hasMany('App/Models/File', 'share_post.id', 'post_id');
   }
 
-  // get all comments in post
   comments() {
     return this.belongsToMany('App/Models/Post').pivotTable('comments');
   }
 
-  // get all shares post
   share() {
     return this.hasMany('App/Models/Share');
   }

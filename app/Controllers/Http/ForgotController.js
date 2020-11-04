@@ -5,7 +5,7 @@ const Token = use('App/Models/Token');
 const Mail = use('Mail');
 
 class ForgotController {
-  async store({ request, response }) {
+  async store({ request, response, auth }) {
     try {
       const { email } = request.all();
       const user = await User.findBy('email', email);

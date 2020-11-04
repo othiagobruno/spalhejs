@@ -9,7 +9,7 @@ class PostController {
     follows.push(user.id);
     const posts = await Post.query()
       .whereIn('user_id', follows)
-      .with('midias')
+      .with('files')
       .with('liked', (builder) => builder.where('user_id', auth.user.id))
       .withCount('likes')
       .withCount('comments')
@@ -27,7 +27,7 @@ class PostController {
     const user = auth.current.user;
     const post = await Post.query()
       .where('id', params.id)
-      .with('midias')
+      .with('files')
       .with('liked', (builder) => {
         builder.where('user_id', user.id);
       })
@@ -48,7 +48,7 @@ class PostController {
     try {
       return await Post.query()
         .where('user_id', id)
-        .with('midias')
+        .with('files')
         .with('liked', (builder) => {
           builder.where('user_id', user.id);
         })
@@ -73,10 +73,10 @@ class PostController {
     try {
       return await Post.query()
         .where('user_id', id)
-        .whereHas('file', (builder) => {
+        .whereHas('files', (builder) => {
           builder.where('type', 'image');
         })
-        .with('file')
+        .with('files')
         .orderBy('id', 'desc')
         .fetch();
     } catch (err) {
