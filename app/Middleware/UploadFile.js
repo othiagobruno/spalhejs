@@ -61,10 +61,10 @@ class UploadFile {
 
       async function handleUploadS3() {
         for (let i = 0; i < amount; i++) {
-          const file = files._files[i];
+          const file = request.multipart.file(`image[${i}]`, validationOptions);
 
           if (!file) {
-            request.files = filesArray;
+            request.multipart.files = filesArray;
             return await next();
           }
 
@@ -82,12 +82,13 @@ class UploadFile {
             url,
             type: file.type,
           };
-
+          await request.multipart.process();
           filesArray.push(newObjectFile);
         }
       }
 
-      request.files = filesArray;
+      request.multipart.files = filesArray;
+      request.multipart.proccess();
       await next();
     } catch (error) {
       return response.status(500).send({
