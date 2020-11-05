@@ -1,10 +1,9 @@
-'use strict';
 const Post = use('App/Models/Post');
 
 class PostController {
   async index({ auth, request }) {
     const { page } = request.all();
-    const user = auth.current.user;
+    const { user } = auth.current;
     const follows = await user.following().ids();
     follows.push(user.id);
     const posts = await Post.query()
@@ -24,7 +23,7 @@ class PostController {
   }
 
   async show({ params, auth }) {
-    const user = auth.current.user;
+    const { user } = auth.current;
     const post = await Post.query()
       .where('id', params.id)
       .with('files')
@@ -43,8 +42,8 @@ class PostController {
   }
 
   async me({ auth, params }) {
-    const user = auth.current.user;
-    const id = params.id;
+    const { user } = auth.current;
+    const { id } = params;
     try {
       return await Post.query()
         .where('user_id', id)
@@ -67,9 +66,8 @@ class PostController {
     }
   }
 
-  async meMedias({ auth, params }) {
-    const user = auth.current.user;
-    const id = params.id;
+  async meMedias({ params }) {
+    const { id } = params;
     try {
       return await Post.query()
         .where('user_id', id)

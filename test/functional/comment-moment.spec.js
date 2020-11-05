@@ -1,5 +1,3 @@
-'use strict';
-
 const { test, trait } = use('Test/Suite')('Comment Moment');
 const Factory = use('Factory');
 
@@ -7,7 +5,7 @@ trait('Test/ApiClient');
 trait('Auth/Client');
 trait('DatabaseTransactions');
 
-//TEST STORE METHOD
+// TEST STORE METHOD
 test('should return status 201 when creating a new comment', async ({
   client,
 }) => {
@@ -72,7 +70,7 @@ test('should return validation error when sending comment without text', async (
   assert.equal(response.body[0].validation, 'required');
 });
 
-//TEST INDEX METHOD
+// TEST INDEX METHOD
 test('should return comment listing', async ({ assert, client }) => {
   const user = await Factory.model('App/Models/User').create();
 
@@ -97,8 +95,8 @@ test('should return comment listing', async ({ assert, client }) => {
   assert.property(response.body[0], 'user');
 });
 
-//TEST DELETE METHOD
-test('should return comment count in a moment', async ({ assert, client }) => {
+// TEST DELETE METHOD
+test('should return comment count in a moment', async ({ client }) => {
   const user = await Factory.model('App/Models/User').create();
 
   const moment = await Factory.model('App/Models/Moment').create({

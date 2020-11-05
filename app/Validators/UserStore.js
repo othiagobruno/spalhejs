@@ -1,5 +1,3 @@
-'use strict';
-
 const { rule } = use('Validator');
 
 class UserStore {

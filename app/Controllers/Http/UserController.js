@@ -1,5 +1,3 @@
-'use strict';
-
 const User = use('App/Models/User');
 
 class UserController {
@@ -53,7 +51,7 @@ class UserController {
         'website',
         'avatar',
       ]);
-      const id = auth.user.id;
+      const { id } = auth.user;
 
       const user = await User.findOrFail(id);
       const verifyUsername = await User.findBy({ username: data.username });

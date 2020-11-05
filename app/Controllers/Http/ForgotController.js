@@ -1,11 +1,9 @@
-'use strict';
-
 const User = use('App/Models/User');
 const Token = use('App/Models/Token');
 const Mail = use('Mail');
 
 class ForgotController {
-  async store({ request, response, auth }) {
+  async store({ request, response }) {
     try {
       const { email } = request.all();
       const user = await User.findBy('email', email);

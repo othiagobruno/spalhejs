@@ -1,5 +1,3 @@
-'use strict';
-
 const { test, trait } = use('Test/Suite')('Session');
 const Factory = use('Factory');
 

@@ -1,5 +1,3 @@
-'use strict';
-
 const { test, trait } = use('Test/Suite')('Forgot Password');
 const Database = use('Database');
 const Factory = use('Factory');
@@ -10,7 +8,7 @@ const { subHours } = require('date-fns');
 trait('Test/ApiClient');
 trait('DatabaseTransactions');
 
-//TEST SOTRE METHOD
+// TEST SOTRE METHOD
 test('must send email with access token to change password', async ({
   assert,
   client,
@@ -47,7 +45,7 @@ test('should return validation error when attempting to send a non-existent emai
   assert.equal(response.body[0].validation, 'exists');
 });
 
-//TEST VERIFY METHOD
+// TEST VERIFY METHOD
 test('should return success message when sending token and valid emails', async ({
   assert,
   client,
@@ -149,7 +147,7 @@ test('should return validation error when sending a non-existent email', async (
   assert.equal(response.body[0].validation, 'exists');
 });
 
-//TEST UPDATE METHOD
+// TEST UPDATE METHOD
 test(`must change user's password when token is valid`, async ({
   assert,
   client,

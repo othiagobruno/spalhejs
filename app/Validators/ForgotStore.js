@@ -1,5 +1,3 @@
-'use strict';
-
 class ForgotPasswordStore {
   get rules() {
     return {

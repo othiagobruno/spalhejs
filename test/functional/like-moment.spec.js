@@ -1,5 +1,3 @@
-'use strict';
-
 const { test, trait } = use('Test/Suite')('Like Moment');
 const Factory = use('Factory');
 
@@ -7,7 +5,7 @@ trait('Test/ApiClient');
 trait('Auth/Client');
 trait('DatabaseTransactions');
 
-//TEST STORE METHOD
+// TEST STORE METHOD
 test('should return status 201 when creating a new like', async ({
   client,
 }) => {
@@ -65,7 +63,7 @@ test('should return status of 200 when giving dislike in a moment', async ({
   response.assertStatus(200);
 });
 
-//TEST INDEX METHOD
+// TEST INDEX METHOD
 test('should return list of likes of a moment', async ({ assert, client }) => {
   const user = await Factory.model('App/Models/User').create();
 

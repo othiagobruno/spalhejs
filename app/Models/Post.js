@@ -1,10 +1,7 @@
-'use strict';
-
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model');
 
 class Post extends Model {
-
   user() {
     return this.belongsTo('App/Models/User');
   }
@@ -23,7 +20,6 @@ class Post extends Model {
     );
   }
 
-
   likes() {
     return this.belongsToMany('App/Models/Post').pivotTable('likes');
   }
@@ -31,7 +27,6 @@ class Post extends Model {
   liked() {
     return this.hasOne('App/Models/Like');
   }
-
 
   files() {
     return this.hasMany('App/Models/File');

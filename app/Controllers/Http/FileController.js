@@ -1,52 +1,46 @@
-'use strict';
-
-const Helpers = use('Helpers')
+const Helpers = use('Helpers');
 const File = use('App/Models/File');
 
-const Env = use('Env');
-
-
 class FileController {
-  async index({ response }) {
-    const file = await File.all()
-    return file
+  async index() {
+    const file = await File.all();
+    return file;
   }
 
-
   async show({ params, response }) {
-    const file = await File.findOrFail(params.id)
-    return response.download(Helpers.tmpPath('uploads/' + file.file))
+    const file = await File.findOrFail(params.id);
+    return response.download(Helpers.tmpPath(`uploads/${file.file}`));
   }
 
   async store({ request, response, params }) {
     try {
       const images = request.file('file', {
-        size: '50mb'
-      })
+        size: '50mb',
+      });
       await images.moveAll(Helpers.tmpPath('uploads'), (file) => {
         return {
-          name: `${Date.now()}.${file.subtype}`
-        }
-      })
+          name: `${Date.now()}.${file.subtype}`,
+        };
+      });
       if (!images.movedAll()) {
-        throw images.errors()
+        throw images.errors();
       }
-      const movedFiles = images.movedList()
+      const movedFiles = images.movedList();
       movedFiles.map(async (file) => {
         await File.create({
           file: file.fileName,
           name: file.clientName,
           type: file.type,
           subtype: file.subtype,
-          post_id: params.id
-        })
-      })
+          post_id: params.id,
+        });
+      });
 
-      return response.status(200).send(movedFiles)
+      return response.status(200).send(movedFiles);
     } catch (err) {
       return response.status(400).send({
-        error: 'não foi possivel enviar imagens'
-      })
+        error: 'não foi possivel enviar imagens',
+      });
     }
   }
 }

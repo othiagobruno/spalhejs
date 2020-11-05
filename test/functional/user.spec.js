@@ -1,5 +1,3 @@
-'use strict';
-
 const { test, trait } = use('Test/Suite')('User');
 const Factory = use('Factory');
 
@@ -7,7 +5,7 @@ trait('Test/ApiClient');
 trait('Auth/Client');
 trait('DatabaseTransactions');
 
-//TEST STORE METHOD
+// TEST STORE METHOD
 test('should create a new user when sending valid data', async ({
   assert,
   client,
@@ -182,7 +180,7 @@ test('should return validation error when trying to create a user with invalid u
   });
 });
 
-//TEST INDEX METHOD
+// TEST INDEX METHOD
 test('should return listing of all users when it is authenticated', async ({
   assert,
   client,
@@ -201,7 +199,7 @@ test('should return error when trying to list users without authentication', asy
   response.assertStatus(401);
 });
 
-//TEST SHOW METHOD
+// TEST SHOW METHOD
 test('should return data from a specific user', async ({ assert, client }) => {
   const user = await Factory.model('App/Models/User').createMany(2);
 
@@ -225,7 +223,7 @@ test('should return error when trying to find a user who does not exist', async 
   assert.equal(response.body.error, 'user not found');
 });
 
-//TEST UPDATE METHOD
+// TEST UPDATE METHOD
 test('should return updated user data when sent valid data', async ({
   assert,
   client,

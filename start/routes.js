@@ -1,16 +1,14 @@
-'use strict';
-
 const Route = use('Route');
 
 Route.get('/', () => {
   return { welcome: 'Welcome to Spalhe API' };
 });
 
-//REGISTER AND LOGIN
+// REGISTER AND LOGIN
 Route.post('login', 'SessionController.store');
 Route.post('register', 'UserController.store').validator('UserStore');
 
-//FORGOT PASSWORD
+// FORGOT PASSWORD
 Route.post('/forgot-password', 'ForgotController.store').validator(
   'ForgotStore'
 );
@@ -21,7 +19,7 @@ Route.put('/reset-password', 'ResetPasswordController.update').validator(
   'ResetPasswordUpdate'
 );
 
-//USERS
+// USERS
 Route.get('users', 'UserController.index').middleware(['auth']);
 Route.get('users/:id', 'UserController.show').middleware(['auth']);
 Route.put('users', 'UserController.update')
@@ -32,41 +30,41 @@ Route.put('users/:id', 'UserController.update')
   .middleware(['auth'])
   .validator('UserUpdate');
 
-///TOKEN GOOGLE MESSAGE NOTIFICATIONSSS
+/// TOKEN GOOGLE MESSAGE NOTIFICATIONSSS
 Route.put('gtoken', 'GtokenController.create').middleware(['auth']);
 
-//POSTS
+// POSTS
 Route.post('files/:id', 'FileController.store').middleware(['auth']);
 Route.get('files', 'FileController.index').middleware(['auth']);
-Route.get('files/:id', 'FileController.show')
-Route.get('files', 'FileController.index')
+Route.get('files/:id', 'FileController.show');
+Route.get('files', 'FileController.index');
 Route.resource('posts', 'PostController').apiOnly().middleware(['auth']);
 Route.get('users/:id/posts', 'PostController.me').middleware(['auth']);
 Route.get('users/:id/photos', 'PostController.meMedias').middleware(['auth']);
 
-//LIKES POST
+// LIKES POST
 Route.post('like', 'LikeController.store').middleware(['auth']);
 Route.get('likes/:id', 'LikeController.show').middleware(['auth']);
 
-//COMMENTS
+// COMMENTS
 Route.resource('comments', 'CommentController').apiOnly().middleware(['auth']);
 Route.get('comment/:id', 'CommentController.index').middleware(['auth']);
 Route.post('comments/:id/like', 'CommentLikeController.store').middleware([
   'auth',
 ]);
 
-//SHARE POST
+// SHARE POST
 Route.post('share/:id', 'ShareController.store').middleware(['auth']);
 Route.get('share/:id', 'ShareController.show').middleware(['auth']);
 
-//FOLLOWS
+// FOLLOWS
 Route.get('unfollowusers', 'FollowController.usersToFollow').middleware([
   'auth',
 ]);
 Route.post('follow/:id', 'FollowController.follow').middleware(['auth']);
 Route.post('unfollow/:id', 'FollowController.unFollow').middleware(['auth']);
 
-//GET USERS FOLLOWS
+// GET USERS FOLLOWS
 Route.get('users/:id/followers', 'FollowController.showFollowers').middleware([
   'auth',
 ]);
@@ -74,18 +72,18 @@ Route.get('users/:id/following', 'FollowController.showFollowing').middleware([
   'auth',
 ]);
 
-//EXPLORE
+// EXPLORE
 Route.get('explore/images', 'ExploreController.index').middleware(['auth']);
 
-//SEARCH
+// SEARCH
 Route.get('search/:id', 'SearchController.index').middleware(['auth']);
 
-//NOTIFICATIONS:
+// NOTIFICATIONS:
 Route.resource('notifications', 'NotificationController')
   .apiOnly()
   .middleware(['auth']);
 
-//MOMENTS
+// MOMENTS
 Route.resource('moments', 'MomentController').middleware(['auth']).apiOnly();
 Route.post('moment/view/:id', 'MviewController.store').middleware(['auth']);
 Route.get('moment/view/:id', 'MviewController.show').middleware(['auth']);
@@ -114,7 +112,7 @@ Route.resource('moment/like/:id', 'MomentLikeController')
   )
   .apiOnly();
 
-//REPLY COMMENTS
+// REPLY COMMENTS
 Route.post('reply/:id', 'ReplyController.store').middleware(['auth']);
 Route.get('reply/:id', 'ReplyController.show').middleware(['auth']);
 

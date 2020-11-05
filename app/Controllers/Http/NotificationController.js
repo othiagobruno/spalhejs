@@ -1,10 +1,8 @@
-'use strict';
-
 const Notification = use('App/Models/Notification');
 
 class NotificationController {
   async index({ auth }) {
-    const user = auth.current.user;
+    const { user } = auth.current;
     const notifications = await Notification.query()
       .where('my_userid', user.id)
       .orderBy('id', 'desc')
@@ -17,7 +15,7 @@ class NotificationController {
   }
 
   async update({ auth }) {
-    const user = auth.current.user;
+    const { user } = auth.current;
     await Notification.query()
       .where('my_userid', user.id)
       .update({ view: true });
@@ -26,7 +24,7 @@ class NotificationController {
   }
 
   async destroy({ auth }) {
-    const user = auth.current.user;
+    const { user } = auth.current;
     const notification = await Notification.query()
       .where('my_userid', user.id)
       .delete();

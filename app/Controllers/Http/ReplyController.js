@@ -1,17 +1,13 @@
-"use strict";
-
-const Reply = use("App/Models/Reply");
-const Comment = use("App/Models/Comment");
-const Notification = use("App/Models/Notification");
+const Reply = use('App/Models/Reply');
+const Comment = use('App/Models/Comment');
+const Notification = use('App/Models/Notification');
 
 class ReplyController {
-  async index({ response }) {}
-
   async store({ params, auth, request }) {
-    const id = params.id;
-    const user = auth.current.user;
+    const { id } = params;
+    const { user } = auth.current;
     const cm = await Comment.find(id);
-    const { text } = request.only(["text"]);
+    const { text } = request.only(['text']);
     const data = await Reply.create({
       text,
       user_id: user.id,
@@ -19,7 +15,7 @@ class ReplyController {
     });
     if (data && cm.user_id !== user.id) {
       const data = {
-        type: "reply",
+        type: 'reply',
         post_id: id,
         user_id: user.id,
         view: false,
@@ -30,11 +26,11 @@ class ReplyController {
     return data;
   }
 
-  async show({ params, auth }) {
-    const id = params.id;
+  async show({ params }) {
+    const { id } = params;
     const data = await Reply.query()
-      .where("comment_id", id)
-      .with("user")
+      .where('comment_id', id)
+      .with('user')
       .fetch();
     return data;
   }

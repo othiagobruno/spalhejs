@@ -1,5 +1,3 @@
-'use strict';
-
 const MomentComment = use('App/Models/MomentComment');
 const Moment = use('App/Models/Moment');
 const Notification = use('App/Models/Notification');

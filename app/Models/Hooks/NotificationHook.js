@@ -1,4 +1,3 @@
-'use strict';
 const axios = require('axios').default;
 
 /** @type {import('@adonisjs/framework/src/Env')} */
@@ -9,7 +8,6 @@ const User = use('App/Models/User');
 const Env = use('Env');
 
 const NotificationHook = (exports = module.exports = {});
-NotificationHook.method = async (modelInstance) => {};
 
 NotificationHook.sendPush = async (notification) => {
   const user = await User.find(notification.my_userid);
@@ -29,7 +27,7 @@ NotificationHook.sendPush = async (notification) => {
 
   const title = typeNotification[notification.type];
 
-  var notification = {
+  const sendNotification = {
     notification: {
       title: me.name,
       body: title,
@@ -37,9 +35,9 @@ NotificationHook.sendPush = async (notification) => {
     to: user.token,
   };
   // SEND MESSAGIING
-  axios.post('https://fcm.googleapis.com/fcm/send', notification, {
+  axios.post('https://fcm.googleapis.com/fcm/send', sendNotification, {
     headers: {
-      Authorization: 'key=' + key,
+      Authorization: `key=${key}`,
       'Content-Type': 'application/json',
     },
   });

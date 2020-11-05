@@ -1,13 +1,11 @@
-'use strict';
-
 const Moment = use('App/Models/Moment');
 const User = use('App/Models/User');
-var subDays = require('date-fns/subDays');
+const subDays = require('date-fns/subDays');
 
 class MomentController {
   async index({ response, auth }) {
     try {
-      const user = auth.user;
+      const { user } = auth;
       const follows = await user.following().ids();
       const subDay = subDays(new Date(), 1);
       follows.push(user.id);
@@ -47,13 +45,13 @@ class MomentController {
   }
 
   async show({ params }) {
-    const id = params.id;
+    const { id } = params;
     const moments = await Moment.query().where('id', id).with('user').fetch();
     return moments;
   }
 
   async destroy({ params, auth, response }) {
-    const user = auth.current.user;
+    const { user } = auth.current;
     const { id } = params;
 
     try {
@@ -61,11 +59,10 @@ class MomentController {
       if (moment.user_id === user.id) {
         await moment.delete();
         return response.status(200).json({ status: 'deleted' });
-      } else {
-        return response
-          .status(401)
-          .json({ status: 'you are not allowed to delete' });
       }
+      return response
+        .status(401)
+        .json({ status: 'you are not allowed to delete' });
     } catch (error) {
       return response
         .status(500)
