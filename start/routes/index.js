@@ -1,0 +1,15 @@
+const Route = use('Route');
+
+Route.get('/', () => {
+  return { welcome: 'Welcome to Spalhe API' };
+});
+
+require('./auth.routes');
+require('./user.routes');
+require('./post.routes');
+require('./momment.routes');
+require('./notification.routes');
+
+Route.get('explore/images', 'ExploreController.index').middleware(['auth']);
+
+Route.get('search/:id', 'SearchController.index').middleware(['auth']);
