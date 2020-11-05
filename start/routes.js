@@ -115,10 +115,3 @@ Route.resource('moment/like/:id', 'MomentLikeController')
 // REPLY COMMENTS
 Route.post('reply/:id', 'ReplyController.store').middleware(['auth']);
 Route.get('reply/:id', 'ReplyController.show').middleware(['auth']);
-
-// MESSAGES ( vamos implementar o mongodb )
-// Route.post('chat', 'ChatController.store').middleware([ 'auth' ]);
-// Route.get('chat', 'ChatController.index').middleware([ 'auth' ]);
-// Route.post('messages', 'MessageController.store').middleware([ 'auth' ]);
-// Route.get('messages/:id', 'MessageController.show').middleware([ 'auth' ]);
-// Route.put('messages/:id', 'MessageController.update').middleware([ 'auth' ]);
