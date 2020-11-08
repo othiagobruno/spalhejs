@@ -1,6 +1,10 @@
 const { rule } = use('Validator');
 
 class ForgotPasswordUpdate {
+  get validateAll() {
+    return true;
+  }
+
   get rules() {
     return {
       token: 'required|exists:tokens,token',

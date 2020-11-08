@@ -1,10 +1,14 @@
 const { rule } = use('Validator');
 
 class UserUpdate {
+  get validateAll() {
+    return true;
+  }
+
   get rules() {
     return {
       name: [
-        // rule('required'),
+        rule('required'),
         rule('string'),
         rule('regex', /^[a-zA-Z ]{3,}$/i),
       ],

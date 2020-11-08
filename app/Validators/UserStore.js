@@ -1,6 +1,10 @@
 const { rule } = use('Validator');
 
 class UserStore {
+  get validateAll() {
+    return true;
+  }
+
   get rules() {
     return {
       name: [

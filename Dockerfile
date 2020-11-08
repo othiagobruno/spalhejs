@@ -1,10 +1,10 @@
-FROM node:14
+FROM node:12
 
 WORKDIR /usr/spalhejs
 
 COPY package*.json ./
 
-RUN npm i -g @adonisjs/cli
+RUN yarn global add @adonisjs/cli
 
 RUN yarn
 

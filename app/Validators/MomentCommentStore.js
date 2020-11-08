@@ -1,9 +1,6 @@
 class MomentComment {
-  get data() {
-    const requestBody = this.ctx.request.all();
-    const moment_id = this.ctx.params.id;
-
-    return { ...requestBody, moment_id };
+  get validateAll() {
+    return true;
   }
 
   get rules() {

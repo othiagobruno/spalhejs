@@ -8,16 +8,14 @@ class MessagesSchema extends Schema {
       table.string('id_send').notNullable();
       table.string('id_received').notNullable();
       table
-        .integer('id_msg')
+        .integer('chat_id')
         .unsigned()
         .references('id')
         .inTable('chats')
         .notNullable()
         .onDelete('CASCADE');
       table.string('text');
-      table.string('audio');
-      table.string('midia');
-      table.string('view');
+      table.integer('view');
       table.timestamps();
     });
   }

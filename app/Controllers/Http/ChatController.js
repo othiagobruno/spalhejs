@@ -1,57 +1,42 @@
 const Chat = use('App/Models/Chat');
-const User = use('App/Models/User');
-const Message = use('App/Models/Message');
 
 class ChatController {
-  async index({ auth }) {
-    const { user } = auth.current;
-    const msg = await Chat.query()
-      .where('id_received', user.id)
-      .orWhere('id_send', user.id)
-      .fetch();
-
-    const data = [];
-    for (const i in msg.rows) {
-      const x = msg.rows[i];
-      if (x.id_received !== user.id) {
-        const user = await User.find(x.id_received);
-        const last = await Message.query().where('id_msg', x.id).pickInverse(1);
-
-        data.push({
-          idmsg: x.id,
-          name: user.name,
-          avatar: user.avatar,
-          created_at: x.created_at,
-          last: last.rows[0],
-        });
-      } else {
-        const user = await User.find(x.id_send);
-        const last = await Message.query().where('id_msg', x.id).pickInverse(1);
-        data.push({
-          idmsg: x.id,
-          name: user.name,
-          avatar: user.avatar,
-          created_at: x.created_at,
-          last: last.rows[0],
-        });
-      }
+  async index({ auth, response }) {
+    try {
+      const { user } = auth.current;
+      const chat_list = await Chat.query()
+        .where('id_received', user.id)
+        .orWhere('id_send', user.id)
+        .with('messages')
+        .withCount('messages', (builder) => builder.whereNot('view', null))
+        .with('user_one', (builder) => builder.select('id', 'name', 'avatar'))
+        .with('user_two', (builder) => builder.select('id', 'name', 'avatar'))
+        .fetch();
+      return response.status(200).send(chat_list);
+    } catch (error) {
+      return response
+        .status(400)
+        .send([{ message: 'Erro ao buscar mensagens' }]);
     }
-
-    return data;
   }
 
-  async store({ request }) {
-    const { id_received, id_send } = request.all();
-    try {
-      const msg = await Chat.query()
-        .whereIn('id_received', [id_send, id_received])
-        .whereIn('id_send', [id_send, id_received])
-        .firstOrFail();
-      return { status: 'chat', data: msg };
-    } catch (error) {
-      const chat = await Chat.create({ id_received, id_send });
-      return chat;
+  async store({ request, response, auth }) {
+    const id_send = auth.user.id;
+    const { id_received } = request.all();
+    const msg = await Chat.query()
+      .whereIn('id_received', [id_send, id_received])
+      .whereIn('id_send', [id_send, id_received])
+      .first();
+    if (!msg) {
+      if (id_received !== id_send) {
+        const chat = await Chat.create({ id_received, id_send });
+        return response.status(201).send({ message: 'success', data: chat });
+      }
+      return response
+        .status(400)
+        .send({ message: "you can't create chat message with yourself" });
     }
+    return response.status(201).send({ message: 'success', data: msg });
   }
 }
 
