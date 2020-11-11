@@ -4,8 +4,6 @@ WORKDIR /usr/spalhejs
 
 COPY package*.json ./
 
-RUN yarn global add @adonisjs/cli
-
 RUN yarn
 
 COPY . .
