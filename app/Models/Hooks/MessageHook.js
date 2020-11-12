@@ -1,25 +1,12 @@
 const Ws = use('Ws');
+const Chat = use('App/Models/Chat');
 
 const MessageHook = (exports = module.exports = {});
 
 MessageHook.send = async (msg) => {
-  const topic = Ws.getChannel('message:*').topic(`message:${msg.id_msg}`);
+  const topic = Ws.getChannel('message:*').topic(`message:${msg.chat_id}`);
   if (topic) {
-    const x = msg;
-    const data = {
-      _id: x.id,
-      idmsg: x.id_msg,
-      text: x.text,
-      createdAt: x.created_at,
-      user: {
-        _id: Number(x.id_send),
-      },
-      view: false,
-    };
-
-    topic.broadcast('message', data);
-  } else {
-    console.log('não consegui conectar ao cliente');
+    topic.broadcast('message', msg);
   }
 };
 
@@ -27,11 +14,18 @@ MessageHook.get = async (msg) => {
   const topic = await Ws.getChannel('chat:*').topic(`chat:${msg.id_received}`);
   const topic2 = await Ws.getChannel('chat:*').topic(`chat:${msg.id_send}`);
 
-  if (topic) {
-    topic.broadcast('message', new Date());
-  }
+  const chat_list = await Chat.query()
+    .where('id_received', msg.id_received)
+    .orWhere('id_send', msg.id_send)
+    .with('messages', (builder) => builder.orderBy('id', 'desc').limit(1))
+    .withCount('messages', (builder) => builder.whereNot('view', null))
+    .with('user_one', (builder) => builder.select('id', 'name', 'avatar'))
+    .with('user_two', (builder) => builder.select('id', 'name', 'avatar'))
+    .first();
 
-  if (topic2) {
-    topic2.broadcast('message', new Date());
+  if (topic) {
+    topic.broadcast('message', chat_list);
+  } else if (topic2) {
+    topic2.broadcast('message', chat_list);
   }
 };

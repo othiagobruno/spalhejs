@@ -6,7 +6,6 @@ class Message extends Model {
     super.boot();
     this.addHook('afterCreate', 'MessageHook.send');
     this.addHook('afterCreate', 'MessageHook.get');
-    this.addHook('afterUpdate', 'MessageHook.get');
   }
 
   user() {

@@ -4,6 +4,8 @@ WORKDIR /usr/spalhejs
 
 COPY package*.json ./
 
+RUN yarn global add nodemon
+
 RUN yarn
 
 COPY . .

@@ -1,13 +1,11 @@
 const Message = use('App/Models/Message');
 
 class MessageController {
-  async show({ request, response, params }) {
+  async show({ response, params }) {
     const chat_id = params.id;
-    const { page } = request.all();
     const message = await Message.query()
       .where({ chat_id })
       .orderBy('id', 'desc')
-      .paginate(page, 20)
       .fetch();
     return response.status(200).send(message);
   }

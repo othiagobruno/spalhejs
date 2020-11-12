@@ -8,9 +8,7 @@ class NotificationController {
     this.socket.broadcastToAll(message);
   }
 
-  onClose() {
-    console.log('n close: ', this.socket.topic);
-  }
+  onClose() {}
 }
 
 module.exports = NotificationController;
