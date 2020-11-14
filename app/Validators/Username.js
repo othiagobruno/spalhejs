@@ -1,21 +1,19 @@
 const { rule } = use('Validator');
 const Antl = use('Antl');
-class UserStore {
+
+class username {
   get validateAll() {
     return true;
   }
 
   get rules() {
     return {
-      name: 'required|string',
       username: [
         rule('required'),
         rule('string'),
-        rule('regex', /^(?=[a-z_\d]*[a-z])[a-z._\d]{5,}$/gim),
+        rule('regex', /^(?=[a-z._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/gim),
         rule('unique', 'users'),
       ],
-      email: 'required|email|unique:users',
-      password: [rule('required'), rule('string')],
     };
   }
 
@@ -24,4 +22,4 @@ class UserStore {
   }
 }
 
-module.exports = UserStore;
+module.exports = username;

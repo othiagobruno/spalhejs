@@ -7,8 +7,11 @@ class ChatController {
       const chat_list = await Chat.query()
         .where('id_received', user.id)
         .orWhere('id_send', user.id)
-        .with('messages', (builder) => builder.orderBy('id', 'desc').limit(1))
-        .withCount('messages', (builder) => builder.whereNot('view', null))
+        .with('messages')
+        .whereHas('messages')
+        .withCount('messages', (builder) =>
+          builder.where('view', 0).where({ id_received: user.id })
+        )
         .with('user_one', (builder) => builder.select('id', 'name', 'avatar'))
         .with('user_two', (builder) => builder.select('id', 'name', 'avatar'))
         .fetch();

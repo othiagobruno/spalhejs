@@ -3,7 +3,7 @@ const Model = use('Model');
 
 class Chat extends Model {
   messages() {
-    return this.belongsTo('App/Models/Message', 'id', 'chat_id');
+    return this.hasOne('App/Models/Message', 'id', 'chat_id');
   }
 
   user_one() {

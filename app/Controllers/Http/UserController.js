@@ -24,6 +24,22 @@ class UserController {
     return users;
   }
 
+  async username({ request, auth, response }) {
+    const { username } = request.all();
+    const { user } = auth.current;
+    const user_info = await User.findOrFail(user.id);
+    const verifyUsername = await User.findBy({ username });
+    if (verifyUsername && verifyUsername.id !== user.id) {
+      return response.status(409).json({
+        error:
+          'Este nome de usuário já existe e está sendo usado por outra conta',
+      });
+    }
+    user_info.username = username;
+    user_info.save();
+    return user_info;
+  }
+
   async show({ params, response, auth }) {
     try {
       const user = await User.query()
@@ -66,14 +82,7 @@ class UserController {
       user.merge(data);
       await user.save();
 
-      const userdata = await User.query()
-        .where('id', id)
-        .withCount('following')
-        .withCount('followers')
-        .withCount('posts')
-        .firstOrFail();
-
-      return { user: userdata };
+      return user;
     } catch (error) {
       return response
         .status(500)

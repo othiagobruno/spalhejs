@@ -15,10 +15,11 @@ MessageHook.get = async (msg) => {
   const topic2 = await Ws.getChannel('chat:*').topic(`chat:${msg.id_send}`);
 
   const chat_list = await Chat.query()
-    .where('id_received', msg.id_received)
-    .orWhere('id_send', msg.id_send)
+    .where({ id: msg.chat_id })
     .with('messages', (builder) => builder.orderBy('id', 'desc').limit(1))
-    .withCount('messages', (builder) => builder.whereNot('view', null))
+    .withCount('messages', (builder) =>
+      builder.whereNot('view', 0).where({ id_received: msg.id_received })
+    )
     .with('user_one', (builder) => builder.select('id', 'name', 'avatar'))
     .with('user_two', (builder) => builder.select('id', 'name', 'avatar'))
     .first();

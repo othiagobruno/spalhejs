@@ -11,3 +11,5 @@ Route.post('messages/:id', 'MessageController.store')
   .validator('Messages');
 
 Route.get('messages/:id', 'MessageController.show').middleware(['auth']);
+
+Route.put('messages/:id', 'MessageController.update').middleware(['auth']);

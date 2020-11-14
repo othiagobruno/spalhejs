@@ -1,4 +1,5 @@
 const { rule } = use('Validator');
+const Antl = use('Antl');
 
 class UserUpdate {
   get validateAll() {
@@ -20,6 +21,10 @@ class UserUpdate {
       biography: 'string|max:150',
       website: 'string|url|max:40',
     };
+  }
+
+  get messages() {
+    return Antl.list('validation');
   }
 }
 

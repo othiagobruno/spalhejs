@@ -35,7 +35,7 @@
   "object": "The {{field}} should be a valid OBJECT.",
   "range": "The {{field}} should be between {{argument.0}} and {{argument.1}}.",
   "regex": "The {{field}} format is invalid.",
-  "required": "The {{field}} is required.",
+  "required": "O {{field}} é obrigatório",
   "required_if": "The {{field}} is required when {{argument.0}} exist.",
   "required_when":
     "The {{field}} is required when value of {{argument.0}} is equal to {{argument.1}}",

@@ -7,8 +7,8 @@ const subDays = require('date-fns/subDays');
 class ExploreController {
   async index() {
     const json = await Post.query()
-      .with('file')
-      .whereHas('file', (builder) => {
+      .with('files')
+      .whereHas('files', (builder) => {
         builder.where('type', 'image');
       })
       .orderBy(Database.raw('RAND()'))
