@@ -3,7 +3,6 @@ const Route = use('Route');
 Route.group(() => {
   Route.get('users', 'UserController.index');
   Route.get('users/:id', 'UserController.show');
-  Route.put('users', 'UserController.update').validator('UserUpdate');
   Route.put('users/:id', 'UserController.update').validator('UserUpdate');
 
   Route.get('unfollowusers', 'FollowController.usersToFollow');

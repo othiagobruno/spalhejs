@@ -1,8 +1,6 @@
 const Route = use('Route');
 
 Route.group(() => {
-  Route.post('files/:id', 'FileController.store');
-
   Route.resource('posts', 'PostController').apiOnly();
 
   Route.get('users/:id/posts', 'PostController.me');
@@ -20,7 +18,11 @@ Route.group(() => {
 
   Route.post('share/:id', 'ShareController.store');
   Route.get('share/:id', 'ShareController.show');
+
+  Route.post('posts/files/:id', 'FilePostController.store').middleware([
+    'upload,all,7',
+  ]);
 }).middleware(['auth']);
 
-Route.get('files/:id', 'FileController.show');
-Route.get('files', 'FileController.index');
+Route.get('files/:id', 'FilePostController.show');
+Route.get('files', 'FilePostController.index');

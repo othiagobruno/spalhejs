@@ -24,6 +24,7 @@
     "no-console": "off",
     "consistent-return": "off",
     "no-multi-assign": "off",
+    "no-underscore-dangle": "off",
     //temporary errors
     "no-restricted-syntax": "off",
     "guard-for-in": "off",

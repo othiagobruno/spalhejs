@@ -35,6 +35,7 @@
     "@adonisjs/auth": "^3.0.7",
     "@adonisjs/bodyparser": "^2.0.5",
     "@adonisjs/cors": "^1.0.7",
+    "@adonisjs/drive": "^1.0.4",
     "@adonisjs/fold": "^4.0.9",
     "@adonisjs/framework": "^5.0.9",
     "@adonisjs/ignitor": "^2.0.8",
@@ -50,7 +51,8 @@
     "lodash": "^4.17.15",
     "md5": "^2.2.1",
     "mysql": "mysqljs/mysql",
-    "pm2": "^4.4.0"
+    "pm2": "^4.4.0",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
