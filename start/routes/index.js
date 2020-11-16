@@ -10,6 +10,10 @@ require('./post.routes');
 require('./momment.routes');
 require('./messages.routes');
 require('./notification.routes');
+require('./upload.routes');
 
 Route.get('explore/images', 'ExploreController.index').middleware(['auth']);
 Route.get('search/:id', 'SearchController.index').middleware(['auth']);
+
+Route.get('files/:directory/:file', 'FileController.show');
+Route.get('avatar/:id', 'FileController.showAvatar');

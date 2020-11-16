@@ -2,7 +2,7 @@
 const Model = use('Model');
 const Env = use('Env');
 
-class File extends Model {
+class PostFile extends Model {
   static get computed() {
     return ['url'];
   }
@@ -11,8 +11,8 @@ class File extends Model {
     return ['created_at', 'updated_at'];
   }
 
-  getUrl({ id }) {
-    return `${Env.get('APP_URL')}/files/${id}`;
+  getUrl({ file }) {
+    return `${Env.get('APP_URL')}/files/${file}`;
   }
 
   posts() {
@@ -20,4 +20,4 @@ class File extends Model {
   }
 }
 
-module.exports = File;
+module.exports = PostFile;

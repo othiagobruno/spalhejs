@@ -125,7 +125,7 @@ module.exports = {
     | is to true. Otherwise everything is processed manually.
     |
     */
-    processManually: [],
+    processManually: ['/upload/:id/:id', '/upload/:id'],
 
     /*
     |--------------------------------------------------------------------------

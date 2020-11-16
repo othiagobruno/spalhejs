@@ -1,22 +1,20 @@
 const User = use('App/Models/User');
-
+const UserAvatar = use('App/Models/UserAvatar');
 class UserController {
   async store({ request, response, auth }) {
-    try {
-      const data = request.only(['name', 'username', 'email', 'password']);
-      const user = await User.create({
-        ...data,
-        avatar:
-          'https://firebasestorage.googleapis.com/v0/b/spalhe-app.appspot.com/o/usericon.png?alt=media&token=2c333530-8c82-4d6f-a1ba-dca6410c2036',
-      });
+    const data = request.only(['name', 'username', 'email', 'password']);
+    const user = await User.create(data);
 
-      const { token } = await auth.attempt(data.email, data.password);
-      return response.status(201).json({ token, user });
-    } catch (error) {
-      return response
-        .status(500)
-        .json({ error: 'error when creating new user' });
-    }
+    await UserAvatar.create({
+      file: 'users/usericon.png',
+      name: 'usericon.png',
+      type: 'image',
+      subtype: 'png',
+      user_id: user.id,
+    });
+
+    const { token } = await auth.attempt(data.email, data.password);
+    return response.status(201).json({ token, user });
   }
 
   async index() {

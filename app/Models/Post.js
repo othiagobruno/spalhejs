@@ -29,7 +29,7 @@ class Post extends Model {
   }
 
   files() {
-    return this.hasMany('App/Models/File');
+    return this.hasMany('App/Models/PostFile');
   }
 
   midias_share() {

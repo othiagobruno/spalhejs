@@ -3,6 +3,7 @@ const Model = use('Model');
 
 /** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash');
+const Env = use('Env');
 
 class User extends Model {
   static boot() {
@@ -14,12 +15,24 @@ class User extends Model {
     });
   }
 
+  static get computed() {
+    return ['avatar'];
+  }
+
   static get hidden() {
     return ['password', 'created_at', 'updated_at', 'token'];
   }
 
+  getAvatar({ id }) {
+    return `${Env.get('APP_URL')}/avatar/${id}`;
+  }
+
   tokens() {
     return this.hasMany('App/Models/Token');
+  }
+
+  avatar() {
+    return this.hasOne('App/Models/UserAvatar');
   }
 
   posts() {

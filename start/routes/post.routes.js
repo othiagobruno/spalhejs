@@ -1,9 +1,11 @@
 const Route = use('Route');
 
 Route.group(() => {
-  Route.post('files/:id', 'FileController.store');
-
-  Route.resource('posts', 'PostController').apiOnly();
+  Route.get('posts', 'PostController.index');
+  Route.get('posts/:id', 'PostController.show');
+  Route.put('posts/:id', 'PostController.update');
+  Route.delete('posts/:id', 'PostController.destroy');
+  Route.post('posts', 'PostController.store').middleware(['upload:posts']);
 
   Route.get('users/:id/posts', 'PostController.me');
   Route.get('users/:id/photos', 'PostController.meMedias');
@@ -21,6 +23,3 @@ Route.group(() => {
   Route.post('share/:id', 'ShareController.store');
   Route.get('share/:id', 'ShareController.show');
 }).middleware(['auth']);
-
-Route.get('files/:id', 'FileController.show');
-Route.get('files', 'FileController.index');

@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "node ace migration:run && node server.js",
-    "inititalize": "node ace migration:run && nodemon server.js",
+    "inititalize": "node ace migration:run --force && nodemon server.js",
     "test": "node ace test",
     "coverage": "nyc --reporter=lcov --reporter=text node ace test"
   },
@@ -36,6 +36,7 @@
     "@adonisjs/auth": "^3.0.7",
     "@adonisjs/bodyparser": "^2.0.5",
     "@adonisjs/cors": "^1.0.7",
+    "@adonisjs/drive": "^1.0.4",
     "@adonisjs/fold": "^4.0.9",
     "@adonisjs/framework": "^5.0.9",
     "@adonisjs/ignitor": "^2.0.8",
@@ -48,9 +49,12 @@
     "aws-sdk": "^2.678.0",
     "axios": "^0.19.2",
     "date-fns": "^2.8.1",
+    "global": "^4.4.0",
     "lodash": "^4.17.15",
     "md5": "^2.2.1",
-    "mysql": "mysqljs/mysql"
+    "mysql": "mysqljs/mysql",
+    "sharp": "^0.26.2",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",

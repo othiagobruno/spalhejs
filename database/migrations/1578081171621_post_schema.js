@@ -15,7 +15,6 @@ class PostSchema extends Schema {
       table.string('text', 500);
       table.integer('share_id');
       table.integer('post_id');
-      table.string('key').notNullable().unique();
       table.timestamps();
     });
   }
