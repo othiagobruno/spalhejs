@@ -1,4 +1,5 @@
 const Drive = use('Drive');
+const Env = use('Env');
 const PostFile = use('App/Models/PostFile');
 const UserAvatar = use('App/Models/UserAvatar');
 class FileController {
@@ -13,14 +14,18 @@ class FileController {
       response.header('Content-disposition', 'attachment');
       return response.send(file.Body);
     } catch (err) {
-      return '';
+      const file = await Drive.disk('s3').getObject('no_content/noimage.jpg');
+      response.header('Content-type', file.ContentType);
+      response.header('Content-length', file.ContentLength);
+      response.header('Content-disposition', 'attachment');
+      return response.send(file.Body);
     }
   }
 
   async showAvatar({ params, response }) {
     try {
       const { id } = params;
-      const avatar = await UserAvatar.findOrFail({ user_id: id });
+      const avatar = await UserAvatar.query().where({ user_id: id }).last();
       const file = await Drive.disk('s3').getObject(avatar.file);
       response.header('Content-type', file.ContentType);
       response.header('Content-length', file.ContentLength);
@@ -31,25 +36,36 @@ class FileController {
       response.header('Content-type', file.ContentType);
       response.header('Content-length', file.ContentLength);
       response.header('Content-disposition', 'attachment');
+      console.log(error);
       return response.send(file.Body);
     }
   }
 
   async avatar({ request, auth, response }) {
-    let user;
-    if (request.files_array) {
-      request.files_array.map(async (file) => {
-        user = await UserAvatar.create({
-          file: file.file,
-          name: file.name,
-          type: file.type,
-          subtype: file.subtype,
-          user_id: auth.user.id,
+    try {
+      if (request.files_array) {
+        await request.files_array.map(async (file) => {
+          await UserAvatar.create({
+            file: file.file,
+            name: file.name,
+            type: file.type,
+            subtype: file.subtype,
+            user_id: auth.user.id,
+          });
         });
-      });
-      return response.status(201).send({ message: 'success', user });
+        const url = `${Env.get('APP_URL')}/files/${
+          request.files_array[0].file
+        }`;
+        return response.status(201).send(url);
+      }
+      return response
+        .status(401)
+        .send({ message: 'error when create avatar ' });
+    } catch (error) {
+      return response
+        .status(401)
+        .send({ message: 'error when create avatar ' });
     }
-    return response.status(401).send({ message: 'error when create avatar ' });
   }
 
   async posts({ request, auth, response, params }) {

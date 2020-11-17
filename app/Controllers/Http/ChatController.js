@@ -12,8 +12,8 @@ class ChatController {
         .withCount('messages', (builder) =>
           builder.where('view', 0).where({ id_received: user.id })
         )
-        .with('user_one', (builder) => builder.select('id', 'name', 'avatar'))
-        .with('user_two', (builder) => builder.select('id', 'name', 'avatar'))
+        .with('user_one', (builder) => builder.select('id', 'name'))
+        .with('user_two', (builder) => builder.select('id', 'name'))
         .fetch();
       return response.status(200).send(chat_list);
     } catch (error) {

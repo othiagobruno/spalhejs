@@ -2,7 +2,6 @@ const Ws = use('Ws');
 const Chat = use('App/Models/Chat');
 
 const MessageHook = (exports = module.exports = {});
-
 MessageHook.send = async (msg) => {
   const topic = Ws.getChannel('message:*').topic(`message:${msg.chat_id}`);
   if (topic) {
@@ -20,8 +19,8 @@ MessageHook.get = async (msg) => {
     .withCount('messages', (builder) =>
       builder.whereNot('view', 0).where({ id_received: msg.id_received })
     )
-    .with('user_one', (builder) => builder.select('id', 'name', 'avatar'))
-    .with('user_two', (builder) => builder.select('id', 'name', 'avatar'))
+    .with('user_one', (builder) => builder.select('id', 'name'))
+    .with('user_two', (builder) => builder.select('id', 'name'))
     .first();
 
   if (topic) {

@@ -9,13 +9,13 @@ class ExploreController {
     const json = await Post.query()
       .with('files')
       .whereHas('files', (builder) => {
-        builder.where('type', 'image');
+        builder.whereNot('type', null);
       })
       .orderBy(Database.raw('RAND()'))
       .where('created_at', '>', subDays(new Date(), 3))
       .limit(16)
       .with('user', (builder) => {
-        builder.select('id', 'name', 'username', 'avatar');
+        builder.select('id', 'name', 'username');
       })
       .has('likes')
       .withCount('likes')

@@ -72,7 +72,7 @@ class PostController {
       return await Post.query()
         .where('user_id', id)
         .whereHas('files', (builder) => {
-          builder.where('type', 'image');
+          builder.whereNot('type', null);
         })
         .with('files')
         .orderBy('id', 'desc')
