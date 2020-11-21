@@ -5,11 +5,12 @@ class MessageController {
   }
 
   onMessage(message) {
-    this.socket.broadcastToAll(message);
+    console.log(message);
+    this.socket.broadcast(message);
   }
 
   onClose() {
-    console.log('saiu ', this.socket.topic);
+    console.log('saiu de message controller ', this.socket.topic);
   }
 }
 

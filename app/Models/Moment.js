@@ -1,7 +1,15 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model');
-
+const Env = use('Env');
 class Moment extends Model {
+  static get computed() {
+    return ['url'];
+  }
+
+  getUrl({ file }) {
+    return `${Env.get('APP_URL')}/files/${file}`;
+  }
+
   user() {
     return this.belongsTo('App/Models/User');
   }
@@ -18,6 +26,10 @@ class Moment extends Model {
 
   comments() {
     return this.hasMany('App/Models/MomentComment');
+  }
+
+  file() {
+    return this.hasOne('App/Models/MomentFile');
   }
 
   likes() {

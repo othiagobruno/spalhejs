@@ -8,7 +8,9 @@ class NotificationController {
     this.socket.broadcastToAll(message);
   }
 
-  onClose() {}
+  onClose() {
+    console.log('saiu ', this.socket.topic);
+  }
 }
 
 module.exports = NotificationController;

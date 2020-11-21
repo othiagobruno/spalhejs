@@ -5,6 +5,10 @@ class MomentsSchema extends Schema {
   up() {
     this.create('moments', (table) => {
       table.increments();
+      table.string('file').notNullable();
+      table.string('name').notNullable();
+      table.string('type', 20);
+      table.string('subtype', 20);
       table
         .integer('user_id')
         .unsigned()
@@ -12,9 +16,6 @@ class MomentsSchema extends Schema {
         .inTable('users')
         .notNullable()
         .onDelete('CASCADE');
-      table.string('midia');
-      table.string('text');
-      table.string('type');
       table.timestamps();
     });
   }

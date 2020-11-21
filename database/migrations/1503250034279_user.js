@@ -13,6 +13,7 @@ class UserSchema extends Schema {
       table.boolean('private', 2);
       table.string('website', 40);
       table.string('token', 250);
+      table.boolean('status');
       table.timestamps();
     });
   }

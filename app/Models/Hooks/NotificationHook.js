@@ -43,20 +43,20 @@ NotificationHook.sendPush = async (notification) => {
   });
 };
 
-NotificationHook.sendWs = async (ntf) => {
-  const topic = Ws.getChannel('notification:*').topic(
-    `notification:${ntf.my_userid}`
-  );
+NotificationHook.sendWs = async (notification) => {
+  const uid = notification.my_userid;
+  const topic = Ws.getChannel('notification:*').topic(`notification:${uid}`);
+
   if (topic) {
-    const n = await Notification.query()
-      .where('my_userid', ntf.my_userid)
-      .orderBy('id', 'desc')
+    const notification_message = await Notification.query()
+      .where({ id: notification.id })
       .with('user')
       .with('followed', (builder) => {
-        builder.where('followid', ntf.user_id);
+        builder.where('followid', notification.user_id);
       })
-      .pick(15);
-    topic.broadcast('message', n);
+      .first();
+
+    topic.broadcast('message', notification_message);
   } else {
     console.log('não consegui conectar ao cliente');
   }

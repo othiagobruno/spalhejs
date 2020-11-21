@@ -9,7 +9,7 @@ Route.group(() => {
     'upload:users',
   ]);
 
-  Route.post('upload/moments/:id', 'FileController.moment').middleware([
+  Route.post('upload/moments', 'FileController.moment').middleware([
     'upload:moments',
   ]);
 

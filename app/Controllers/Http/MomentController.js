@@ -11,7 +11,7 @@ class MomentController {
       follows.push(user.id);
       const moments = await User.query()
         .whereIn('id', follows)
-        .select(['id', 'name', 'username', 'avatar'])
+        .select(['id', 'name', 'username'])
         .whereHas(
           'moments',
           (builder) => {
@@ -38,10 +38,8 @@ class MomentController {
     }
   }
 
-  async store({ auth, request }) {
-    const data = request.only(['midia', 'type', 'text']);
-    const result = auth.user.moments().create(data);
-    return result;
+  async store() {
+    //
   }
 
   async show({ params }) {

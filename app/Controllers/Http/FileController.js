@@ -3,22 +3,27 @@ const Env = use('Env');
 const PostFile = use('App/Models/PostFile');
 const UserAvatar = use('App/Models/UserAvatar');
 class FileController {
-  async show({ params, response }) {
+  async getFileDownload(response, path) {
     try {
-      const name = params.file;
-      const dir = params.directory;
-      const path = `${dir}/${name}`;
       const file = await Drive.disk('s3').getObject(path);
       response.header('Content-type', file.ContentType);
       response.header('Content-length', file.ContentLength);
       response.header('Content-disposition', 'attachment');
       return response.send(file.Body);
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async show({ params, response }) {
+    try {
+      const name = params.file;
+      const dir = params.directory;
+      const path = `${dir}/${name}`;
+      const res = await this.getFileDownload(response, path);
+      return res;
     } catch (err) {
-      const file = await Drive.disk('s3').getObject('no_content/noimage.jpg');
-      response.header('Content-type', file.ContentType);
-      response.header('Content-length', file.ContentLength);
-      response.header('Content-disposition', 'attachment');
-      return response.send(file.Body);
+      return this.getFileDownload(response, 'no_content/noimage.jpg');
     }
   }
 
@@ -26,18 +31,9 @@ class FileController {
     try {
       const { id } = params;
       const avatar = await UserAvatar.query().where({ user_id: id }).last();
-      const file = await Drive.disk('s3').getObject(avatar.file);
-      response.header('Content-type', file.ContentType);
-      response.header('Content-length', file.ContentLength);
-      response.header('Content-disposition', 'attachment');
-      return response.send(file.Body);
-    } catch (error) {
-      const file = await Drive.disk('s3').getObject('users/usericon.png');
-      response.header('Content-type', file.ContentType);
-      response.header('Content-length', file.ContentLength);
-      response.header('Content-disposition', 'attachment');
-      console.log(error);
-      return response.send(file.Body);
+      return this.getFileDownload(response, avatar.file);
+    } catch (err) {
+      return this.getFileDownload(response, 'users/usericon.png');
     }
   }
 
@@ -100,17 +96,23 @@ class FileController {
     }
   }
 
-  async moment({ request }) {
-    if (request.files_array) {
-      // request.files_array.map(async (file) => {
-      // await PostFile.create({
-      //   file: file.file,
-      //   name: file.name,
-      //   type: file.type,
-      //   subtype: file.subtype,
-      //   post_id: id,
-      // });
-      // });
+  async moment({ request, response, auth }) {
+    try {
+      if (request.files_array) {
+        request.files_array.map(async (file) => {
+          auth.user.moments().create({
+            file: file.file,
+            name: file.name,
+            type: file.type,
+            subtype: file.subtype,
+          });
+        });
+        response.send(request.files_array);
+      }
+    } catch (err) {
+      return response
+        .status(401)
+        .send({ message: 'error when create file moment ' });
     }
   }
 }
