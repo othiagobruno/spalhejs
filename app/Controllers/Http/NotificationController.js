@@ -16,11 +16,10 @@ class NotificationController {
 
   async update({ auth }) {
     const { user } = auth.current;
-    await Notification.query()
+    const update = await Notification.query()
       .where('my_userid', user.id)
       .update({ view: true });
-    const ntf = await Notification.query().where('my_userid', user.id).fetch();
-    return ntf;
+    return { status: 'success', total: update };
   }
 
   async destroy({ auth }) {

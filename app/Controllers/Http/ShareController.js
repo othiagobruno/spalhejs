@@ -26,7 +26,6 @@ class ShareController {
     const data = await user.posts().create({
       share_id: postagem.user_id,
       post_id: postagem.id,
-      key: new Date().getTime(),
     });
 
     if (data && postagem.user_id !== user.id) {

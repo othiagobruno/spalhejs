@@ -1,4 +1,11 @@
+/* eslint-disable no-return-await */
 const Post = use('App/Models/Post');
+const Notification = use('App/Models/Notification');
+const Comment = use('App/Models/Comment');
+const Like = use('App/Models/Like');
+const Drive = use('Drive');
+const PostFile = use('App/Models/PostFile');
+const Share = use('App/Models/Share');
 
 class PostController {
   async index({ auth, request }) {
@@ -97,24 +104,54 @@ class PostController {
         },
       });
     }
-    //
+
     const data = request.only(['text']);
     const post = await auth.user.posts().where('id', params.id).update(data);
     if (!post) {
-      return response
-        .status(400)
-        .send({ error: { message: 'Erro ao atualizar a postagem.' } });
+      return response.status(400).send({
+        title: 'Parece que essa publicação não existe',
+        message: 'A publicação não foi encontrada',
+      });
     }
     const updatedPost = await Post.find(params.id);
     return updatedPost;
   }
 
   async destroy({ response, params, auth }) {
-    const post = await auth.user.posts().where('id', params.id).first();
+    const post = await auth.user
+      .posts()
+      .where('id', params.id)
+      .with('files')
+      .first();
+
     if (!post) {
       return response.status(404).send();
     }
+
+    if (post.user_id !== auth.current.user.id) {
+      return response.status(401).send({
+        message: 'você não tem permissão para apagar',
+      });
+    }
+
+    // deleta as imagens do s3
+    let msg;
+    if (post?.files) {
+      const files = await PostFile.query().where('post_id', params.id).fetch();
+      const file = files.toJSON();
+      file.map(async (item) => await Drive.disk('s3').delete(item.file));
+      msg = file;
+    }
+
+    // deleta o post, notificações, comentários e curtidas
+    await Notification.query().where('post_id', params.id).delete();
+    await Comment.query().where('post_id', params.id).delete();
+    await Like.query().where('post_id', params.id).delete();
+    await Share.query().where('post_id', params.id).delete();
+    await Post.query().where('post_id', params.id).delete();
+
     await post.delete();
+    return msg;
   }
 }
 
