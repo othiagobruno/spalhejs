@@ -5,6 +5,7 @@ class FollowSchema extends Schema {
   up() {
     this.create('follows', (table) => {
       table.increments();
+      table.boolean('status').defaultTo(true);
       table
         .integer('followid')
         .unsigned()
