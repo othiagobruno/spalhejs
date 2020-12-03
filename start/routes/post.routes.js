@@ -14,7 +14,6 @@ Route.group(() => {
   Route.get('likes/:id', 'LikeController.show');
 
   Route.resource('comments', 'CommentController').apiOnly();
-  Route.get('comment/:id', 'CommentController.index');
   Route.post('comments/:id/like', 'CommentLikeController.store');
 
   Route.post('reply/:id', 'ReplyController.store');

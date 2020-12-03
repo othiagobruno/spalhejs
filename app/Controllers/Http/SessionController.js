@@ -13,6 +13,7 @@ class SessionController {
     } catch (e) {
       if (e.name === 'UserNotFoundException') {
         return response.status(401).send({
+          status: 401,
           title: 'Parece que o email não existe',
           message: 'Não econtramos uma conta para esse email',
         });
@@ -20,6 +21,7 @@ class SessionController {
 
       if (e.name === 'PasswordMisMatchException') {
         return response.status(401).send({
+          status: 401,
           title: 'Sua senha está incorreta',
           message:
             'Antes de continuar, verifique se você digitou corretamente sua senha',

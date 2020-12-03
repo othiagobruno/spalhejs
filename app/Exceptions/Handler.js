@@ -30,7 +30,11 @@ class ExceptionHandler extends BaseExceptionHandler {
       return response.status(error.status).send(errorJSON);
     }
 
-    return response.status(error.status).send({ status: error.status });
+    return response.status(error.status).send({
+      status: error.status,
+      title: '',
+      message: 'Erro ao tentar acessar',
+    });
   }
 
   /**
