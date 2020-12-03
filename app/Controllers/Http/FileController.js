@@ -33,7 +33,7 @@ class FileController {
       const avatar = await UserAvatar.query().where({ user_id: id }).last();
       return this.getFileDownload(response, avatar.file);
     } catch (err) {
-      return this.getFileDownload(response, 'users/usericon.png');
+      return this.getFileDownload(response, 'no_content/usericon.png');
     }
   }
 
