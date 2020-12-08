@@ -6,7 +6,7 @@ class UserController {
     const user = await User.create(data);
 
     await UserAvatar.create({
-      file: 'users/usericon.png',
+      file: 'no_content/usericon.png',
       name: 'usericon.png',
       type: 'image',
       subtype: 'png',

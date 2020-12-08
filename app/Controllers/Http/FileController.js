@@ -28,13 +28,9 @@ class FileController {
   }
 
   async showAvatar({ params, response }) {
-    try {
-      const { id } = params;
-      const avatar = await UserAvatar.FindOrFail({ user_id: id }).last();
-      return this.getFileDownload(response, avatar.file);
-    } catch (err) {
-      return this.getFileDownload(response, 'no_content/usericon.png');
-    }
+    const { id } = params;
+    const avatar = await UserAvatar.query().where({ user_id: id }).last();
+    return this.getFileDownload(response, avatar.file);
   }
 
   async avatar({ request, auth, response }) {
