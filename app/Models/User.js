@@ -24,8 +24,8 @@ class User extends Model {
     return ['password', 'created_at', 'updated_at', 'token'];
   }
 
-  getAvatar({ id }) {
-    return `${Env.get('APP_URL')}/avatar/${id}`;
+  getAvatar({ id, avatar_file }) {
+    return `${Env.get('APP_URL')}/avatar/${id}/${avatar_file}`;
   }
 
   tokens() {

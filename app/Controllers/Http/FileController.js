@@ -1,5 +1,6 @@
 const Drive = use('Drive');
 const Env = use('Env');
+const User = use('App/Models/User');
 const PostFile = use('App/Models/PostFile');
 const UserAvatar = use('App/Models/UserAvatar');
 class FileController {
@@ -44,6 +45,11 @@ class FileController {
             subtype: file.subtype,
             user_id: auth.user.id,
           });
+
+          const { id } = await auth.current.user;
+          const user = User.find(id);
+          user.avatar_file = file.file;
+          user.save();
         });
         const url = `${Env.get('APP_URL')}/files/${
           request.files_array[0].file

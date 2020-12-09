@@ -16,4 +16,4 @@ Route.get('explore/images', 'ExploreController.index').middleware(['auth']);
 Route.get('search/:id', 'SearchController.index').middleware(['auth']);
 
 Route.get('files/:directory/:file', 'FileController.show');
-Route.get('avatar/:id', 'FileController.showAvatar');
+Route.get('avatar/:id/:file', 'FileController.showAvatar');

@@ -5,6 +5,7 @@
 
 const Env = use('Env');
 const Config = use('Config');
+const sharp = require('sharp');
 
 class UploadFile {
   /**
@@ -24,8 +25,19 @@ class UploadFile {
     const enviroment = Env.get('NODE_ENV');
 
     const uploadTmp = async () => {
+      const transform = sharp();
       await request.multipart.file('files[]', validateOptions, async (file) => {
         const upload = Config.get('upload.s3');
+        if (file.type === 'image') {
+          transform
+            .resize({ width: 300 })
+            .jpeg({
+              quality: 70,
+              chromaSubsampling: '4:4:4',
+            })
+            .jpeg();
+          file.stream.pipe(transform).pipe(file.stream);
+        }
         const res = await upload(file, `temp_${path}`);
         filesArray.push(res);
       });
@@ -33,8 +45,19 @@ class UploadFile {
     };
 
     const uploadS3 = async () => {
+      const transform = sharp();
       await request.multipart.file('files[]', validateOptions, async (file) => {
         const upload = Config.get('upload.s3');
+        if (file.type === 'image') {
+          transform
+            .resize({ width: 300 })
+            .jpeg({
+              quality: 70,
+              chromaSubsampling: '4:4:4',
+            })
+            .jpeg();
+          file.stream.pipe(transform).pipe(file.stream);
+        }
         const res = await upload(file, path);
         filesArray.push(res);
       });
