@@ -4,19 +4,6 @@
   "adonis-version": "4.1.0",
   "description": "Spalhe API in AdonisJS",
   "main": "index.js",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix .",
-      "git add ."
-    ]
-  },
   "scripts": {
     "start": "node ace migration:run && node server.js",
     "inititalize": "node ace migration:run --force && nodemon server.js",
