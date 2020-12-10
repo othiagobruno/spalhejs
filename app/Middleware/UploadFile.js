@@ -45,11 +45,11 @@ class UploadFile {
       await request.multipart.file('files[]', validateOptions, async (file) => {
         const upload = Config.get('upload.s3');
         if (file.type === 'image') {
-          transform.resize({ width: 400 }).jpeg({
+          const resize = transform.resize({ width: 400 }).jpeg({
             quality: 80,
             chromaSubsampling: '4:4:4',
           });
-          await file.stream.pipe(transform).pipe(file.stream);
+          await file.stream.pipe(transform).pipe(resize);
         }
         const res = await upload(file, path);
         filesArray.push(res);
