@@ -11,15 +11,14 @@ class FileController {
       response.header('Content-disposition', 'attachment');
       return response.send(file.Body);
     } catch (error) {
-      return error;
+      return '';
     }
   }
 
   async show({ params, response }) {
     try {
-      const name = params.file;
-      const dir = params.directory;
-      const path = `${dir}/${name}`;
+      const { file, directory } = params;
+      const path = `${directory}/${file}`;
       const res = await this.getFileDownload(response, path);
       return res;
     } catch (err) {

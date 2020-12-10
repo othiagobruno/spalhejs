@@ -29,12 +29,9 @@ class UploadFile {
       await request.multipart.file('files[]', validateOptions, async (file) => {
         const upload = Config.get('upload.s3');
         if (file.type === 'image') {
-          transform
-            .jpeg({
-              quality: 70,
-              chromaSubsampling: '4:4:4',
-            })
-            .jpeg();
+          transform.jpeg({
+            quality: 70,
+          });
           file.stream.pipe(transform).pipe(file.stream);
         }
         const res = await upload(file, `temp_${path}`);
@@ -48,11 +45,9 @@ class UploadFile {
       await request.multipart.file('files[]', validateOptions, async (file) => {
         const upload = Config.get('upload.s3');
         if (file.type === 'image') {
-          transform
-            .jpeg({
-              quality: 70,
-            })
-            .jpeg();
+          transform.jpeg({
+            quality: 70,
+          });
           file.stream.pipe(transform).pipe(file.stream);
         }
         const res = await upload(file, path);
