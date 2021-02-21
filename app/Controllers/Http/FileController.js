@@ -4,22 +4,22 @@ const UserAvatar = use('App/Models/UserAvatar');
 
 class FileController {
   async getFileDownload(response, path) {
-    try {
-      const file = await Drive.disk('s3').getObject(path);
-      response.header('Content-type', file.ContentType);
-      response.header('Content-length', file.ContentLength);
-      response.header('Content-disposition', 'attachment');
-      return response.send(file.Body);
-    } catch (error) {
-      return error;
-    }
+    const file = await Drive.disk('s3').getObject(path);
+    response.header('Content-type', file.ContentType);
+    response.header('Content-length', file.ContentLength);
+    response.header('Content-disposition', 'attachment');
+    return response.send(file.Body);
   }
 
   async show({ params, response }) {
     try {
       const { file, directory } = params;
       const path = `${directory}/${file}`;
-      return await this.getFileDownload(response, path);
+      const res = await this.getFileDownload(response, path);
+      if (res.statusCode === 404) {
+        return this.getFileDownload(response, 'no_content/noimage.jpg');
+      }
+      return res;
     } catch (error) {
       return this.getFileDownload(response, 'no_content/noimage.jpg');
     }
@@ -29,7 +29,11 @@ class FileController {
     try {
       const { id } = params;
       const avatar = await UserAvatar.query().where({ user_id: id }).last();
-      return this.getFileDownload(response, avatar.file);
+      const res = this.getFileDownload(response, avatar.file);
+      if (res.statusCode === 404) {
+        return this.getFileDownload(response, 'no_content/usericon.jpg');
+      }
+      return res;
     } catch (error) {
       return this.getFileDownload(response, 'no_content/usericon.png');
     }
