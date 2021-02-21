@@ -25,7 +25,8 @@ class User extends Model {
   }
 
   getAvatar({ id }) {
-    return `${Env.get('APP_URL')}/avatar/${id}`;
+    const date = new Date();
+    return `${Env.get('APP_URL')}/avatar/${id}/${date}`;
   }
 
   tokens() {

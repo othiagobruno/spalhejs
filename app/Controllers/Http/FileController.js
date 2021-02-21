@@ -1,7 +1,7 @@
 const Drive = use('Drive');
-const Env = use('Env');
 const PostFile = use('App/Models/PostFile');
 const UserAvatar = use('App/Models/UserAvatar');
+
 class FileController {
   async getFileDownload(response, path) {
     try {
@@ -11,7 +11,7 @@ class FileController {
       response.header('Content-disposition', 'attachment');
       return response.send(file.Body);
     } catch (error) {
-      return '';
+      return error;
     }
   }
 
@@ -19,17 +19,20 @@ class FileController {
     try {
       const { file, directory } = params;
       const path = `${directory}/${file}`;
-      const res = await this.getFileDownload(response, path);
-      return res;
-    } catch (err) {
+      return await this.getFileDownload(response, path);
+    } catch (error) {
       return this.getFileDownload(response, 'no_content/noimage.jpg');
     }
   }
 
   async showAvatar({ params, response }) {
-    const { id } = params;
-    const avatar = await UserAvatar.query().where({ user_id: id }).last();
-    return this.getFileDownload(response, avatar.file);
+    try {
+      const { id } = params;
+      const avatar = await UserAvatar.query().where({ user_id: id }).last();
+      return this.getFileDownload(response, avatar.file);
+    } catch (error) {
+      return this.getFileDownload(response, 'no_content/usericon.png');
+    }
   }
 
   async avatar({ request, auth, response }) {
@@ -44,10 +47,7 @@ class FileController {
             user_id: auth.user.id,
           });
         });
-        const url = `${Env.get('APP_URL')}/files/${
-          request.files_array[0].file
-        }`;
-        return response.status(201).send(url);
+        return response.status(201).send({ message: 'Created' });
       }
       return response
         .status(401)
