@@ -15,11 +15,7 @@ class FileController {
     try {
       const { file, directory } = params;
       const path = `${directory}/${file}`;
-      const res = await this.getFileDownload(response, path);
-      if (res.statusCode === 404) {
-        return this.getFileDownload(response, 'no_content/noimage.jpg');
-      }
-      return res;
+      return await this.getFileDownload(response, path);
     } catch (error) {
       return this.getFileDownload(response, 'no_content/noimage.jpg');
     }
@@ -29,11 +25,7 @@ class FileController {
     try {
       const { id } = params;
       const avatar = await UserAvatar.query().where({ user_id: id }).last();
-      const res = this.getFileDownload(response, avatar.file);
-      if (res.statusCode === 404) {
-        return this.getFileDownload(response, 'no_content/usericon.jpg');
-      }
-      return res;
+      return this.getFileDownload(response, avatar.file);
     } catch (error) {
       return this.getFileDownload(response, 'no_content/usericon.png');
     }
