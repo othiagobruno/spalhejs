@@ -25,7 +25,7 @@ class User extends Model {
   }
 
   getAvatar({ id }) {
-    const date = new Date();
+    const date = new Date().getMinutes();
     return `${Env.get('APP_URL')}/avatar/${id}/${date}`;
   }
 
