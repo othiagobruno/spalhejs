@@ -1,4 +1,3 @@
-/* eslint-disable no-return-await */
 const Post = use('App/Models/Post');
 const Notification = use('App/Models/Notification');
 const Comment = use('App/Models/Comment');
@@ -90,8 +89,8 @@ class PostController {
   }
 
   async store({ request, auth }) {
-    const data = request.only(['text', 'key']);
-    const post = await auth.user.posts().create(data);
+    const data = request.only(['text']);
+    const post = await auth.user.posts().create({ text: data.text || '' });
     return post;
   }
 
@@ -136,10 +135,10 @@ class PostController {
 
     // deleta as imagens do s3
     let msg;
-    if (post?.files) {
+    if (post.files) {
       const files = await PostFile.query().where('post_id', params.id).fetch();
       const file = files.toJSON();
-      file.map(async (item) => await Drive.disk('s3').delete(item.file));
+      Promise.all(file.map((item) => Drive.disk('s3').delete(item.file)));
       msg = file;
     }
 

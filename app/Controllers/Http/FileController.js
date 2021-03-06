@@ -1,4 +1,5 @@
 const Drive = use('Drive');
+const User = use('App/Models/User');
 const PostFile = use('App/Models/PostFile');
 const UserAvatar = use('App/Models/UserAvatar');
 
@@ -23,8 +24,8 @@ class FileController {
 
   async showAvatar({ params, response }) {
     try {
-      const { id } = params;
-      const avatar = await UserAvatar.query().where({ user_id: id }).last();
+      const { file } = params;
+      const avatar = await UserAvatar.query().where({ name: file }).last();
       return this.getFileDownload(response, avatar.file);
     } catch (error) {
       return this.getFileDownload(response, 'no_content/usericon.png');
@@ -41,6 +42,9 @@ class FileController {
             type: file.type,
             subtype: file.subtype,
             user_id: auth.user.id,
+          });
+          await User.query().where({ id: auth.user.id }).update({
+            avatar_file: file.name,
           });
         });
         return response.status(201).send({ message: 'Created' });

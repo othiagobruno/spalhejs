@@ -26,7 +26,7 @@ class UserController {
     const { username } = request.all();
     const { user } = auth.current;
     const user_info = await User.findOrFail(user.id);
-    const verifyUsername = await User.findBy({ username });
+    const verifyUsername = await User.query().where({ username }).first();
     if (verifyUsername && verifyUsername.id !== user.id) {
       return response.status(409).json({
         error:

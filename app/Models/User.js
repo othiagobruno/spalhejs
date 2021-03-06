@@ -24,9 +24,11 @@ class User extends Model {
     return ['password', 'created_at', 'updated_at', 'token'];
   }
 
-  getAvatar({ id }) {
-    const date = new Date().getMinutes();
-    return `${Env.get('APP_URL')}/avatar/${id}/${date}`;
+  getAvatar({ avatar_file }) {
+    if (!avatar_file) {
+      return 'https://spalhe.s3-sa-east-1.amazonaws.com/no_content/usericon.png';
+    }
+    return `${Env.get('APP_URL')}/avatar/${avatar_file}`;
   }
 
   tokens() {

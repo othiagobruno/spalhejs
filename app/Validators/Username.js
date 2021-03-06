@@ -8,12 +8,7 @@ class username {
 
   get rules() {
     return {
-      username: [
-        rule('required'),
-        rule('string'),
-        rule('regex', /^(?=[a-z._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/gim),
-        rule('unique', 'users'),
-      ],
+      username: [rule('required'), rule('string')],
     };
   }
 
