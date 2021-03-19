@@ -15,17 +15,18 @@ module.exports = {
     return newFileSchemaToController;
   },
   s3: async (fileSchema, folderName) => {
-    const newFileName = `${uuidV4()}.${fileSchema.subtype}`;
+    const sub = fileSchema.type === 'video' ? 'mp4' : fileSchema.subtype;
+    const newFileName = `${uuidV4()}.${sub}`;
     const newFilePath = `${folderName}/${newFileName}`;
     await Drive.disk('s3').put(newFilePath, fileSchema.stream, {
       ACL: 'public-read',
-      ContentType: `${fileSchema.type}/${fileSchema.subtype}`,
+      ContentType: `${fileSchema.type}/${sub}`,
     });
 
     const newFileSchemaToController = {
       file: newFilePath,
       type: fileSchema.type,
-      subtype: fileSchema.subtype,
+      subtype: sub,
       name: fileSchema.clientName,
     };
     return newFileSchemaToController;
